@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="842.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.QuestionScreenController">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="750.0" prefWidth="824.0">
+         <children>
+            <Button layoutX="94.0" layoutY="506.0" mnemonicParsing="false" onAction="#handleChoice" text="ア">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <Button layoutX="95.0" layoutY="557.0" mnemonicParsing="false" onAction="#handleChoice" text="イ">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <Button layoutX="94.0" layoutY="608.0" mnemonicParsing="false" onAction="#handleChoice" text="ウ">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <Button layoutX="94.0" layoutY="670.0" mnemonicParsing="false" onAction="#handleChoice" text="エ">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <Label layoutX="150.0" layoutY="512.0" prefHeight="17.0" prefWidth="145.0" text="選択肢①">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label layoutX="150.0" layoutY="563.0" prefHeight="17.0" prefWidth="125.0" text="選択肢②">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label layoutX="150.0" layoutY="614.0" prefHeight="17.0" prefWidth="125.0" text="選択肢③">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label layoutX="150.0" layoutY="670.0" prefHeight="17.0" prefWidth="125.0" text="選択肢④">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label alignment="TOP_LEFT" layoutX="94.0" layoutY="77.0" prefHeight="100.0" prefWidth="378.0" text="問題文">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="94.0" layoutY="26.0" prefHeight="32.0" prefWidth="111.0" text="もんだい①">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="256.0" layoutY="31.0" prefHeight="17.0" prefWidth="79.0" text="♦10ダメージ">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Line endX="-98.0" endY="379.9999694824219" layoutX="95.0" layoutY="12.0" startX="-98.0" startY="-77.00000762939453" />
+            <Ellipse fill="#969696" layoutX="642.0" layoutY="387.0" radiusX="112.0" radiusY="35.0" stroke="BLACK" strokeType="INSIDE" />
+            <ImageView fx:id="questionImageView" fitHeight="346.0" fitWidth="357.0" layoutX="94.0" layoutY="140.0" onMouseClicked="#openImageInNewWindow" pickOnBounds="true">
+               <image>
+                  <Image url="@images/question-sample.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fitHeight="262.0" fitWidth="237.0" layoutX="523.0" layoutY="201.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/user-icon.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="579.0" layoutY="124.0" prefHeight="32.0" prefWidth="125.0" text="🔥リザードン🔥">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <ProgressBar fx:id="healthBar" layoutX="552.0" layoutY="444.0" prefHeight="32.0" prefWidth="215.0" progress="1.0" style="-fx-accent: green;" />
+            <Label layoutX="516.0" layoutY="442.0" prefHeight="32.0" prefWidth="36.0" text="HP">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="healthBarLabel" layoutX="643.0" layoutY="450.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+  </content>
+</ScrollPane>

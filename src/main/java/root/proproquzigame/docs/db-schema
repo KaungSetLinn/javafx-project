@@ -1,0 +1,13 @@
+create database quiz_db
+
+create table main_category (
+	main_category_id serial primary key,
+	main_category_name text not null
+)
+
+create table sub_category (
+    sub_category_id serial primary key,
+    sub_category_name text not null,
+    main_category_id int not null,
+    foreign key (main_category_id) references main_category (main_category_id)
+)
