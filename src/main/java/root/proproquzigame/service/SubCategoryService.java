@@ -36,12 +36,36 @@ public class SubCategoryService {
         return subCategories.toArray(new SubCategory[0]);
     }
 
-    public static void main(String[] args) {
-        SubCategory[] subCategories = getSubCategories(2);
+    public static SubCategory[] getAllSubCategories() {
+        String query = "SELECT sub_category_id, sub_category_name FROM sub_category";
+
+        ArrayList<SubCategory> subCategories = new ArrayList<>();
+
+        try (Connection connection = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int subCategoryId = resultSet.getInt("sub_category_id");
+                String subCategoryName = resultSet.getString("sub_category_name");
+
+                SubCategory subCategory = new SubCategory(subCategoryId, subCategoryName);
+                subCategories.add(subCategory);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return subCategories.toArray(new SubCategory[0]);
+    }
+
+    /*public static void main(String[] args) {
+        SubCategory[] subCategories = getAllSubCategories();
 
         // Or iterate over each category and print details
         for (SubCategory subCategory : subCategories) {
             System.out.println("SubCategory ID: " + subCategory.getSubCategoryId() + ", Name: " + subCategory.getSubCategoryName());
         }
-    }
+    }*/
 }

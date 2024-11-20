@@ -14,6 +14,8 @@ create table sub_category (
 
 CREATE TYPE difficulty AS ENUM ('easy', 'medium', 'hard');
 
+CREATE CAST (varchar AS difficulty) WITH INOUT AS IMPLICIT;
+
 create table question (
 	question_id serial primary key,
 	question_text text not null,

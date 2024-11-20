@@ -1,15 +1,19 @@
 package root.proproquzigame;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import root.proproquzigame.model.Question;
+import root.proproquzigame.model.SubCategory;
+import root.proproquzigame.service.QuestionService;
+import root.proproquzigame.service.SubCategoryService;
+
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -17,6 +21,33 @@ import java.util.function.Consumer;
 public class QuestionFormController {
 
     // UI elements
+    @FXML
+    private TextArea questionTextArea;
+
+    @FXML
+    private TextField choice1Field;
+
+    @FXML
+    private TextField choice2Field;
+
+    @FXML
+    private TextField choice3Field;
+
+    @FXML
+    private TextField choice4Field;
+
+    @FXML
+    private ToggleGroup choiceGroup;
+
+    @FXML
+    private ToggleGroup difficultyGroup;
+
+    @FXML
+    private ChoiceBox<String> subCategoryChoiceBox;
+
+    @FXML
+    private TextArea explanationTextArea;
+
     @FXML
     private Button questionImageChooser;
 
@@ -32,8 +63,21 @@ public class QuestionFormController {
     @FXML
     private Button saveButton;
 
-    // Store the file path for the question image
-    private String questionImageFilePath;
+    private File questionImage;
+
+    private File explanationImage;
+
+    private enum difficulty {
+        easy,
+        medium,
+        hard
+    };
+
+    private String selectedDifficultyLevel;
+
+    private int selectedSubCategoryId;
+
+    private int correctAnswer;
 
     // Constant for the directory where images will be uploaded
     private static final String QUESTION_IMAGE_ROOT_DIRECTORY = "src/main/resources/root/proproquzigame/images/questions";
@@ -44,14 +88,87 @@ public class QuestionFormController {
     // Initialize the controller and set up button actions
     @FXML
     public void initialize() {
-        setupButtonActions(); // Set up actions for buttons after FXML is loaded
+
+        // Change font size of subCategoryChoiceBox
+        subCategoryChoiceBox.setStyle("-fx-font-size: 14px;");
+        initializeSubCategoryMenuButton();
+
+        addListenerToDifficultyRadioButtonGroup();
+
+        addListenerToChoiceRadioButtonGroup();
     }
 
-    // Initialize the map of buttons to corresponding actions (handle image file paths)
-    private void setupButtonActions() {
-        buttonActions = new HashMap<>();
-        buttonActions.put(questionImageChooser, this::handleQuestionImageChoose); // Map question image button to action
-        buttonActions.put(explanationImageChooser, this::setExplanationImageFilePathLabel); // Map explanation image button to action
+    private void initializeSubCategoryMenuButton() {
+        SubCategory[] subCategories = SubCategoryService.getAllSubCategories();
+
+        // Map to store subCategoryId against subCategoryName
+        Map<Integer, String> subCategoryMap = new HashMap<>();
+
+        for (SubCategory subCategory : subCategories) {
+            Integer subCategoryId = subCategory.getSubCategoryId();
+            String subCategoryName = subCategory.getSubCategoryName();
+            subCategoryChoiceBox.getItems().add(subCategoryName);
+            subCategoryMap.put(subCategoryId, subCategoryName);
+        }
+
+        // Set default selected value
+        subCategoryChoiceBox.setValue(subCategories[0].getSubCategoryName());
+
+        // initialize selectedSubCategoryId variable
+        selectedSubCategoryId = subCategories[0].getSubCategoryId();
+
+        subCategoryChoiceBox.getSelectionModel().selectedItemProperty().addListener(
+                new ChangeListener<String>() {
+                    @Override
+                    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                        // Iterate over the map to find the subCategoryId for the selected subCategoryName
+                        for (Map.Entry<Integer, String> entry : subCategoryMap.entrySet()) {
+                            if (entry.getValue().equals(newValue)) {
+                                selectedSubCategoryId = entry.getKey();
+                                System.out.println("Selected SubCategory ID: " + selectedSubCategoryId);
+                                // Perform additional actions with the selected subCategoryId if needed
+                                break;
+                            }
+                        }
+                    }
+                }
+        );
+    }
+
+    private void addListenerToDifficultyRadioButtonGroup() {
+        difficultyGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                RadioButton selectedRadioButton = (RadioButton) newValue;
+                setSelectedDifficultyLevel(selectedRadioButton.getText());
+                System.out.println("Selected difficulty: " + selectedDifficultyLevel);
+            }
+        });
+    }
+
+    private void addListenerToChoiceRadioButtonGroup() {
+        choiceGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                RadioButton selectedRadioButton = (RadioButton) newValue;
+                correctAnswer = Integer.parseInt(selectedRadioButton.getText());
+                System.out.println("Selected Correct Answer: " + correctAnswer);
+            }
+        });
+    }
+
+    private void setSelectedDifficultyLevel(String selectedValue) {
+        switch (selectedValue) {
+            case "低":
+                selectedDifficultyLevel = difficulty.easy.toString();
+                break;
+
+            case "中":
+                selectedDifficultyLevel = difficulty.medium.toString();
+                break;
+
+            case "高":
+                selectedDifficultyLevel = difficulty.hard.toString();
+                break;
+        }
     }
 
     // Handle the image selection based on the button that was clicked
@@ -68,26 +185,15 @@ public class QuestionFormController {
             String filePath = selectedFile.getAbsolutePath(); // Get the absolute file path
             System.out.println("Selected file path: " + filePath);
 
-            // Get the corresponding action (either question or explanation image)
-            Consumer<String> action = buttonActions.get(clickedButton);
-            if (action != null) {
-                action.accept(filePath); // Perform the action with the selected file path
+            if (clickedButton == questionImageChooser) {
+                questionImage = selectedFile;
+                setQuestionImageFilePathLabel(filePath);
             }
-        } else {
-            System.out.println("No file selected.");
+            else if (clickedButton == explanationImageChooser) {
+                explanationImage = selectedFile;
+                setExplanationImageFilePathLabel(filePath);
+            }
         }
-    }
-
-    // Handle the selection of the question image
-    private void handleQuestionImageChoose(String filepath) {
-        setQuestionImageFilePath(filepath); // Set the question image file path
-        updateFilePathLabel(questionImageFilePathLabel, filepath); // Update the label with the file name
-    }
-
-    // Store the question image file path (convert to absolute path for consistency)
-    private void setQuestionImageFilePath(String filepath) {
-        this.questionImageFilePath = new File(filepath).getAbsolutePath();
-        System.out.println("Question image file path: " + this.questionImageFilePath);
     }
 
     // Update the label to display just the file name (without the path)
@@ -97,68 +203,13 @@ public class QuestionFormController {
     }
 
     // Set the label for the explanation image file path
+    private void setQuestionImageFilePathLabel(String filepath) {
+        updateFilePathLabel(questionImageFilePathLabel, filepath); // Reuse the file path label update method
+    }
+
+    // Set the label for the explanation image file path
     private void setExplanationImageFilePathLabel(String filepath) {
         updateFilePathLabel(explanationImageFilePathLabel, filepath); // Reuse the file path label update method
-    }
-
-    // Upload the question image to the target directory
-    public void uploadQuestionImage() {
-        File uploadFolder = new File(QUESTION_IMAGE_ROOT_DIRECTORY);
-
-        // Ensure the upload folder exists, create it if it doesn't
-        if (!ensureDirectoryExists(uploadFolder)) {
-            return; // Exit if the folder couldn't be created
-        }
-
-        // Check if the source file exists
-        File sourceFile = new File(questionImageFilePath);
-        if (sourceFile.exists()) {
-            try {
-                // Construct the destination path for the file in the target folder
-                Path destination = Path.of(uploadFolder.getAbsolutePath(), sourceFile.getName());
-
-                // Upload the file (copy it to the destination)
-                uploadFile(sourceFile, destination);
-            } catch (IOException e) {
-                // Handle any IOExceptions that might occur during the file upload
-                System.err.println("Error during file upload: " + e.getMessage());
-            }
-        } else {
-            // If the source file doesn't exist, print an error
-            System.out.println("Source file does not exist: " + sourceFile.getAbsolutePath());
-        }
-    }
-
-    // Ensure that the target directory exists; create it if necessary
-    private boolean ensureDirectoryExists(File directory) {
-        if (!directory.exists()) {
-            try {
-                // Attempt to create the directory
-                boolean created = directory.mkdirs();
-                if (created) {
-                    System.out.println("Directory created: " + directory.getAbsolutePath());
-                } else {
-                    System.out.println("Failed to create directory: " + directory.getAbsolutePath());
-                }
-                return created; // Return true if directory was created, false otherwise
-            } catch (SecurityException e) {
-                // Handle security exceptions (e.g., permission issues)
-                System.out.println("Permission issue: Unable to create directory.");
-                return false;
-            }
-        }
-        return true; // If directory already exists, return true
-    }
-
-    // Copy the source file to the destination
-    private void uploadFile(File sourceFile, Path destination) throws IOException {
-        if (Files.exists(destination)) {
-            System.out.println("File already exists: " + destination); // If the file already exists, skip uploading
-        } else {
-            // Copy the source file to the destination
-            Files.copy(sourceFile.toPath(), destination);
-            System.out.println("File uploaded to: " + destination);
-        }
     }
 
     // Open a file chooser dialog and return the selected file
@@ -171,5 +222,43 @@ public class QuestionFormController {
         // Get the current stage (window) and display the file chooser
         Stage stage = (Stage) questionImageChooser.getScene().getWindow();
         return fileChooser.showOpenDialog(stage); // Return the selected file (or null if canceled)
+    }
+
+    @FXML
+    public void handleSaveQuestion() {
+        String questionText = questionTextArea.getText();
+        String choice1 = choice1Field.getText();
+        String choice2 = choice2Field.getText();
+        String choice3 = choice3Field.getText();
+        String choice4 = choice4Field.getText();
+        String explanationText = explanationTextArea.getText();
+
+        Question question = new Question(questionText, questionImage, selectedDifficultyLevel, choice1, choice2, choice3, choice4,
+                correctAnswer, explanationText, explanationImage, selectedSubCategoryId);
+
+        QuestionService.saveQuestionToDatabase(question);
+
+        showAlert("完了メッセージ", "問題は正常に保存されました。");
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        // Create a custom button
+        ButtonType closeButton = new ButtonType("閉じる");
+        // Set the button to be the default button
+        alert.getButtonTypes().setAll(closeButton);
+
+        // Change the font size of the alert content, keeping the same font family
+        Label contentLabel = (Label) alert.getDialogPane().lookup(".content"); // Get the label that contains the content
+        if (contentLabel != null) {
+            Font currentFont = contentLabel.getFont();  // Get the current font
+            contentLabel.setFont(new Font(currentFont.getName(), 16)); // Keep the current font family and change the size
+        }
+
+        alert.showAndWait();
     }
 }
