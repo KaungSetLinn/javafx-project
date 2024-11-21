@@ -16,7 +16,6 @@ import root.proproquzigame.service.SubCategoryService;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class QuestionFormController {
 
@@ -61,6 +60,12 @@ public class QuestionFormController {
     private Label explanationImageFilePathLabel;
 
     @FXML
+    private Button questionImageCancelButton;
+
+    @FXML
+    private Button explanationImageCancelButton;
+
+    @FXML
     private Button saveButton;
 
     private File questionImage;
@@ -79,12 +84,6 @@ public class QuestionFormController {
 
     private int correctAnswer;
 
-    // Constant for the directory where images will be uploaded
-    private static final String QUESTION_IMAGE_ROOT_DIRECTORY = "src/main/resources/root/proproquzigame/images/questions";
-
-    // Map to associate buttons with their respective actions (file path handling)
-    private Map<Button, Consumer<String>> buttonActions;
-
     // Initialize the controller and set up button actions
     @FXML
     public void initialize() {
@@ -96,6 +95,9 @@ public class QuestionFormController {
         addListenerToDifficultyRadioButtonGroup();
 
         addListenerToChoiceRadioButtonGroup();
+
+        updateQuestionImageCancelButton();
+        updateExplanationImageCancelButton();
     }
 
     private void initializeSubCategoryMenuButton() {
@@ -125,7 +127,7 @@ public class QuestionFormController {
                         for (Map.Entry<Integer, String> entry : subCategoryMap.entrySet()) {
                             if (entry.getValue().equals(newValue)) {
                                 selectedSubCategoryId = entry.getKey();
-                                System.out.println("Selected SubCategory ID: " + selectedSubCategoryId);
+//                                System.out.println("Selected SubCategory ID: " + selectedSubCategoryId);
                                 // Perform additional actions with the selected subCategoryId if needed
                                 break;
                             }
@@ -140,7 +142,7 @@ public class QuestionFormController {
             if (newValue != null) {
                 RadioButton selectedRadioButton = (RadioButton) newValue;
                 setSelectedDifficultyLevel(selectedRadioButton.getText());
-                System.out.println("Selected difficulty: " + selectedDifficultyLevel);
+//                System.out.println("Selected difficulty: " + selectedDifficultyLevel);
             }
         });
     }
@@ -150,7 +152,7 @@ public class QuestionFormController {
             if (newValue != null) {
                 RadioButton selectedRadioButton = (RadioButton) newValue;
                 correctAnswer = Integer.parseInt(selectedRadioButton.getText());
-                System.out.println("Selected Correct Answer: " + correctAnswer);
+//                System.out.println("Selected Correct Answer: " + correctAnswer);
             }
         });
     }
@@ -188,12 +190,36 @@ public class QuestionFormController {
             if (clickedButton == questionImageChooser) {
                 questionImage = selectedFile;
                 setQuestionImageFilePathLabel(filePath);
+                updateQuestionImageCancelButton();
             }
             else if (clickedButton == explanationImageChooser) {
                 explanationImage = selectedFile;
                 setExplanationImageFilePathLabel(filePath);
+                updateExplanationImageCancelButton();
             }
         }
+    }
+
+    @FXML
+    public void handleQuestionImageCancel() {
+        // Reset the question image and label
+        questionImage = null;
+        questionImageFilePathLabel.setText("");  // Clear the label
+        updateQuestionImageCancelButton();  // Hide the cancel button
+
+        // Prevent focus from going to the TextArea
+        questionImageChooser.requestFocus();  // Manually set re-focus to questionImageChooser button (or another component)
+    }
+
+    @FXML
+    public void handleExplanationImageCancel() {
+        // Reset the question image and label
+        explanationImage = null;
+        explanationImageFilePathLabel.setText("");  // Clear the label
+        updateExplanationImageCancelButton();  // Hide the cancel button
+
+        // Prevent focus from going to the TextArea
+        explanationImageChooser.requestFocus();  // Manually set re-focus to explanationImageChooser button (or another component)
     }
 
     // Update the label to display just the file name (without the path)
@@ -211,6 +237,23 @@ public class QuestionFormController {
     private void setExplanationImageFilePathLabel(String filepath) {
         updateFilePathLabel(explanationImageFilePathLabel, filepath); // Reuse the file path label update method
     }
+
+    private void updateQuestionImageCancelButton() {
+        if (questionImageFilePathLabel.getText() == null || questionImageFilePathLabel.getText().isEmpty()) {
+            questionImageCancelButton.setVisible(false);
+        } else {
+            questionImageCancelButton.setVisible(true);
+        }
+    }
+
+    private void updateExplanationImageCancelButton() {
+        if (explanationImageFilePathLabel.getText() == null || explanationImageFilePathLabel.getText().isEmpty()) {
+            explanationImageCancelButton.setVisible(false);
+        } else {
+            explanationImageCancelButton.setVisible(true);
+        }
+    }
+
 
     // Open a file chooser dialog and return the selected file
     private File chooseFile() {
@@ -233,16 +276,121 @@ public class QuestionFormController {
         String choice4 = choice4Field.getText();
         String explanationText = explanationTextArea.getText();
 
-        Question question = new Question(questionText, questionImage, selectedDifficultyLevel, choice1, choice2, choice3, choice4,
-                correctAnswer, explanationText, explanationImage, selectedSubCategoryId);
+        // Validate the form
+        if (isFormValid(questionText, choice1, choice2, choice3, choice4, explanationText)) {
+            Question question = new Question(questionText, questionImage, selectedDifficultyLevel, choice1, choice2, choice3, choice4,
+                    correctAnswer, explanationText, explanationImage, selectedSubCategoryId);
 
-        QuestionService.saveQuestionToDatabase(question);
+            QuestionService.saveQuestionToDatabase(question);
 
-        showAlert("完了メッセージ", "問題は正常に保存されました。");
+            showSuccessMessage("完了メッセージ", "問題は正常に保存されました。");
+            resetForm();
+        }
     }
 
-    private void showAlert(String title, String message) {
+    private boolean isFormValid(String questionText, String choice1, String choice2, String choice3, String choice4, String explanationText) {
+        // Check if the question text is empty
+        if (questionText.isEmpty()) {
+            showErrorMessage("エラーメッセージ", "問題文を入力してください。");
+            return false;
+        }
+
+        // Check if the difficulty level is selected
+        if (selectedDifficultyLevel == null || selectedDifficultyLevel.isEmpty()) {
+            showErrorMessage("エラーメッセージ", "難易度を選択してください。");
+            return false;
+        }
+
+        // Check if all choices are provided
+        if (choice1.isEmpty() || choice2.isEmpty() || choice3.isEmpty() || choice4.isEmpty()) {
+            showErrorMessage("エラーメッセージ", "すべての選択肢を入力してください。");
+            return false;
+        }
+
+        // Check if the user has selected a correct answer
+        if (correctAnswer == 0) {
+            showErrorMessage("エラーメッセージ", "正解を選択してください。");
+            return false;
+        }
+
+        // Check if an explanation is provided
+        if (explanationText.isEmpty()) {
+            showErrorMessage("エラーメッセージ", "解説文を入力してください。");
+            return false;
+        }
+
+        // Check if a subcategory is selected (though this is already handled in your code, we can ensure it's not -1 or invalid)
+        if (selectedSubCategoryId == -1) {
+            showErrorMessage("エラーメッセージ", "問題のカテゴリを選択してください。");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void resetForm() {
+        // Clear text areas and text fields
+        questionTextArea.clear();
+        choice1Field.clear();
+        choice2Field.clear();
+        choice3Field.clear();
+        choice4Field.clear();
+        explanationTextArea.clear();
+
+        // Reset the image file path labels
+        questionImageFilePathLabel.setText("");
+        explanationImageFilePathLabel.setText("");
+
+        // Clear the selected images
+        questionImage = null;
+        explanationImage = null;
+
+        // Reset difficulty group (no selection)
+        difficultyGroup.selectToggle(null);
+
+        // Reset choice group (no selected answer)
+        choiceGroup.selectToggle(null);
+
+        // Reset correct answer
+        correctAnswer = 0;
+
+        // Reset subcategory selection to the first item
+        subCategoryChoiceBox.setValue(subCategoryChoiceBox.getItems().get(0)); // Reset to default value
+        selectedSubCategoryId = SubCategoryService.getAllSubCategories()[0].getSubCategoryId(); // Set default subcategory ID
+
+        // Reset the selected difficulty level to null
+        selectedDifficultyLevel = null;
+
+        handleQuestionImageCancel();
+        handleExplanationImageCancel();
+
+        questionTextArea.requestFocus();
+    }
+
+
+    private void showSuccessMessage(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        // Create a custom button
+        ButtonType closeButton = new ButtonType("閉じる");
+        // Set the button to be the default button
+        alert.getButtonTypes().setAll(closeButton);
+
+        // Change the font size of the alert content, keeping the same font family
+        Label contentLabel = (Label) alert.getDialogPane().lookup(".content"); // Get the label that contains the content
+        if (contentLabel != null) {
+            Font currentFont = contentLabel.getFont();  // Get the current font
+            contentLabel.setFont(new Font(currentFont.getName(), 16)); // Keep the current font family and change the size
+        }
+
+        alert.showAndWait();
+    }
+
+    private void showErrorMessage(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
