@@ -1,0 +1,1 @@
+src/main/java/root/proproquzigame/docsの下にあるdb-schemaファイルの中身をデータベースにコピペして実行すること
