@@ -7,7 +7,7 @@ import java.io.File;
 public class Question {
     private int questionId;
     private String questionText;
-    private File questionImage;
+    private Image questionImage;
     private String difficulty;
     private String choice1;
     private String choice2;
@@ -15,7 +15,7 @@ public class Question {
     private String choice4;
     private int correctAnswer;
     private String explanationText;
-    private File explanationImage;
+    private Image explanationImage;
     private int subCategoryId;
 
     public int getQuestionId() {
@@ -26,7 +26,7 @@ public class Question {
         return questionText;
     }
 
-    public File getQuestionImage() {
+    public Image getQuestionImage() {
         return questionImage;
     }
 
@@ -58,7 +58,7 @@ public class Question {
         return explanationText;
     }
 
-    public File getExplanationImage() {
+    public Image getExplanationImage() {
         return explanationImage;
     }
 
@@ -74,7 +74,7 @@ public class Question {
         this.questionText = questionText;
     }
 
-    public void setQuestionImage(File questionImage) {
+    public void setQuestionImage(Image questionImage) {
         this.questionImage = questionImage;
     }
 
@@ -106,7 +106,7 @@ public class Question {
         this.explanationText = explanationText;
     }
 
-    public void setExplanationImage(File explanationImage) {
+    public void setExplanationImage(Image explanationImage) {
         this.explanationImage = explanationImage;
     }
 
@@ -114,9 +114,9 @@ public class Question {
         this.subCategoryId = subCategoryId;
     }
 
-    public Question(int questionId, String questionText, File questionImage, String difficulty,
+    public Question(int questionId, String questionText, Image questionImage, String difficulty,
                     String choice1, String choice2, String choice3, String choice4,
-                    int correctAnswer, String explanationText, File explanationImage, int subCategoryId) {
+                    int correctAnswer, String explanationText, Image explanationImage, int subCategoryId) {
         this.questionId = questionId;
         this.questionText = questionText;
         this.questionImage = questionImage;
@@ -131,9 +131,9 @@ public class Question {
         this.subCategoryId = subCategoryId;
     }
 
-    public Question(String questionText, File questionImage, String difficulty, String choice1, String choice2,
+    public Question(String questionText, Image questionImage, String difficulty, String choice1, String choice2,
                     String choice3, String choice4, int correctAnswer,
-                    String explanationText, File explanationImage, int subCategoryId) {
+                    String explanationText, Image explanationImage, int subCategoryId) {
         this.questionText = questionText;
         this.questionImage = questionImage;
         this.difficulty = difficulty;
@@ -145,5 +145,20 @@ public class Question {
         this.explanationText = explanationText;
         this.explanationImage = explanationImage;
         this.subCategoryId = subCategoryId;
+    }
+
+    public Question(String questionText, Image questionImage, String difficulty,
+                    String choice1, String choice2, String choice3, String choice4, int correctAnswer,
+                    String explanationText, Image explanationImage) {
+        this.questionText = questionText;
+        this.questionImage = questionImage;
+        this.difficulty = difficulty;
+        this.choice1 = choice1;
+        this.choice2 = choice2;
+        this.choice3 = choice3;
+        this.choice4 = choice4;
+        this.correctAnswer = correctAnswer;
+        this.explanationText = explanationText;
+        this.explanationImage = explanationImage;
     }
 }

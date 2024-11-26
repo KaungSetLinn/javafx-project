@@ -5,15 +5,18 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import root.proproquzigame.helper.AlertHelper;
 import root.proproquzigame.model.Question;
 import root.proproquzigame.model.SubCategory;
 import root.proproquzigame.service.QuestionService;
 import root.proproquzigame.service.SubCategoryService;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,9 +71,9 @@ public class QuestionFormController {
     @FXML
     private Button saveButton;
 
-    private File questionImage;
+    private Image questionImage;
 
-    private File explanationImage;
+    private Image explanationImage;
 
     private enum difficulty {
         easy,
@@ -188,12 +191,12 @@ public class QuestionFormController {
             System.out.println("Selected file path: " + filePath);
 
             if (clickedButton == questionImageChooser) {
-                questionImage = selectedFile;
+                questionImage = new Image(selectedFile.toURI().toString());
                 setQuestionImageFilePathLabel(filePath);
                 updateQuestionImageCancelButton();
             }
             else if (clickedButton == explanationImageChooser) {
-                explanationImage = selectedFile;
+                explanationImage = new Image(selectedFile.toURI().toString());
                 setExplanationImageFilePathLabel(filePath);
                 updateExplanationImageCancelButton();
             }
@@ -281,9 +284,13 @@ public class QuestionFormController {
             Question question = new Question(questionText, questionImage, selectedDifficultyLevel, choice1, choice2, choice3, choice4,
                     correctAnswer, explanationText, explanationImage, selectedSubCategoryId);
 
-            QuestionService.saveQuestionToDatabase(question);
+            try {
+                QuestionService.saveQuestionToDatabase(question);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-            showSuccessMessage("完了メッセージ", "問題は正常に保存されました。");
+            AlertHelper.showSuccessMessage("完了メッセージ", "問題は正常に保存されました。");
             resetForm();
         }
     }
@@ -291,37 +298,37 @@ public class QuestionFormController {
     private boolean isFormValid(String questionText, String choice1, String choice2, String choice3, String choice4, String explanationText) {
         // Check if the question text is empty
         if (questionText.isEmpty()) {
-            showErrorMessage("エラーメッセージ", "問題文を入力してください。");
+            AlertHelper.showErrorMessage("エラーメッセージ", "問題文を入力してください。");
             return false;
         }
 
         // Check if the difficulty level is selected
         if (selectedDifficultyLevel == null || selectedDifficultyLevel.isEmpty()) {
-            showErrorMessage("エラーメッセージ", "難易度を選択してください。");
+            AlertHelper.showErrorMessage("エラーメッセージ", "難易度を選択してください。");
             return false;
         }
 
         // Check if all choices are provided
         if (choice1.isEmpty() || choice2.isEmpty() || choice3.isEmpty() || choice4.isEmpty()) {
-            showErrorMessage("エラーメッセージ", "すべての選択肢を入力してください。");
+            AlertHelper.showErrorMessage("エラーメッセージ", "すべての選択肢を入力してください。");
             return false;
         }
 
         // Check if the user has selected a correct answer
         if (correctAnswer == 0) {
-            showErrorMessage("エラーメッセージ", "正解を選択してください。");
+            AlertHelper.showErrorMessage("エラーメッセージ", "正解を選択してください。");
             return false;
         }
 
         // Check if an explanation is provided
         if (explanationText.isEmpty()) {
-            showErrorMessage("エラーメッセージ", "解説文を入力してください。");
+            AlertHelper.showErrorMessage("エラーメッセージ", "解説文を入力してください。");
             return false;
         }
 
         // Check if a subcategory is selected (though this is already handled in your code, we can ensure it's not -1 or invalid)
         if (selectedSubCategoryId == -1) {
-            showErrorMessage("エラーメッセージ", "問題のカテゴリを選択してください。");
+            AlertHelper.showErrorMessage("エラーメッセージ", "問題のカテゴリを選択してください。");
             return false;
         }
 
@@ -365,48 +372,5 @@ public class QuestionFormController {
         handleExplanationImageCancel();
 
         questionTextArea.requestFocus();
-    }
-
-
-    private void showSuccessMessage(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        // Create a custom button
-        ButtonType closeButton = new ButtonType("閉じる");
-        // Set the button to be the default button
-        alert.getButtonTypes().setAll(closeButton);
-
-        // Change the font size of the alert content, keeping the same font family
-        Label contentLabel = (Label) alert.getDialogPane().lookup(".content"); // Get the label that contains the content
-        if (contentLabel != null) {
-            Font currentFont = contentLabel.getFont();  // Get the current font
-            contentLabel.setFont(new Font(currentFont.getName(), 16)); // Keep the current font family and change the size
-        }
-
-        alert.showAndWait();
-    }
-
-    private void showErrorMessage(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        // Create a custom button
-        ButtonType closeButton = new ButtonType("閉じる");
-        // Set the button to be the default button
-        alert.getButtonTypes().setAll(closeButton);
-
-        // Change the font size of the alert content, keeping the same font family
-        Label contentLabel = (Label) alert.getDialogPane().lookup(".content"); // Get the label that contains the content
-        if (contentLabel != null) {
-            Font currentFont = contentLabel.getFont();  // Get the current font
-            contentLabel.setFont(new Font(currentFont.getName(), 16)); // Keep the current font family and change the size
-        }
-
-        alert.showAndWait();
     }
 }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="511.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.SignUpController">
+   <children>
+      <Label layoutX="230.0" layoutY="88.0" prefHeight="38.0" prefWidth="190.0" text="新　規　登　録">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="148.0" layoutY="154.0" text="ユーザー名">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usernameTextfield" layoutX="258.0" layoutY="148.0" prefHeight="25.0" prefWidth="208.0" promptText="電子太郎">
+         <font>
+            <Font size="16.0" />
+         </font></TextField>
+      <Label layoutX="148.0" layoutY="201.0" text="年齢">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="ageTextfield" layoutX="258.0" layoutY="196.0" prefHeight="34.0" prefWidth="42.0" promptText="10">
+         <font>
+            <Font size="16.0" />
+         </font></TextField>
+      <Label layoutX="309.0" layoutY="201.0" text="歳">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="151.0" layoutY="251.0" text="パスワード">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="passwordField" layoutX="260.0" layoutY="246.0" prefHeight="25.0" prefWidth="208.0" promptText="6文字以上">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </PasswordField>
+      <TextField fx:id="passwordVisibleTextfield" layoutX="260.0" layoutY="246.0" prefHeight="25.0" prefWidth="208.0" promptText="6文字以上" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <Label layoutX="150.0" layoutY="327.0" text="パスワード確認">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="confirmPasswordField" layoutX="260.0" layoutY="322.0" prefHeight="25.0" prefWidth="208.0" promptText="6文字以上">
+         <font>
+            <Font size="16.0" />
+         </font></PasswordField>
+      <TextField fx:id="confirmPasswordVisibleTextfield" layoutX="260.0" layoutY="322.0" prefHeight="25.0" prefWidth="208.0" promptText="6文字以上" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <Button layoutX="148.0" layoutY="397.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #1aa90f;" text="登録" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="151.0" layoutY="451.0" prefHeight="26.0" prefWidth="208.0" text="既にアカウントはお持ちでしょうか？">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Hyperlink fx:id="loginLink" layoutX="351.0" layoutY="450.0" onAction="#switchToLoginScene" style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;" stylesheets="@style.css" text="ログインする" underline="true">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Hyperlink>
+      <CheckBox fx:id="showPasswordCheckBox" layoutX="261.0" layoutY="289.0" mnemonicParsing="false" onAction="#handleShowPassword" prefHeight="18.0" prefWidth="181.0" text="パスワードを表示">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="showConfirmPasswordCheckBox" layoutX="260.0" layoutY="366.0" mnemonicParsing="false" onAction="#handleShowConfirmPassword" prefHeight="18.0" prefWidth="181.0" text="パスワード確認を表示">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </CheckBox>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</AnchorPane>

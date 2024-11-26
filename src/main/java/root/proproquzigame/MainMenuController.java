@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import root.proproquzigame.model.MainCategory;
 import root.proproquzigame.service.MainCategoryService;
 
@@ -56,11 +55,12 @@ public class MainMenuController {
                     public void handle(MouseEvent event) {
                         // Get the category ID and handle scene switch
                         int categoryId = category.getMainCategoryId();
+                        String categoryName = category.getMainCategoryName();
                         System.out.println("You clicked Id : " + categoryId);
 
                         // Create the next scene and controller
                         try {
-                            switchToSubMenuScene(categoryId);
+                            switchToSubMenuScene(categoryId, categoryName);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -76,14 +76,15 @@ public class MainMenuController {
         });
     }
 
-    private void switchToSubMenuScene(int categoryId) throws IOException {
+    private void switchToSubMenuScene(int categoryId, String categoryName) throws IOException {
         // TODO: implement code for switching to sub menu
         // Load the SubMenu FXML
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("SubMenuScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Submenu.fxml"));
         AnchorPane subMenuPane = loader.load();
 
         SubMenuController subMenuController = loader.getController();
-        subMenuController.initializeWithCategory(categoryId);
+        subMenuController.initializeCategory(categoryId);
+        subMenuController.initializeCategoryName(categoryName);
 
         Scene subMenuScene = new Scene(subMenuPane);
         String sceneTitle = "サブメニュー";

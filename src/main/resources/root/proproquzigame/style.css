@@ -1,0 +1,13 @@
+.hyperlink {
+    -fx-text-fill: #0000FF; /* Normal link color (blue) */
+}
+
+.hyperlink:visited {
+    -fx-text-fill: #0000FF; /* Visited link color (blue) */
+}
+
+.hyperlink:focused {
+    -fx-text-fill: #0000FF; /* Focused link color (blue) */
+    -fx-focus-color: transparent; /* Remove focus outline */
+    -fx-faint-focus-color: transparent; /* Remove faint focus outline */
+}

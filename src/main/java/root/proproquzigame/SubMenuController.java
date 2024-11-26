@@ -1,38 +1,115 @@
 package root.proproquzigame;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import root.proproquzigame.model.SubCategory;
+import root.proproquzigame.service.SubCategoryService;
 
 import java.io.IOException;
 
 public class SubMenuController {
-    @FXML
-    private Label categoryLabel;
 
     // This will hold the categoryId that was passed from the main menu
     private int categoryId;
 
+    // This will hold the categoryName that was passed from the main menu
+    
+    private String categoryName;
+
     @FXML
-    private Button backButton;
+    private AnchorPane buttonContainer;
+
+    @FXML
+    private Label mainCategoryLabel;
 
     private SceneController sceneController;
+
+    private int xCoordinate = 85;
+    private int yCoordinate = 71;
+
+    private final int BUTTON_WIDTH = 320;
+    private final int BUTTON_HEIGHT = 57;
+
+    private final int Y_DISTANCE = 80;
 
     // No-argument constructor for FXML instantiation
     public SubMenuController() {
         // Default constructor required by FXML
     }
 
-    public void initializeWithCategory(int categoryId) {
-        sceneController = SceneController.getInstance();
-        this.categoryId = categoryId;
-        // Do something with categoryId (e.g., load data, set labels, etc.)
-//        System.out.println("SubMenu initialized with category ID: " + categoryId);
+    @FXML
+    private void initialize() {
+        Platform.runLater(() -> {
+            sceneController = SceneController.getInstance();
 
-        categoryLabel.setText("Category : " + this.categoryId);
+            // update the label for main category
+            mainCategoryLabel.setText(categoryName);
+
+            SubCategory[] subCategories = SubCategoryService.getSubCategories(categoryId);
+
+            for (SubCategory subCategory : subCategories) {
+                displaySubCategoryButton(subCategory.getSubCategoryName());
+            }
+        });
+    }
+
+    private void displaySubCategoryButton(String subCategoryName) {
+        Label subCategoryText = new Label(subCategoryName);
+        Label subCategoryStatus = new Label("3/10");
+
+        HBox hBox = new HBox(10, subCategoryText, subCategoryStatus);
+
+        // Set the alignment of HBox
+        hBox.setAlignment(Pos.CENTER_LEFT);  // Align to the left
+
+        // Make subCategoryText take up 70% of the HBox width
+        HBox.setHgrow(subCategoryText, Priority.ALWAYS);
+        subCategoryText.setMaxWidth(Double.MAX_VALUE);  // Allow subCategoryText to expand
+
+        // Set the preferred width of subCategoryStatus to 30% of the HBox width
+        subCategoryStatus.setMinWidth(0);  // Don't constrain it
+        subCategoryStatus.setMaxWidth(Double.MAX_VALUE);
+        subCategoryStatus.setStyle("-fx-alignment: CENTER_RIGHT;");
+
+        // Set the width dynamically based on the button width
+        subCategoryStatus.widthProperty().addListener((observable, oldValue, newValue) -> {
+            double totalWidth = hBox.getWidth();
+            double subCategoryStatusWidth = totalWidth * 0.3;  // 30% width
+            subCategoryStatus.setPrefWidth(subCategoryStatusWidth);
+        });
+
+        Button button = new Button();
+        button.setGraphic(hBox);
+
+        // Set button dimensions
+        button.setPrefWidth(BUTTON_WIDTH);
+        button.setPrefHeight(BUTTON_HEIGHT);
+
+        button.setLayoutX(xCoordinate);
+        button.setLayoutY(yCoordinate);
+
+        // Set the font size for the button
+        button.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
+
+        buttonContainer.getChildren().add(button);
+
+        yCoordinate += Y_DISTANCE;
+    }
+
+    public void initializeCategory(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void initializeCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     @FXML

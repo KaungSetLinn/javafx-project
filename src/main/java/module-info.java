@@ -11,6 +11,7 @@ module root.proproquzigame {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires javafx.swing;
 
     opens root.proproquzigame to javafx.fxml;
     exports root.proproquzigame;
