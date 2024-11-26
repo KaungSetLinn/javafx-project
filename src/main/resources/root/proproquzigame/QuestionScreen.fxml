@@ -20,7 +20,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="difficultyLabel" layoutX="213.0" layoutY="26.0" prefHeight="32.0" prefWidth="111.0" underline="true">
+            <Label fx:id="difficultyLabel" layoutX="213.0" layoutY="26.0" prefHeight="32.0" prefWidth="111.0" text="「難易度：」">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
