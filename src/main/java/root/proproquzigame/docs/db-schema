@@ -121,3 +121,24 @@ GROUP BY
     q.sub_category_id, sc.sub_category_name
 ORDER BY
     q.sub_category_id;
+
+SELECT *
+FROM question_detail_view
+WHERE sub_category_id = 1
+AND question_id NOT IN (
+	select question_id from user_answer where user_id = 2 and is_correct = true
+)
+ORDER BY RANDOM()
+
+select sc.sub_category_id,
+count(q.question_id) as num_questions,
+sum (
+	case
+		when q.difficulty = 'easy' then 10
+		when q.difficulty = 'medium' then 20
+		when q.difficulty = 'hard' then 30
+	end
+) as total_health
+from sub_category sc
+join question q on sc.sub_category_id = q.sub_category_id
+group by sc.sub_category_id;

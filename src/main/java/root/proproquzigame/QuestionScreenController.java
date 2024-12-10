@@ -19,6 +19,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import root.proproquzigame.helper.SoundHelper;
+import root.proproquzigame.model.AuthenticatedUser;
 import root.proproquzigame.model.Question;
 import root.proproquzigame.service.QuestionService;
 
@@ -31,6 +33,9 @@ import java.util.List;
 public class QuestionScreenController {
     @FXML
     private AnchorPane questionPane;
+
+    @FXML
+    private Label questionNumberLabel;
 
     @FXML
     private Label questionTextLabel;
@@ -83,14 +88,29 @@ public class QuestionScreenController {
 
     private SceneController sceneController;
 
+    private static int questionNumber = 1;
+
+    private static int subCategoryId = 17;
+
+    public static void setQuestionNumber(int questionNumber) {
+        QuestionScreenController.questionNumber = questionNumber;
+    }
+
+    public static void setSubCategoryId(int subCategoryId) {
+        QuestionScreenController.subCategoryId = subCategoryId;
+    }
+
     @FXML
     private void initialize() {
         sceneController = SceneController.getInstance();
-        displayQuestion();
 
-        /*Platform.runLater(() -> {
-            System.out.println("question Label Height : " + questionTextLabel.getHeight());
-        });*/
+        AuthenticatedUser authenticatedUser = AuthenticatedUser.getAuthenticatedUser();
+        int userId = authenticatedUser.getUserId();
+
+        question = QuestionService.getQuestionBySubCategoryId(subCategoryId, userId);
+        System.out.println("Question Id : " + question.getQuestionId());
+
+        displayQuestion();
 
         // Initialize currentHealth to 110 (full health)
         setCurrentHealth(new BigDecimal("80.0"));
@@ -105,16 +125,15 @@ public class QuestionScreenController {
     }
 
     private void displayQuestion() {
-        question = QuestionService.getQuestionById(34);
 
+        displayQuestionNumber();
         displayQuestionText(question.getQuestionText());
+        displayDifficulty(question.getDifficulty());
 
         // After the label is displayed, calculate the Y position for the image
         Platform.runLater(() -> {
             if (question.getQuestionImage() != null)
                 displayQuestionImage(question.getQuestionImage());
-
-            displayDifficulty(question.getDifficulty());
 
             String choice1 = question.getChoice1();
             String choice2 = question.getChoice2();
@@ -122,15 +141,15 @@ public class QuestionScreenController {
             String choice4 = question.getChoice4();
             List<String> shuffledChoices = shuffleChoices(choice1, choice2, choice3, choice4);
 
-            for (String string: shuffledChoices) {
+            /*for (String string: shuffledChoices) {
                 System.out.println(string);
-            }
+            }*/
 
             // Display choices
             displayChoices(shuffledChoices);
 
             correctAnswerIndex = getCorrectAnswerIndex(question, shuffledChoices);
-            System.out.println(correctAnswerIndex);
+//            System.out.println(correctAnswerIndex);
 
             // Set up event listeners for the choice buttons
             setChoiceClickListener(choice1Button, 0);
@@ -138,6 +157,10 @@ public class QuestionScreenController {
             setChoiceClickListener(choice3Button, 2);
             setChoiceClickListener(choice4Button, 3);
         });
+    }
+
+    private void displayQuestionNumber() {
+        questionNumberLabel.setText("問題 " + String.valueOf(questionNumber));
     }
 
     private void displayQuestionText(String questionText) {
@@ -270,13 +293,13 @@ public class QuestionScreenController {
         // If the user chose the correct answer
         if (selectedChoiceIndex == correctAnswerIndex) {
             if (currentHealth.compareTo(BigDecimal.ZERO) > 0) {
-                playCorrectAnswerSound();
+                SoundHelper.playCorrectAnswerSound();
                 decreaseBossHealth(new BigDecimal("20.0"));  // Fixed health decrement value (22)
             }
         }
         else {
             setButtonsDisabled(false);
-            playWrongAnswerSound();
+            SoundHelper.playWrongAnswerSound();
             displayWrongAnswer(selectedChoiceIndex);
             // Add a delay before switching the scene
             PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1.2)); // delay
@@ -292,22 +315,6 @@ public class QuestionScreenController {
             // Start the pause before switching scene
             pauseTransition.play();
         }
-    }
-
-    private void playWrongAnswerSound() {
-        String soundPath = "/root/proproquzigame/sounds/クイズ不正解1.mp3";
-        Media media = new Media(getClass().getResource(soundPath).toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-
-        mediaPlayer.play();
-    }
-
-    private void playCorrectAnswerSound() {
-        String soundPath = "/root/proproquzigame/sounds/クイズ正解2.mp3";
-        Media media = new Media(getClass().getResource(soundPath).toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-
-        mediaPlayer.play();
     }
 
     private void displayCorrectAnswer() {

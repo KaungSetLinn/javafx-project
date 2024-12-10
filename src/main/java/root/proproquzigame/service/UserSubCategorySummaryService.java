@@ -15,6 +15,7 @@ public class UserSubCategorySummaryService {
         List<UserSubCategorySummary> userSubCategorySummaryList = new ArrayList<>();
 
         String query = "SELECT\n" +
+                "    q.sub_category_id,\n" +
                 "    sc.sub_category_name,\n" +
                 "    COUNT(q.question_id) AS total_questions,\n" +
                 "    COUNT(CASE WHEN ua.is_correct = TRUE AND ua.user_id = ? THEN 1 END) AS correct_count\n" +
@@ -38,11 +39,12 @@ public class UserSubCategorySummaryService {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                int subCategoryId = resultSet.getInt("sub_category_id");
                 String subCategoryName = resultSet.getString("sub_category_name");
                 int totalQuestions = resultSet.getInt("total_questions");
                 int correctCount = resultSet.getInt("correct_count");
 
-                UserSubCategorySummary userSubCategorySummary = new UserSubCategorySummary(subCategoryName, totalQuestions, correctCount);
+                UserSubCategorySummary userSubCategorySummary = new UserSubCategorySummary(subCategoryId, subCategoryName, totalQuestions, correctCount);
                 userSubCategorySummaryList.add(userSubCategorySummary);
             }
         } catch (SQLException e) {

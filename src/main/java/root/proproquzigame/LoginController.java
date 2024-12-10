@@ -8,7 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import root.proproquzigame.helper.AlertHelper;
+import root.proproquzigame.helper.SoundHelper;
 import root.proproquzigame.model.AuthenticatedUser;
 import root.proproquzigame.service.UserService;
 
@@ -45,6 +48,7 @@ public class LoginController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 username = newValue;
+                SoundHelper.playKeyboardSound();
 //                System.out.println("You typed : " + username);
             }
         });
@@ -54,6 +58,7 @@ public class LoginController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 password = newValue;
+                SoundHelper.playKeyboardSound();
 //                System.out.println("You typed : " + password);
             }
         });
@@ -63,6 +68,7 @@ public class LoginController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 password = newValue;
+                SoundHelper.playKeyboardSound();
 //                System.out.println("You typed : " + password);
             }
         });
@@ -109,6 +115,8 @@ public class LoginController {
 
     @FXML
     private void handleLogin() {
+        SoundHelper.playEnterSound();
+
         // todo: write actual login action
         if (isFormValid()) {
             // アカウントが存在するかどうかを確認する

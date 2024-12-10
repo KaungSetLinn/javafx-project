@@ -96,6 +96,61 @@ public class QuestionService {
             return null;
         }
     }*/
+
+    public static Question getQuestionBySubCategoryId(int subCategoryId, int userId) {
+        /*String query = "SELECT question_text FROM question WHERE question_id = ?";
+        String questionText = "";*/
+
+        String query = "SELECT question_id, question_text, question_image, difficulty, choice1, choice2, choice3, choice4, correct_answer," +
+                "explanation_text, explanation_image " +
+                "FROM question_detail_view\n" +
+                "WHERE sub_category_id = ?\n" +
+                "AND question_id NOT IN (\n" +
+                "\tselect question_id from user_answer where user_id = ? and is_correct = true\n" +
+                ")\n" +
+                "ORDER BY RANDOM()";
+        Question question = null;
+
+        try (Connection connection = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, subCategoryId);
+            preparedStatement.setInt(2, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int questionId = resultSet.getInt("question_id");
+                String questionText = resultSet.getString("question_text");
+
+                byte[] questionImageBytes = resultSet.getBytes("question_image");
+                Image questionImage = null;
+                if (questionImageBytes != null)
+                    questionImage = byteArrayToImage(questionImageBytes);
+
+                String difficultyString = resultSet.getString("difficulty");
+                Difficulty difficulty = Difficulty.valueOf(difficultyString);
+
+                String choice1 = resultSet.getString("choice1");
+                String choice2 = resultSet.getString("choice2");
+                String choice3 = resultSet.getString("choice3");
+                String choice4 = resultSet.getString("choice4");
+                int correctAnswer = resultSet.getInt("correct_answer");
+                String explanationText = resultSet.getString("explanation_text");
+
+                byte[] explanationImageBytes = resultSet.getBytes("explanation_image");
+                Image explanationImage = null;
+                if (explanationImageBytes != null)
+                    explanationImage = byteArrayToImage(explanationImageBytes);
+
+                question = new Question(questionId, questionText, questionImage, difficulty, choice1, choice2, choice3, choice4,
+                        correctAnswer, explanationText, explanationImage);
+            }
+
+            return question;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     
     // to be removed later
     public static Question getQuestionById(int questionId) {

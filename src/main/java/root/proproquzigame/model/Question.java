@@ -132,6 +132,22 @@ public class Question {
         this.subCategoryId = subCategoryId;
     }
 
+    public Question(int questionId, String questionText, Image questionImage, Difficulty difficulty,
+                    String choice1, String choice2, String choice3, String choice4, int correctAnswer,
+                    String explanationText, Image explanationImage) {
+        this.questionId = questionId;
+        this.questionText = questionText;
+        this.questionImage = questionImage;
+        this.difficulty = difficulty;
+        this.choice1 = choice1;
+        this.choice2 = choice2;
+        this.choice3 = choice3;
+        this.choice4 = choice4;
+        this.correctAnswer = correctAnswer;
+        this.explanationText = explanationText;
+        this.explanationImage = explanationImage;
+    }
+
     public Question(String questionText, Image questionImage, Difficulty difficulty, String choice1, String choice2,
                     String choice3, String choice4, int correctAnswer,
                     String explanationText, Image explanationImage, int subCategoryId) {

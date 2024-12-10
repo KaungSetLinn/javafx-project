@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import root.proproquzigame.helper.SoundHelper;
 import root.proproquzigame.model.MainCategory;
 import root.proproquzigame.service.MainCategoryService;
 
@@ -56,7 +57,7 @@ public class MainMenuController {
                         // Get the category ID and handle scene switch
                         int categoryId = category.getMainCategoryId();
                         String categoryName = category.getMainCategoryName();
-                        System.out.println("You clicked Id : " + categoryId);
+//                        System.out.println("You clicked Id : " + categoryId);
 
                         // Create the next scene and controller
                         try {
@@ -89,5 +90,7 @@ public class MainMenuController {
         Scene subMenuScene = new Scene(subMenuPane);
         String sceneTitle = "サブメニュー";
         sceneController.changeScene(subMenuScene, sceneTitle);
+
+        SoundHelper.playEnterSound();
     }
 }

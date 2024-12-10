@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import root.proproquzigame.helper.AlertHelper;
+import root.proproquzigame.helper.SoundHelper;
 import root.proproquzigame.model.User;
 import root.proproquzigame.service.UserService;
 
@@ -70,6 +71,7 @@ public class SignUpController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 username = newValue;
+                SoundHelper.playKeyboardSound();
             }
         });
 
@@ -84,6 +86,7 @@ public class SignUpController {
                 // Try parsing the new value as a double
                 int value = Integer.parseInt(newValue);
                 age = value;
+                SoundHelper.playKeyboardSound();
 
                 // If the value is less than or equal to 0, reset the text field
                 if (value <= 0 || value > 100) {
@@ -102,6 +105,7 @@ public class SignUpController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 password = newValue;
+                SoundHelper.playKeyboardSound();
 
                 if (password == null || password.length() >= 6)
                     passwordField.setStyle("-fx-border-width: 0;");
@@ -114,6 +118,7 @@ public class SignUpController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 password = newValue;
+                SoundHelper.playKeyboardSound();
 
                 if (password == null || password.length() >= 6)
                     passwordVisibleTextfield.setStyle("-fx-border-width: 0;");
@@ -126,6 +131,7 @@ public class SignUpController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 confirmPassword = newValue;
+                SoundHelper.playKeyboardSound();
 
                 if (confirmPassword.length() >= 6)
                     confirmPasswordField.setStyle("-fx-border-width: 0;");
@@ -138,6 +144,7 @@ public class SignUpController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 confirmPassword = newValue;
+                SoundHelper.playKeyboardSound();
 
                 if (confirmPassword.length() >= 6)
                     confirmPasswordVisibleTextfield.setStyle("-fx-border-width: 0;");
@@ -226,6 +233,7 @@ public class SignUpController {
 
     @FXML
     private void handleSignUp() {
+        SoundHelper.playEnterSound();
         if (isFormValid()) {
 //            System.out.println("Form Valid");
             User newUser = new User(username, password, age);
