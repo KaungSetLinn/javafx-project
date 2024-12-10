@@ -75,13 +75,9 @@ public class QuestionFormController {
 
     private Image explanationImage;
 
-    private enum difficulty {
-        easy,
-        medium,
-        hard
-    };
+    private Difficulty difficulty;
 
-    private String selectedDifficultyLevel;
+    private Difficulty selectedDifficultyLevel;
 
     private int selectedSubCategoryId;
 
@@ -163,15 +159,15 @@ public class QuestionFormController {
     private void setSelectedDifficultyLevel(String selectedValue) {
         switch (selectedValue) {
             case "低":
-                selectedDifficultyLevel = difficulty.easy.toString();
+                selectedDifficultyLevel = Difficulty.easy;
                 break;
 
             case "中":
-                selectedDifficultyLevel = difficulty.medium.toString();
+                selectedDifficultyLevel = Difficulty.medium;
                 break;
 
             case "高":
-                selectedDifficultyLevel = difficulty.hard.toString();
+                selectedDifficultyLevel = Difficulty.hard;
                 break;
         }
     }
@@ -303,7 +299,7 @@ public class QuestionFormController {
         }
 
         // Check if the difficulty level is selected
-        if (selectedDifficultyLevel == null || selectedDifficultyLevel.isEmpty()) {
+        if (selectedDifficultyLevel == null) {
             AlertHelper.showErrorMessage("エラーメッセージ", "難易度を選択してください。");
             return false;
         }

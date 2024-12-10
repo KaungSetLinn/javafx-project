@@ -1,6 +1,7 @@
 package root.proproquzigame;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -9,9 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -20,6 +24,9 @@ import root.proproquzigame.service.QuestionService;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class QuestionScreenController {
     @FXML
@@ -67,19 +74,26 @@ public class QuestionScreenController {
     @FXML
     private Label healthBarLabel;
 
+    private Question question;
+
     private BigDecimal currentHealth;
     private static final BigDecimal MAX_HEALTH = new BigDecimal("110.0"); // Set the max health to 110
 
+    private int correctAnswerIndex;
+
+    private SceneController sceneController;
+
     @FXML
     private void initialize() {
+        sceneController = SceneController.getInstance();
         displayQuestion();
 
-        Platform.runLater(() -> {
+        /*Platform.runLater(() -> {
             System.out.println("question Label Height : " + questionTextLabel.getHeight());
-        });
+        });*/
 
         // Initialize currentHealth to 110 (full health)
-        setCurrentHealth(new BigDecimal("60.0"));
+        setCurrentHealth(new BigDecimal("80.0"));
 
         healthBar.setProgress(currentHealth.doubleValue() / MAX_HEALTH.doubleValue()); // Set the initial currentHealth based on the max health
         updateHealthBarColor();
@@ -91,9 +105,43 @@ public class QuestionScreenController {
     }
 
     private void displayQuestion() {
-        Question question = QuestionService.getQuestionById(23);
+        question = QuestionService.getQuestionById(34);
 
-        questionTextLabel = new Label(question.getQuestionText());
+        displayQuestionText(question.getQuestionText());
+
+        // After the label is displayed, calculate the Y position for the image
+        Platform.runLater(() -> {
+            if (question.getQuestionImage() != null)
+                displayQuestionImage(question.getQuestionImage());
+
+            displayDifficulty(question.getDifficulty());
+
+            String choice1 = question.getChoice1();
+            String choice2 = question.getChoice2();
+            String choice3 = question.getChoice3();
+            String choice4 = question.getChoice4();
+            List<String> shuffledChoices = shuffleChoices(choice1, choice2, choice3, choice4);
+
+            for (String string: shuffledChoices) {
+                System.out.println(string);
+            }
+
+            // Display choices
+            displayChoices(shuffledChoices);
+
+            correctAnswerIndex = getCorrectAnswerIndex(question, shuffledChoices);
+            System.out.println(correctAnswerIndex);
+
+            // Set up event listeners for the choice buttons
+            setChoiceClickListener(choice1Button, 0);
+            setChoiceClickListener(choice2Button, 1);
+            setChoiceClickListener(choice3Button, 2);
+            setChoiceClickListener(choice4Button, 3);
+        });
+    }
+
+    private void displayQuestionText(String questionText) {
+        questionTextLabel = new Label(questionText);
         questionTextLabel.setWrapText(true);
         questionTextLabel.setStyle("-fx-font-size: 18px;");
 
@@ -101,41 +149,89 @@ public class QuestionScreenController {
         questionTextLabel.setLayoutX(95);
         questionTextLabel.setLayoutY(74);
         questionTextLabel.setPrefWidth(410);
+    }
 
-        // After the label is displayed, calculate the Y position for the image
-        Platform.runLater(() -> {
-            // Calculate the position for the image (below the question text label)
-            double labelHeight = questionTextLabel.getHeight();
-            double imageYPosition = 74 + labelHeight + 10; // 10px space between the label and the image
+    private void displayQuestionImage(Image questionImage) {
+        // Calculate the position for the image (below the question text label)
+        double labelHeight = questionTextLabel.getHeight();
+        double imageYPosition = 74 + labelHeight + 10; // 10px space between the label and the image
 
-            // Now set the position of the image dynamically below the question text
-            questionImageView = new ImageView();
-            questionImageView.setImage(question.getQuestionImage()); // Set your image source
-            questionImageView.setLayoutX(95); // Align with the left of the question text
-            questionImageView.setLayoutY(imageYPosition); // Set dynamic Y position
-            questionImageView.setFitWidth(400);
-            questionImageView.setFitHeight(346);
+        // Now set the position of the image dynamically below the question text
+        questionImageView = new ImageView();
+        questionImageView.setImage(questionImage); // Set your image source
+        questionImageView.setLayoutX(95); // Align with the left of the question text
+        questionImageView.setLayoutY(imageYPosition); // Set dynamic Y position
+        questionImageView.setFitWidth(400);
+        questionImageView.setFitHeight(346);
 
-            // Add the image to the layout
-            questionPane.getChildren().add(questionImageView);
+        // Add the image to the layout
+        questionPane.getChildren().add(questionImageView);
 
-            // Set the cursor to hand when mouse hovers over the image
-            questionImageView.setCursor(javafx.scene.Cursor.HAND);
+        // Set the cursor to hand when mouse hovers over the image
+        questionImageView.setCursor(javafx.scene.Cursor.HAND);
 
-            // todo: add mouse click listener to questionImageView
-            questionImageView.setOnMouseClicked(event -> {
-                try {
-                    openImageInNewWindow();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        // todo: add mouse click listener to questionImageView
+        questionImageView.setOnMouseClicked(event -> {
+            try {
+                openImageInNewWindow();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
-            // Display choices
-            choice1Label.setText(question.getChoice1());
-            choice2Label.setText(question.getChoice2());
-            choice3Label.setText(question.getChoice3());
-            choice4Label.setText(question.getChoice4());
+    private void displayDifficulty(Difficulty difficultyLevel) {
+        String difficultyLabel = "「難易度：";
+
+        switch (difficultyLevel) {
+            case easy -> difficultyLabel += "★」";
+            case medium -> difficultyLabel += "★★」";
+            case hard -> difficultyLabel += "★★★」";
+        }
+
+        this.difficultyLabel.setText(difficultyLabel);
+    }
+
+    private List<String> shuffleChoices(String choice1, String choice2, String choice3, String choice4) {
+        List<String> choices = new ArrayList<>();
+        choices.add(choice1);
+        choices.add(choice2);
+        choices.add(choice3);
+        choices.add(choice4);
+
+        Collections.shuffle(choices);
+
+        return choices;
+    }
+
+    private void displayChoices(List<String> shuffledChoices) {
+        choice1Label.setText(shuffledChoices.get(0));
+        choice2Label.setText(shuffledChoices.get(1));
+        choice3Label.setText(shuffledChoices.get(2));
+        choice4Label.setText(shuffledChoices.get(3));
+    }
+
+    // This method will return the index of the correct answer after shuffling the choices.
+    private int getCorrectAnswerIndex(Question question, List<String> shuffledChoices) {
+        // The correct answer index from the Question object (1-based)
+        int correctAnswerIndex = question.getCorrectAnswer() - 1;  // Convert to 0-based
+
+        // Get the correct answer based on the original choice index
+        String correctAnswer = null;
+        switch (correctAnswerIndex) {
+            case 0 -> correctAnswer = question.getChoice1();
+            case 1 -> correctAnswer = question.getChoice2();
+            case 2 -> correctAnswer = question.getChoice3();
+            case 3 -> correctAnswer = question.getChoice4();
+        }
+
+        // Now return the index of the correct answer in the shuffled list
+        return shuffledChoices.indexOf(correctAnswer);
+    }
+
+    private void setChoiceClickListener(Button choiceButton, int index) {
+        choiceButton.setOnAction(event -> {
+            handleChoice(index);
         });
     }
 
@@ -164,12 +260,101 @@ public class QuestionScreenController {
     }
 
     @FXML
-    private void handleChoice() {
+    private void handleChoice(int selectedChoiceIndex) {
+        displayCorrectAnswer();
+
         if (newWindowStage != null) {
             newWindowStage.close();
         }
-        if (currentHealth.compareTo(BigDecimal.ZERO) > 0) {
-            decreaseBossHealth(new BigDecimal("20.0"));  // Fixed health decrement value (22)
+
+        // If the user chose the correct answer
+        if (selectedChoiceIndex == correctAnswerIndex) {
+            if (currentHealth.compareTo(BigDecimal.ZERO) > 0) {
+                playCorrectAnswerSound();
+                decreaseBossHealth(new BigDecimal("20.0"));  // Fixed health decrement value (22)
+            }
+        }
+        else {
+            setButtonsDisabled(false);
+            playWrongAnswerSound();
+            displayWrongAnswer(selectedChoiceIndex);
+            // Add a delay before switching the scene
+            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1.2)); // delay
+            pauseTransition.setOnFinished(pauseEvent -> {
+
+                try {
+                    switchToExplanationScreen();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+            // Start the pause before switching scene
+            pauseTransition.play();
+        }
+    }
+
+    private void playWrongAnswerSound() {
+        String soundPath = "/root/proproquzigame/sounds/クイズ不正解1.mp3";
+        Media media = new Media(getClass().getResource(soundPath).toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        mediaPlayer.play();
+    }
+
+    private void playCorrectAnswerSound() {
+        String soundPath = "/root/proproquzigame/sounds/クイズ正解2.mp3";
+        Media media = new Media(getClass().getResource(soundPath).toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        mediaPlayer.play();
+    }
+
+    private void displayCorrectAnswer() {
+        switch (correctAnswerIndex) {
+            case 0 -> {
+                choice1Label.setStyle("-fx-background-color: #28fc14;");
+                choice1Label.setTextFill(Color.BLACK);
+            }
+
+            case 1 -> {
+                choice2Label.setStyle("-fx-background-color: #28fc14;");
+                choice2Label.setTextFill(Color.BLACK);
+            }
+
+            case 2 -> {
+                choice3Label.setStyle("-fx-background-color: #28fc14;");
+                choice3Label.setTextFill(Color.BLACK);
+            }
+
+            case 3 -> {
+                choice4Label.setStyle("-fx-background-color: #28fc14;");
+                choice4Label.setTextFill(Color.BLACK);
+            }
+        }
+    }
+
+    private void displayWrongAnswer(int choiceIndex) {
+        switch (choiceIndex) {
+            case 0 -> {
+                choice1Label.setStyle("-fx-background-color: red;");
+                choice1Label.setTextFill(Color.WHITE);
+            }
+
+            case 1 -> {
+                choice2Label.setStyle("-fx-background-color: red;");
+                choice2Label.setTextFill(Color.WHITE);
+            }
+
+            case 2 -> {
+                choice3Label.setStyle("-fx-background-color: red;");
+                choice3Label.setTextFill(Color.WHITE);
+            }
+
+            case 3 -> {
+                choice4Label.setStyle("-fx-background-color: red;");
+                choice4Label.setTextFill(Color.WHITE);
+            }
         }
     }
 
@@ -219,12 +404,27 @@ public class QuestionScreenController {
 
         // When the animation finishes, re-enable the buttons
         timeline.setOnFinished(event -> {
-            setButtonsDisabled(false);
+
+
+            // Add a delay before switching the scene
+            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1)); // 2-second delay
+            pauseTransition.setOnFinished(pauseEvent -> {
+                setButtonsDisabled(false);
+                try {
+                    switchToExplanationScreen();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+            // Start the pause before switching scene
+            pauseTransition.play();
         });
 
         // Start the animation
         timeline.play();
     }
+
 
     private void setButtonsDisabled(boolean disabled) {
         choice1Button.setDisable(disabled);
@@ -257,5 +457,18 @@ public class QuestionScreenController {
         else {
             healthBarLabel.setTextFill(Color.WHITE);
         }
+    }
+
+    @FXML
+    private void switchToExplanationScreen() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ExplanationScreen.fxml"));
+        ScrollPane explanationPane = loader.load();
+
+        ExplanationController explanationController = loader.getController();
+        explanationController.setExplanationText(question.getExplanationText());
+
+        Scene explanationScene = new Scene(explanationPane);
+        String sceneTitle = "解説画面";
+        sceneController.changeScene(explanationScene, sceneTitle);
     }
 }

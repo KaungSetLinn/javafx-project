@@ -10,10 +10,14 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import root.proproquzigame.model.AuthenticatedUser;
 import root.proproquzigame.model.SubCategory;
+import root.proproquzigame.model.UserSubCategorySummary;
 import root.proproquzigame.service.SubCategoryService;
+import root.proproquzigame.service.UserSubCategorySummaryService;
 
 import java.io.IOException;
+import java.util.List;
 
 public class SubMenuController {
 
@@ -21,7 +25,7 @@ public class SubMenuController {
     private int categoryId;
 
     // This will hold the categoryName that was passed from the main menu
-    
+
     private String categoryName;
 
     @FXML
@@ -53,17 +57,25 @@ public class SubMenuController {
             // update the label for main category
             mainCategoryLabel.setText(categoryName);
 
-            SubCategory[] subCategories = SubCategoryService.getSubCategories(categoryId);
+            AuthenticatedUser authenticatedUser = AuthenticatedUser.getAuthenticatedUser();
+            int userId = authenticatedUser.getUserId();
 
-            for (SubCategory subCategory : subCategories) {
-                displaySubCategoryButton(subCategory.getSubCategoryName());
+            List<UserSubCategorySummary> userSubCategorySummaryList = UserSubCategorySummaryService.getUserSubCategorySummary(userId, categoryId);
+
+            for (UserSubCategorySummary summary : userSubCategorySummaryList) {
+                String subCategoryName = summary.getSubCategoryName();
+                int correctCount = summary.getCorrectCount();
+                int totalQuestions = summary.getTotalQuestions();
+
+                displaySubCategoryButton(subCategoryName, correctCount, totalQuestions);
             }
+
         });
     }
 
-    private void displaySubCategoryButton(String subCategoryName) {
+    private void displaySubCategoryButton(String subCategoryName, int correctCount, int totalQuestions) {
         Label subCategoryText = new Label(subCategoryName);
-        Label subCategoryStatus = new Label("3/10");
+        Label subCategoryStatus = new Label(correctCount + "/" + totalQuestions);
 
         HBox hBox = new HBox(10, subCategoryText, subCategoryStatus);
 

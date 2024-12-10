@@ -3,6 +3,7 @@ package root.proproquzigame.service;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import root.proproquzigame.DatabaseConnection;
+import root.proproquzigame.Difficulty;
 import root.proproquzigame.model.Question;
 
 import javax.imageio.ImageIO;
@@ -21,7 +22,8 @@ public class QuestionService {
         Image questionImage = question.getQuestionImage();
         byte[] questionImageBytes = (questionImage != null) ? imageToByteArray(questionImage) : null;
 
-        String difficulty = question.getDifficulty();
+        Difficulty difficulty = question.getDifficulty();
+        String difficultyString = difficulty.name();    // Convert enum to string
 
         String choice1 = question.getChoice1();
         String choice2 = question.getChoice2();
@@ -44,7 +46,7 @@ public class QuestionService {
 
             preparedStatement.setString(1, questionText);
             preparedStatement.setBytes(2, questionImageBytes);
-            preparedStatement.setString(3, difficulty);
+            preparedStatement.setString(3, difficultyString);
             preparedStatement.setString(4, choice1);
             preparedStatement.setString(5, choice2);
             preparedStatement.setString(6, choice3);
@@ -119,7 +121,9 @@ public class QuestionService {
                 if (questionImageBytes != null)
                     questionImage = byteArrayToImage(questionImageBytes);
 
-                String difficulty = resultSet.getString("difficulty");
+                String difficultyString = resultSet.getString("difficulty");
+                Difficulty difficulty = Difficulty.valueOf(difficultyString);
+
                 String choice1 = resultSet.getString("choice1");
                 String choice2 = resultSet.getString("choice2");
                 String choice3 = resultSet.getString("choice3");

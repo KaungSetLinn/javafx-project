@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="511.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.SignUpController">
+<AnchorPane fx:id="signUpPane" prefHeight="511.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.SignUpController">
    <children>
       <Label layoutX="230.0" layoutY="88.0" prefHeight="38.0" prefWidth="190.0" text="新　規　登　録">
          <font>
@@ -69,7 +69,7 @@
             <Font size="16.0" />
          </font>
       </TextField>
-      <Button layoutX="148.0" layoutY="397.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #1aa90f;" text="登録" textFill="WHITE">
+      <Button layoutX="148.0" layoutY="397.0" mnemonicParsing="false" onAction="#handleSignUp" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #1aa90f;" text="登録" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

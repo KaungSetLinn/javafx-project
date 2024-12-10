@@ -83,7 +83,7 @@ create table users (
 	username text not null,
 	password text not null,
 	age int not null,
-	last_logged_in timestamp default CURRENT_TIMESTAMP
+	last_logged_in timestamp default NULL
 )
 
 create table user_answer (
@@ -102,5 +102,22 @@ from question
 where question_id not in
 (
 	select question_id from user_answer
+	where user_id = 2 and is_correct = true
 )
 and sub_category_id = 1
+
+SELECT
+    q.sub_category_id,
+    sc.sub_category_name,
+    COUNT(q.question_id) AS total_questions,
+    COUNT(CASE WHEN ua.is_correct = TRUE AND ua.user_id = 3 THEN 1 END) AS correct_answers
+FROM
+    question q
+JOIN
+    sub_category sc ON q.sub_category_id = sc.sub_category_id
+LEFT JOIN
+    user_answer ua ON q.question_id = ua.question_id
+GROUP BY
+    q.sub_category_id, sc.sub_category_name
+ORDER BY
+    q.sub_category_id;

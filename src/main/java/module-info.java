@@ -12,6 +12,8 @@ module root.proproquzigame {
     requires com.almasb.fxgl.all;
     requires java.sql;
     requires javafx.swing;
+    requires javafx.media;
+    requires jbcrypt;
 
     opens root.proproquzigame to javafx.fxml;
     exports root.proproquzigame;

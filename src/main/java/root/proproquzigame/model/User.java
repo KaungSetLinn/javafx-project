@@ -61,6 +61,12 @@ public class User {
         this.last_logged_in = last_logged_in;
     }
 
+    public User(int user_id, String username, int age) {
+        this.user_id = user_id;
+        this.username = username;
+        this.age = age;
+    }
+
     public User(String username, String password, int age, Timestamp last_logged_in) {
         this.username = username;
         this.password = password;
@@ -68,10 +74,16 @@ public class User {
         this.last_logged_in = last_logged_in;
     }
 
-    public static void main(String[] args) {
+    public User(String username, String password, int age) {
+        this.username = username;
+        this.password = password;
+        this.age = age;
+    }
+
+    /*public static void main(String[] args) {
         User user = new User(1, "電子太郎","123456", 20, null);
 
         System.out.println("ユーザー名：" + user.getUsername());
-    }
+    }*/
 }
 

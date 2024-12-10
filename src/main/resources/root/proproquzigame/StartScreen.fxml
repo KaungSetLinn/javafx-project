@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="384.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.StartScreenController">
+   <children>
+      <ImageView fitHeight="443.0" fitWidth="654.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/タイトル.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="buttonImageView" fitHeight="97.0" fitWidth="221.0" layoutX="217.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/ボタン.png" />
+         </image></ImageView>
+   </children>
+</AnchorPane>

@@ -37,7 +37,7 @@ public class SubCategoryService {
     }
 
     public static SubCategory[] getAllSubCategories() {
-        String query = "SELECT sub_category_id, sub_category_name FROM sub_category";
+        String query = "SELECT sub_category_id, sub_category_name FROM sub_category ORDER BY main_category_id, sub_category_id";
 
         ArrayList<SubCategory> subCategories = new ArrayList<>();
 

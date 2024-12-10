@@ -1,6 +1,7 @@
 package root.proproquzigame.model;
 
 import javafx.scene.image.Image;
+import root.proproquzigame.Difficulty;
 
 import java.io.File;
 
@@ -8,7 +9,7 @@ public class Question {
     private int questionId;
     private String questionText;
     private Image questionImage;
-    private String difficulty;
+    private Difficulty difficulty;
     private String choice1;
     private String choice2;
     private String choice3;
@@ -30,7 +31,7 @@ public class Question {
         return questionImage;
     }
 
-    public String getDifficulty() {
+    public Difficulty getDifficulty() {
         return difficulty;
     }
 
@@ -78,7 +79,7 @@ public class Question {
         this.questionImage = questionImage;
     }
 
-    public void setDifficulty(String difficulty) {
+    public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
 
@@ -114,7 +115,7 @@ public class Question {
         this.subCategoryId = subCategoryId;
     }
 
-    public Question(int questionId, String questionText, Image questionImage, String difficulty,
+    public Question(int questionId, String questionText, Image questionImage, Difficulty difficulty,
                     String choice1, String choice2, String choice3, String choice4,
                     int correctAnswer, String explanationText, Image explanationImage, int subCategoryId) {
         this.questionId = questionId;
@@ -131,7 +132,7 @@ public class Question {
         this.subCategoryId = subCategoryId;
     }
 
-    public Question(String questionText, Image questionImage, String difficulty, String choice1, String choice2,
+    public Question(String questionText, Image questionImage, Difficulty difficulty, String choice1, String choice2,
                     String choice3, String choice4, int correctAnswer,
                     String explanationText, Image explanationImage, int subCategoryId) {
         this.questionText = questionText;
@@ -147,7 +148,7 @@ public class Question {
         this.subCategoryId = subCategoryId;
     }
 
-    public Question(String questionText, Image questionImage, String difficulty,
+    public Question(String questionText, Image questionImage, Difficulty difficulty,
                     String choice1, String choice2, String choice3, String choice4, int correctAnswer,
                     String explanationText, Image explanationImage) {
         this.questionText = questionText;

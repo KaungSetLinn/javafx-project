@@ -20,40 +20,40 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="difficultyLabel" layoutX="213.0" layoutY="26.0" prefHeight="32.0" prefWidth="111.0" text="「難易度：」">
+            <Label fx:id="difficultyLabel" layoutX="213.0" layoutY="26.0" prefHeight="32.0" prefWidth="162.0" text="「難易度：」">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="choice1Button" layoutX="94.0" layoutY="506.0" mnemonicParsing="false" onAction="#handleChoice" text="ア">
+            <Button fx:id="choice1Button" layoutX="94.0" layoutY="506.0" mnemonicParsing="false" text="ア">
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <Button fx:id="choice2Button" layoutX="95.0" layoutY="557.0" mnemonicParsing="false" onAction="#handleChoice" text="イ">
+            <Button fx:id="choice2Button" layoutX="95.0" layoutY="557.0" mnemonicParsing="false" text="イ">
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <Button fx:id="choice3Button" layoutX="94.0" layoutY="608.0" mnemonicParsing="false" onAction="#handleChoice" text="ウ">
+            <Button fx:id="choice3Button" layoutX="94.0" layoutY="608.0" mnemonicParsing="false" text="ウ">
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <Button fx:id="choice4Button" layoutX="94.0" layoutY="670.0" mnemonicParsing="false" onAction="#handleChoice" text="エ">
+            <Button fx:id="choice4Button" layoutX="94.0" layoutY="659.0" mnemonicParsing="false" text="エ">
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <Label fx:id="choice1Label" layoutX="150.0" layoutY="512.0" prefHeight="17.0" prefWidth="145.0" text="選択肢①">
+            <Label fx:id="choice1Label" layoutX="150.0" layoutY="506.0" prefHeight="38.0" prefWidth="324.0" text="選択肢①">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label fx:id="choice2Label" layoutX="150.0" layoutY="563.0" prefHeight="17.0" prefWidth="125.0" text="選択肢②">
+            <Label fx:id="choice2Label" layoutX="150.0" layoutY="557.0" prefHeight="38.0" prefWidth="324.0" text="選択肢②">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label fx:id="choice3Label" layoutX="150.0" layoutY="614.0" prefHeight="17.0" prefWidth="125.0" text="選択肢③">
+            <Label fx:id="choice3Label" layoutX="150.0" layoutY="608.0" prefHeight="38.0" prefWidth="324.0" text="選択肢③">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label fx:id="choice4Label" layoutX="150.0" layoutY="670.0" prefHeight="17.0" prefWidth="125.0" text="選択肢④">
+            <Label fx:id="choice4Label" layoutX="150.0" layoutY="659.0" prefHeight="38.0" prefWidth="324.0" text="選択肢④">
                <font>
                   <Font size="18.0" />
                </font></Label>

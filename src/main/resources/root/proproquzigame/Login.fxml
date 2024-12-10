@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="463.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.LoginController">
+<AnchorPane fx:id="loginPane" prefHeight="463.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.LoginController">
    <children>
       <Label layoutX="291.0" layoutY="129.0" prefHeight="47.0" prefWidth="108.0" text="ロ グ イ ン">
          <font>

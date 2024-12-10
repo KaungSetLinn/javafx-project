@@ -12,8 +12,8 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         SceneController.initialize(stage);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("QuestionScreen.fxml"));
-//        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("SignUp.fxml"));
+//        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("QuestionScreen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("ホーム画面");
         stage.setScene(scene);
