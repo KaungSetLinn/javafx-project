@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import root.proproquzigame.helper.SceneSwitcherHelper;
 import root.proproquzigame.helper.SoundHelper;
 import root.proproquzigame.model.MainCategory;
 import root.proproquzigame.service.MainCategoryService;
@@ -26,16 +27,12 @@ public class MainMenuController {
 
     private final int Y_DISTANCE = 70;
 
-    private SceneController sceneController;
-
     @FXML
     private void initialize() {
         MainCategory[] categories = MainCategoryService.getMainCategories();
 
         // Use Platform.runLater to ensure UI is fully initialized
         Platform.runLater(() -> {
-
-            sceneController = SceneController.getInstance(); // Get the singleton instance
 
             for (MainCategory category : categories) {
                 Button button = new Button(category.getMainCategoryName());
@@ -61,7 +58,7 @@ public class MainMenuController {
 
                         // Create the next scene and controller
                         try {
-                            switchToSubMenuScene(categoryId, categoryName);
+                            SceneSwitcherHelper.switchToSubMenuScene(categoryId, categoryName);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -77,20 +74,5 @@ public class MainMenuController {
         });
     }
 
-    private void switchToSubMenuScene(int categoryId, String categoryName) throws IOException {
-        // TODO: implement code for switching to sub menu
-        // Load the SubMenu FXML
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Submenu.fxml"));
-        AnchorPane subMenuPane = loader.load();
 
-        SubMenuController subMenuController = loader.getController();
-        subMenuController.initializeCategory(categoryId);
-        subMenuController.initializeCategoryName(categoryName);
-
-        Scene subMenuScene = new Scene(subMenuPane);
-        String sceneTitle = "サブメニュー";
-        sceneController.changeScene(subMenuScene, sceneTitle);
-
-        SoundHelper.playEnterSound();
-    }
 }

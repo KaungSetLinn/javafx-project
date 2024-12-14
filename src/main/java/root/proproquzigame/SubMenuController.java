@@ -11,6 +11,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import root.proproquzigame.helper.SceneSwitcherHelper;
 import root.proproquzigame.helper.SoundHelper;
 import root.proproquzigame.model.AuthenticatedUser;
 import root.proproquzigame.model.UserSubCategorySummary;
@@ -20,6 +21,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class SubMenuController {
+    @FXML
+    private Button backToMainMenuButton;
 
     // This will hold the mainCategoryId that was passed from the main menu
     private int mainCategoryId;
@@ -33,8 +36,6 @@ public class SubMenuController {
 
     @FXML
     private Label mainCategoryLabel;
-
-    private SceneController sceneController;
 
     private int xCoordinate = 85;
     private int yCoordinate = 71;
@@ -52,7 +53,14 @@ public class SubMenuController {
     @FXML
     private void initialize() {
         Platform.runLater(() -> {
-            sceneController = SceneController.getInstance();
+            // Add listner to backToMainMenuButton
+            backToMainMenuButton.setOnAction(event -> {
+                try {
+                    SceneSwitcherHelper.switchToMainMenuScreen();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
 
             // update the label for main category
             mainCategoryLabel.setText(mainCategoryName);
@@ -113,7 +121,7 @@ public class SubMenuController {
         button.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
 
         button.setOnAction(event -> {
-            handleSubCategoryButtonClick(subCategoryId);
+            handleSubCategoryButtonClick(subCategoryId, correctCount + 1);
         });
 
         buttonContainer.getChildren().add(button);
@@ -121,12 +129,24 @@ public class SubMenuController {
         yCoordinate += Y_DISTANCE;
     }
 
-    private void handleSubCategoryButtonClick(int subCategoryId) {
+    private void handleSubCategoryButtonClick(int subCategoryId, int questionNumber) {
         QuestionScreenController.setSubCategoryId(subCategoryId);
-        try {
-            switchToQuestionScreen();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        QuestionScreenController.setQuestionNumber(questionNumber);
+
+        // If the sub category is 'リスト'
+        if (subCategoryId == 17) {
+            try {
+                SceneSwitcherHelper.switchToListExplanationScreen();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
+            try {
+                SceneSwitcherHelper.switchToQuestionScreen();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -138,27 +158,5 @@ public class SubMenuController {
         this.mainCategoryName = mainCategoryName;
     }
 
-    @FXML
-    private void backToMainMenu() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenuScreen.fxml"));
-        AnchorPane mainMenuPane = loader.load();
 
-        Scene mainMenuScene = new Scene(mainMenuPane);
-        String sceneTitle = "メインメニュー";
-        sceneController.changeScene(mainMenuScene, sceneTitle);
-
-        SoundHelper.playEnterSound();
-    }
-
-    @FXML
-    private void switchToQuestionScreen() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("QuestionScreen.fxml"));
-        ScrollPane questionPane = loader.load();
-
-        Scene questionScene = new Scene(questionPane);
-        String sceneTitle = "";
-        sceneController.changeScene(questionScene, sceneTitle);
-
-        SoundHelper.playEnterSound();
-    }
 }

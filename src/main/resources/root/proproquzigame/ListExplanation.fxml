@@ -5,22 +5,20 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="569.0" prefWidth="646.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="564.0" prefWidth="701.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.ListExplanationController">
    <children>
-      <Button layoutX="503.0" layoutY="44.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="91.0" text="次へ">
+      <Button fx:id="nextButton" layoutX="550.0" layoutY="40.0" mnemonicParsing="false" onAction="#handleNextButtonClick" prefHeight="32.0" prefWidth="82.0" text="次へ">
          <font>
-            <Font name="System Bold Italic" size="15.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Button>
-      <Label layoutX="38.0" layoutY="28.0" prefHeight="32.0" prefWidth="161.0" text="説明（せつめい）">
+      <Label layoutX="69.0" layoutY="44.0" prefHeight="35.0" prefWidth="179.0" text="説明（せつめい）">
          <font>
-            <Font size="21.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Line endX="-98.0" endY="379.9999694824219" startX="-98.0" startY="-77.00000762939453" />
-      <ImageView fitHeight="414.0" fitWidth="564.0" layoutX="41.0" layoutY="127.0" pickOnBounds="true">
+      <ImageView fx:id="ListExplanationImageView" fitHeight="414.0" fitWidth="564.0" layoutX="69.0" layoutY="111.0" pickOnBounds="true">
          <image>
             <Image url="@../../../../../../../Downloads/リスト1.png" />
          </image></ImageView>

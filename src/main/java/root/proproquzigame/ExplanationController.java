@@ -23,6 +23,7 @@ public class ExplanationController {
 
     @FXML
     private void initialize() {
+//        System.out.println("sub category id is " + QuestionScreenController.getSubCategoryId());
         Platform.runLater(() -> {
             explanationLabel.setWrapText(true);
 

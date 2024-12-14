@@ -17,7 +17,7 @@
                         <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
-                  <Button layoutX="22.0" layoutY="19.0" mnemonicParsing="false" onAction="#backToMainMenu" text="&lt;&lt;戻る">
+                  <Button fx:id="backToMainMenuButton" layoutX="22.0" layoutY="19.0" mnemonicParsing="false" text="&lt;&lt;戻る">
                      <font>
                         <Font size="14.0" />
                      </font></Button>

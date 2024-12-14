@@ -130,6 +130,7 @@ AND question_id NOT IN (
 )
 ORDER BY RANDOM()
 
+// boss health for each category
 select sc.sub_category_id,
 count(q.question_id) as num_questions,
 sum (
@@ -142,3 +143,37 @@ sum (
 from sub_category sc
 join question q on sc.sub_category_id = q.sub_category_id
 group by sc.sub_category_id;
+
+
+// overall total score of each user
+create view user_total_score as
+select ua.user_id, sum(
+	case
+	when q.difficulty = 'easy' then 10
+	when q.difficulty = 'medium' then 20
+	when q.difficulty = 'hard' then 30
+	end
+) as total_score
+from user_answer ua
+join question q on ua.question_id = q.question_id and ua.is_correct = true
+group by ua.user_id
+order by ua.user_id
+
+
+// total score of each user for respective categories (e.g. Algorithm, Flowchart)
+create view user_scores_by_category as
+select ua.user_id, mc.main_category_id, mc.main_category_name,
+sc.sub_category_id, sc.sub_category_name,
+sum(
+	case
+	when q.difficulty = 'easy' then 10
+	when q.difficulty = 'medium' then 20
+	when q.difficulty = 'hard' then 30
+	end
+) as total_score
+from user_answer ua
+join question q on ua.question_id = q.question_id and ua.is_correct = true
+join sub_category sc on sc.sub_category_id = q.sub_category_id
+join main_category mc on mc.main_category_id = sc.main_category_id
+group by ua.user_id, mc.main_category_id, sc.sub_category_id
+order by ua.user_id

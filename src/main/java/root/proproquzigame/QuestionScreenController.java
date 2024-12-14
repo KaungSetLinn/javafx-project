@@ -88,9 +88,9 @@ public class QuestionScreenController {
 
     private SceneController sceneController;
 
-    private static int questionNumber = 1;
+    private static int questionNumber;
 
-    private static int subCategoryId = 17;
+    private static int subCategoryId;
 
     public static void setQuestionNumber(int questionNumber) {
         QuestionScreenController.questionNumber = questionNumber;
@@ -98,6 +98,14 @@ public class QuestionScreenController {
 
     public static void setSubCategoryId(int subCategoryId) {
         QuestionScreenController.subCategoryId = subCategoryId;
+    }
+
+    public static int getQuestionNumber() {
+        return questionNumber;
+    }
+
+    public static int getSubCategoryId() {
+        return subCategoryId;
     }
 
     @FXML

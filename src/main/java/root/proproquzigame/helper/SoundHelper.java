@@ -38,6 +38,14 @@ public class SoundHelper {
         mediaPlayer.play();
     }
 
+    public static void playClickSound() {
+        String soundPath = "/root/proproquzigame/sounds/クリック.mp3";
+        Media media = new Media(SoundHelper.class.getResource(soundPath).toString());
+        mediaPlayer = new MediaPlayer(media);
+
+        mediaPlayer.play();
+    }
+
     public static void playTypingSound() {
         String soundPath = "/root/proproquzigame/sounds/キーボードの早打ち1.mp3";
         Media media = new Media(SoundHelper.class.getResource(soundPath).toString());

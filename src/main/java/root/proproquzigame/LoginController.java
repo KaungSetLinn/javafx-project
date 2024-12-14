@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import root.proproquzigame.helper.AlertHelper;
+import root.proproquzigame.helper.SceneSwitcherHelper;
 import root.proproquzigame.helper.SoundHelper;
 import root.proproquzigame.model.AuthenticatedUser;
 import root.proproquzigame.service.UserService;
@@ -33,15 +34,24 @@ public class LoginController {
     @FXML
     private CheckBox showPasswordCheckBox;
 
+    @FXML
+    private Hyperlink signUpPageLink;
+
     private String username;
 
     private String password;
 
-    private SceneController sceneController;
-
     @FXML
     private void initialize() {
-        sceneController = SceneController.getInstance();
+
+        // Add listenre to signUpPageLink
+        signUpPageLink.setOnAction(event -> {
+            try {
+                SceneSwitcherHelper.switchToSignUpScene();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         // Add listener to usernameTextfield
         usernameTextfield.textProperty().addListener(new ChangeListener<String>() {
@@ -130,7 +140,7 @@ public class LoginController {
 
 //                    System.out.println("User id : " + userId);
                     try {
-                        switchToStartMenuScene();
+                        SceneSwitcherHelper.switchToStartMenuScene();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -143,29 +153,5 @@ public class LoginController {
                 AlertHelper.showErrorMessage("ログインエラー", "アカウントは存在しません。");
             }
         }
-    }
-
-    @FXML
-    private void switchToSignUpScene() throws IOException {
-        // TODO: implement code for switching to sub menu
-        // Load the SubMenu FXML
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUp.fxml"));
-        AnchorPane signUpPane = loader.load();
-
-        Scene signUpScene = new Scene(signUpPane);
-        String sceneTitle = "新規登録";
-        sceneController.changeScene(signUpScene, sceneTitle);
-    }
-
-    @FXML
-    private void switchToStartMenuScene() throws IOException {
-        // TODO: implement code for switching to sub menu
-        // Load the SubMenu FXML
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("StartScreen.fxml"));
-        AnchorPane startMenuPane = loader.load();
-
-        Scene startMenuScene = new Scene(startMenuPane);
-        String sceneTitle = "";
-        sceneController.changeScene(startMenuScene, sceneTitle);
     }
 }
