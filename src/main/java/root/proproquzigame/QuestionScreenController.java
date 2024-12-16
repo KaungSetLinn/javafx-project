@@ -19,9 +19,11 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import root.proproquzigame.helper.SceneSwitcherHelper;
 import root.proproquzigame.helper.SoundHelper;
 import root.proproquzigame.model.AuthenticatedUser;
 import root.proproquzigame.model.Question;
+import root.proproquzigame.service.BossHealthService;
 import root.proproquzigame.service.QuestionService;
 
 import java.io.IOException;
@@ -82,15 +84,15 @@ public class QuestionScreenController {
     private Question question;
 
     private BigDecimal currentHealth;
-    private static final BigDecimal MAX_HEALTH = new BigDecimal("110.0"); // Set the max health to 110
+    private BigDecimal maxHealth; // Set the max health to 110
 
     private int correctAnswerIndex;
-
-    private SceneController sceneController;
 
     private static int questionNumber;
 
     private static int subCategoryId;
+
+    private BigDecimal damageValue;
 
     public static void setQuestionNumber(int questionNumber) {
         QuestionScreenController.questionNumber = questionNumber;
@@ -108,9 +110,20 @@ public class QuestionScreenController {
         return subCategoryId;
     }
 
+    public void setMaxHealth(BigDecimal maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    private void setDamageValue(Difficulty difficultyLevel) {
+        switch (difficultyLevel) {
+            case easy -> damageValue = DamageValue.LOW.getDamageValue();
+            case medium -> damageValue = DamageValue.MEDIUM.getDamageValue();
+            case hard -> damageValue = DamageValue.HIGH.getDamageValue();
+        }
+    }
+
     @FXML
     private void initialize() {
-        sceneController = SceneController.getInstance();
 
         AuthenticatedUser authenticatedUser = AuthenticatedUser.getAuthenticatedUser();
         int userId = authenticatedUser.getUserId();
@@ -118,12 +131,23 @@ public class QuestionScreenController {
         question = QuestionService.getQuestionBySubCategoryId(subCategoryId, userId);
         System.out.println("Question Id : " + question.getQuestionId());
 
+        setDamageValue(question.getDifficulty());
+        System.out.println("Damage value : " + damageValue);
+
         displayQuestion();
 
-        // Initialize currentHealth to 110 (full health)
-        setCurrentHealth(new BigDecimal("80.0"));
+        // get the max health of the boss
+        BigDecimal bossMaxHealth = BossHealthService.getBossMaxHealthBySubCategory(subCategoryId);
+        setMaxHealth(bossMaxHealth);
 
-        healthBar.setProgress(currentHealth.doubleValue() / MAX_HEALTH.doubleValue()); // Set the initial currentHealth based on the max health
+        // get the damage dealt by the user
+        BigDecimal damageDealt = BossHealthService.getDamageDealtByUser(userId, subCategoryId);
+
+        // set the current boss health by (the max health of the boss) - (the damage the user applied)
+        setCurrentHealth(bossMaxHealth.subtract(damageDealt));
+//        setCurrentHealth(new BigDecimal("30.0"));
+
+        healthBar.setProgress(currentHealth.doubleValue() / maxHealth.doubleValue()); // Set the initial currentHealth based on the max health
         updateHealthBarColor();
         updateHealthBarLabel();
     }
@@ -302,7 +326,9 @@ public class QuestionScreenController {
         if (selectedChoiceIndex == correctAnswerIndex) {
             if (currentHealth.compareTo(BigDecimal.ZERO) > 0) {
                 SoundHelper.playCorrectAnswerSound();
-                decreaseBossHealth(new BigDecimal("20.0"));  // Fixed health decrement value (22)
+
+                // todo: change the dynamic damage value
+                decreaseBossHealth(damageValue);  // Fixed health decrement value (22)
             }
         }
         else {
@@ -314,7 +340,7 @@ public class QuestionScreenController {
             pauseTransition.setOnFinished(pauseEvent -> {
 
                 try {
-                    switchToExplanationScreen();
+                    SceneSwitcherHelper.switchToExplanationScene(question.getExplanationText());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -400,7 +426,7 @@ public class QuestionScreenController {
                         // Decrease currentHealth by the smaller step
                         currentHealth = currentHealth.subtract(decrementStep);
                         // Update the currentHealth bar
-                        healthBar.setProgress(currentHealth.doubleValue() / MAX_HEALTH.doubleValue());
+                        healthBar.setProgress(currentHealth.doubleValue() / maxHealth.doubleValue());
                         updateHealthBarColor();
                         updateHealthBarLabel();
                         System.out.println("Progress: " + currentHealth.doubleValue()); // Optional debug line
@@ -426,7 +452,7 @@ public class QuestionScreenController {
             pauseTransition.setOnFinished(pauseEvent -> {
                 setButtonsDisabled(false);
                 try {
-                    switchToExplanationScreen();
+                    SceneSwitcherHelper.switchToExplanationScene(question.getExplanationText());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -472,18 +498,5 @@ public class QuestionScreenController {
         else {
             healthBarLabel.setTextFill(Color.WHITE);
         }
-    }
-
-    @FXML
-    private void switchToExplanationScreen() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ExplanationScreen.fxml"));
-        ScrollPane explanationPane = loader.load();
-
-        ExplanationController explanationController = loader.getController();
-        explanationController.setExplanationText(question.getExplanationText());
-
-        Scene explanationScene = new Scene(explanationPane);
-        String sceneTitle = "解説画面";
-        sceneController.changeScene(explanationScene, sceneTitle);
     }
 }

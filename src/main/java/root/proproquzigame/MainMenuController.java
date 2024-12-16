@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import root.proproquzigame.helper.SceneSwitcherHelper;
@@ -19,6 +20,12 @@ public class MainMenuController {
     @FXML
     private AnchorPane buttonContainer;
 
+    @FXML
+    private Button userIconButton;
+
+    @FXML
+    private ImageView userIconImageView;
+
     private int xCoordinate = 12;
     private int yCoordinate = 15;
 
@@ -29,6 +36,15 @@ public class MainMenuController {
 
     @FXML
     private void initialize() {
+        userIconButton.setGraphic(userIconImageView);
+        userIconButton.setOnAction(event -> {
+            try {
+                SceneSwitcherHelper.switchToUserStatisticsScene();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         MainCategory[] categories = MainCategoryService.getMainCategories();
 
         // Use Platform.runLater to ensure UI is fully initialized

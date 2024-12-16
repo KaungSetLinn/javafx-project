@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="518.0" prefWidth="781.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.UserStatisticsController">
+   <children>
+      <Button fx:id="backButton" layoutX="36.0" layoutY="24.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="71.0" text="⋘ 戻る">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <ImageView fitHeight="86.0" fitWidth="91.0" layoutX="36.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/user-icon.png" />
+         </image></ImageView>
+      <Label fx:id="usernameLabel" layoutX="146.0" layoutY="78.0" prefHeight="35.0" prefWidth="143.0" text="名前">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <ProgressBar fx:id="overallProgressBar" layoutX="145.0" layoutY="122.0" prefHeight="26.0" prefWidth="267.0" progress="0.32" />
+      <WebView layoutX="432.0" layoutY="174.0" prefHeight="314.0" prefWidth="319.0" />
+      <Label layoutX="307.0" layoutY="78.0" prefHeight="35.0" prefWidth="71.0" text="【1位】">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="overallPercentage" layoutX="261.0" layoutY="125.0" text="Label">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

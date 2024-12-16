@@ -177,3 +177,33 @@ join sub_category sc on sc.sub_category_id = q.sub_category_id
 join main_category mc on mc.main_category_id = sc.main_category_id
 group by ua.user_id, mc.main_category_id, sc.sub_category_id
 order by ua.user_id
+
+
+// total score of each user for respective main categories (e.g. Algorithm, Flowchart)
+SELECT
+    mc.main_category_id,
+    mc.main_category_name,
+    COUNT(q.question_id) AS total_questions,
+    COUNT(CASE WHEN ua.is_correct = TRUE AND ua.user_id = 2 THEN 1 END) AS correct_count
+FROM
+    main_category mc
+LEFT JOIN
+    sub_category sc ON mc.main_category_id = sc.main_category_id
+LEFT JOIN
+    question q ON sc.sub_category_id = q.sub_category_id
+LEFT JOIN
+    user_answer ua ON q.question_id = ua.question_id
+WHERE
+    mc.main_category_id = 7  -- Optional: filter by a specific main category if needed
+GROUP BY
+    mc.main_category_id, mc.main_category_name
+ORDER BY
+    mc.main_category_id;
+
+
+// get the total number of questions and the number of correct questions for a specific user
+select
+count(ua.question_id) as total_questions,
+count(case when ua.is_correct = true and ua.user_id = 3 THEN 1 END) as correct_count
+from users u
+join user_answer ua on u.user_id = ua.user_id

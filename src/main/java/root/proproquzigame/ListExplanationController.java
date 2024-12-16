@@ -28,11 +28,11 @@ public class ListExplanationController {
 
     @FXML
     private void handleNextButtonClick() {
-        SoundHelper.playClickSound();
-
         step++;
-        if (step < 5)
+        if (step < 5) {
+            SoundHelper.playClickSound();
             loadNewExplanationImage();
+        }
         else {
             try {
                 SceneSwitcherHelper.switchToQuestionScreen();

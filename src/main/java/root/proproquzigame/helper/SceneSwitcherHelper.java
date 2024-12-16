@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import root.proproquzigame.ExplanationController;
 import root.proproquzigame.SceneController;
 import root.proproquzigame.SubMenuController;
 
@@ -73,6 +74,18 @@ public class SceneSwitcherHelper {
         SoundHelper.playClickSound();
     }
 
+    public static void switchToExplanationScene(String explanationText) throws IOException {
+        FXMLLoader loader = new FXMLLoader(SceneSwitcherHelper.class.getResource(defaultRoot + "ExplanationScreen.fxml"));
+        ScrollPane explanationPane = loader.load();
+
+        ExplanationController explanationController = loader.getController();
+        explanationController.setExplanationText(explanationText);
+
+        Scene explanationScene = new Scene(explanationPane);
+        String sceneTitle = "解説画面";
+        sceneController.changeScene(explanationScene, sceneTitle);
+    }
+
     public static void switchToListExplanationScreen() throws IOException {
         FXMLLoader loader = new FXMLLoader(SceneSwitcherHelper.class.getResource(defaultRoot + "ListExplanation.fxml"));
         AnchorPane anchorPane = loader.load();
@@ -80,6 +93,17 @@ public class SceneSwitcherHelper {
         Scene listExplanationScene = new Scene(anchorPane);
         String sceneTitle = "";
         sceneController.changeScene(listExplanationScene, sceneTitle);
+
+        SoundHelper.playClickSound();
+    }
+
+    public static void switchToUserStatisticsScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(SceneSwitcherHelper.class.getResource(defaultRoot + "UserStatisticsScreen.fxml"));
+        AnchorPane anchorPane = loader.load();
+
+        Scene scene = new Scene(anchorPane);
+        String sceneTitle = "";
+        sceneController.changeScene(scene, sceneTitle);
 
         SoundHelper.playClickSound();
     }

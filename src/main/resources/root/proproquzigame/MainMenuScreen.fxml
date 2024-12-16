@@ -17,17 +17,17 @@
           <AnchorPane fx:id="buttonContainer" minHeight="0.0" minWidth="0.0" prefHeight="533.0" prefWidth="275.0" />
          </content>
       </ScrollPane>
-      <Button layoutX="552.0" layoutY="54.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="44.0">
+      <Button fx:id="userIconButton" layoutX="534.0" layoutY="54.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="44.0">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
-      <ImageView fitHeight="54.0" fitWidth="44.0" layoutX="552.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="userIconImageView" fitHeight="54.0" fitWidth="44.0" layoutX="534.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/user-icon.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="384.0" layoutY="56.0" prefHeight="35.0" prefWidth="184.0" text="○○位">
+      <Label alignment="CENTER" layoutX="384.0" layoutY="56.0" prefHeight="35.0" prefWidth="143.0" text="○○位">
          <font>
             <Font name="System Bold Italic" size="24.0" />
          </font>
