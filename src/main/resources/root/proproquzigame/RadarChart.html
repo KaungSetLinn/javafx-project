@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar Chart Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<canvas id="myRadarChart" width="300" height="300"></canvas>
+<script>
+    var ctx = document.getElementById('myRadarChart').getContext('2d');
+    var myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['数学', '英語', '国語', '化学'],
+            datasets: [{
+                label: '評価点',
+                data: [1, 0, 0, 0],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)', // Light blue
+                borderColor: 'rgba(54, 162, 235, 1)', // Blue
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                r: {
+                    angleLines: {
+                        display: true
+                    },
+                    ticks: {
+                        // Set font size for the ticks (numbers on the scale)
+                        font: {
+                            size: 18 // Change font size for the scale numbers
+                        }
+                    },
+                    // Set font size for the axis labels (labels around the radar)
+                    pointLabels: {
+                        font: {
+                            size: 18 // Change font size for the axis labels (categories like Math, Science)
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    // Set font size for the tooltip text
+                    bodyFont: {
+                        size: 14 // Change font size for the tooltip body
+                    }
+                },
+                legend: {
+                    labels: {
+                        font: {
+                            size: 18 // Change font size for the dataset label
+                        }
+                    },
+                    onClick: null // Disable the interaction for the legend label (make it non-clickable)
+                }
+            },
+        }
+    });
+
+    // Function to update the radar chart data
+    function updateRadarChartData(newData) {
+        myRadarChart.data.datasets[0].data = newData;
+        myRadarChart.update();
+    }
+
+    // Function to update the radar chart labels
+    function updateRadarChartLabels(newLabels) {
+        myRadarChart.data.labels = newLabels; // Update the labels
+        myRadarChart.update(); // Re-render the chart with new labels
+    }
+</script>
+
+</body>
+</html>

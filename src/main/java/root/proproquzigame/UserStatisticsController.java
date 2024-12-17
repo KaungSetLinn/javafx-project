@@ -8,6 +8,8 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import root.proproquzigame.helper.SceneSwitcherHelper;
 import root.proproquzigame.model.AuthenticatedUser;
 import root.proproquzigame.model.UserStatistics;
@@ -16,11 +18,18 @@ import root.proproquzigame.service.UserStatisticsService;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserStatisticsController {
     @FXML
     private AnchorPane anchorPane;
+
+    @FXML
+    private WebView radarChartView;
+
+    private WebEngine webEngine;
 
     @FXML
     private Button backButton;
@@ -46,6 +55,9 @@ public class UserStatisticsController {
 
     private final int PROGRESSS_BAR_WIDTH = 206;
     private final int PROGRESSS_BAR_HEIGHT = 26;
+
+    private List<String> chartLabels = new ArrayList<>();
+    private List<Integer> chartData = new ArrayList<>();
 
     private void setUsernameLabel(String username) {
         usernameLabel.setText(username);
@@ -79,8 +91,71 @@ public class UserStatisticsController {
             displayStatisticsProgressBar(correctCount, totalQuestions);
 
             yPosition += yIncrement;
+
+            // prepare the data for the chart
+            chartLabels.add(mainCategoryName);
+            chartData.add(correctCount);
         }
 
+        loadChart();
+    }
+
+    private void loadChart() {
+        webEngine = radarChartView.getEngine();
+
+        // Load the HTML file into the WebView
+        URL htmlFileURL = getClass().getResource("RadarChart.html");
+
+        if (htmlFileURL != null) {
+            webEngine.load(htmlFileURL.toString());
+        } else {
+            System.out.println("HTML file not found!");
+        }
+
+        // Wait until the page is loaded before updating the chart
+        webEngine.getLoadWorker().stateProperty().addListener((observable, oldState, newState) -> {
+            if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
+                // Page is loaded, now update the chart data
+                updateChartLabels(chartLabels);
+                updateChartData(chartData);
+            }
+        });
+    }
+
+    private void updateChartLabels(List<String> newLabels) {
+        // Convert List<String> to a JavaScript array string
+        StringBuilder dataString = new StringBuilder("[");
+
+        for (int i = 0; i < newLabels.size(); i++) {
+            dataString.append("'").append(newLabels.get(i)).append("'");
+            if (i < newLabels.size() - 1) {
+                dataString.append(", ");
+            }
+        }
+        dataString.append("]");
+
+        // Call JavaScript function to update the labels
+        String script = "updateRadarChartLabels(" + dataString.toString() + ");";
+        webEngine.executeScript(script);
+    }
+
+
+    // Method to pass dynamic data to the JavaScript Radar Chart
+    private void updateChartData(List<Integer> newData) {
+        // Convert the List<Integer> to a string representation in JavaScript array format
+        StringBuilder dataString = new StringBuilder("[");
+
+        for (int i = 0; i < newData.size(); i++) {
+            dataString.append(newData.get(i));
+            if (i < newData.size() - 1) {
+                dataString.append(", ");
+            }
+        }
+        dataString.append("]");
+
+        // Execute JavaScript to update the chart with new data
+        String script = "updateRadarChartData(" + dataString.toString() + ");";
+        webEngine.executeScript(script);
     }
 
     private void displayStatisticsLabel(String mainCategoryName, int correctCount, int totalQuestions) {
