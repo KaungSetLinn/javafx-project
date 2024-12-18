@@ -35,10 +35,21 @@ public class ExplanationController {
             stopTypingEffect();
 
             // Switch to the next screen
-            try {
-                SceneSwitcherHelper.switchToQuestionScreen();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            boolean allQuestionsFinished = QuestionScreenController.isAllQuestionsFinished();
+
+            if (allQuestionsFinished) {
+                try {
+                    SceneSwitcherHelper.switchToEndingScene();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else {
+                try {
+                    SceneSwitcherHelper.switchToQuestionScreen();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 

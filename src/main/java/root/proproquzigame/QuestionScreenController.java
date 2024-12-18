@@ -46,6 +46,9 @@ public class QuestionScreenController {
     private Label difficultyLabel;
 
     @FXML
+    private Label damageLabel;
+
+    @FXML
     private ImageView questionImageView;
 
     @FXML
@@ -81,6 +84,7 @@ public class QuestionScreenController {
     @FXML
     private Label healthBarLabel;
 
+    private static List<Question> questionList;
     private Question question;
 
     private BigDecimal currentHealth;
@@ -93,6 +97,20 @@ public class QuestionScreenController {
     private static int subCategoryId;
 
     private BigDecimal damageValue;
+
+    private static boolean allQuestionsFinished = false;
+
+    public static void updateQuestionList() {
+        questionList.removeFirst();
+    }
+
+    public static void setAllQuestionsFinished(boolean allQuestionsFinished) {
+        QuestionScreenController.allQuestionsFinished = allQuestionsFinished;
+    }
+
+    public static boolean isAllQuestionsFinished() {
+        return allQuestionsFinished;
+    }
 
     public static void setQuestionNumber(int questionNumber) {
         QuestionScreenController.questionNumber = questionNumber;
@@ -122,19 +140,30 @@ public class QuestionScreenController {
         }
     }
 
+    private void setDamageLabel() {
+        damageLabel.setText("♦" + damageValue +"ダメージ");
+    }
+
     @FXML
     private void initialize() {
 
         AuthenticatedUser authenticatedUser = AuthenticatedUser.getAuthenticatedUser();
         int userId = authenticatedUser.getUserId();
 
-        question = QuestionService.getQuestionBySubCategoryId(subCategoryId, userId);
+        // there are no questions fetched from the database
+        if (questionList == null) {
+            questionList = QuestionService.getQuestionsBySubCategoryId(subCategoryId, userId);
+        }
+
+        question = questionList.getFirst();
         System.out.println("Question Id : " + question.getQuestionId());
 
         setDamageValue(question.getDifficulty());
+        setDamageLabel();
         System.out.println("Damage value : " + damageValue);
 
         displayQuestion();
+        updateQuestionList();
 
         // get the max health of the boss
         BigDecimal bossMaxHealth = BossHealthService.getBossMaxHealthBySubCategory(subCategoryId);
@@ -317,6 +346,11 @@ public class QuestionScreenController {
     @FXML
     private void handleChoice(int selectedChoiceIndex) {
         displayCorrectAnswer();
+
+        // check if any question left
+        if (questionList.size() == 0) {
+            setAllQuestionsFinished(true);
+        }
 
         if (newWindowStage != null) {
             newWindowStage.close();

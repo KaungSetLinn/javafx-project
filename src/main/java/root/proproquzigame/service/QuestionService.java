@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionService {
     public static void saveQuestionToDatabase(Question question) throws IOException {
@@ -97,10 +98,7 @@ public class QuestionService {
         }
     }*/
 
-    public static Question getQuestionBySubCategoryId(int subCategoryId, int userId) {
-        /*String query = "SELECT question_text FROM question WHERE question_id = ?";
-        String questionText = "";*/
-
+    public static List<Question> getQuestionsBySubCategoryId(int subCategoryId, int userId) {
         String query = "SELECT question_id, question_text, question_image, difficulty, choice1, choice2, choice3, choice4, correct_answer," +
                 "explanation_text, explanation_image " +
                 "FROM question_detail_view\n" +
@@ -108,9 +106,9 @@ public class QuestionService {
                 "AND question_id NOT IN (\n" +
                 "\tselect question_id from user_answer where user_id = ? and is_correct = true\n" +
                 ")\n" +
-                "ORDER BY difficulty, RANDOM() " +
-                "LIMIT 1";
-        Question question = null;
+                "ORDER BY difficulty, RANDOM()";
+
+        List<Question> questions = new ArrayList<>();
 
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -143,16 +141,18 @@ public class QuestionService {
                 if (explanationImageBytes != null)
                     explanationImage = byteArrayToImage(explanationImageBytes);
 
-                question = new Question(questionId, questionText, questionImage, difficulty, choice1, choice2, choice3, choice4,
+                Question question = new Question(questionId, questionText, questionImage, difficulty, choice1, choice2, choice3, choice4,
                         correctAnswer, explanationText, explanationImage);
+                questions.add(question);  // Add the question to the list
             }
 
-            return question;
+            return questions;  // Return the list of questions
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    
+
+
     // to be removed later
     public static Question getQuestionById(int questionId) {
         /*String query = "SELECT question_text FROM question WHERE question_id = ?";

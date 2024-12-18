@@ -57,9 +57,9 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label layoutX="412.0" layoutY="31.0" prefHeight="17.0" prefWidth="79.0" text="♦10ダメージ">
+            <Label fx:id="damageLabel" layoutX="412.0" layoutY="31.0" prefHeight="27.0" prefWidth="106.0" text="♦10ダメージ">
                <font>
-                  <Font size="15.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
             <Line endX="-98.0" endY="379.9999694824219" layoutX="95.0" layoutY="12.0" startX="-98.0" startY="-77.00000762939453" />

@@ -108,4 +108,15 @@ public class SceneSwitcherHelper {
         SoundHelper.playClickSound();
     }
 
+    public static void switchToEndingScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(SceneSwitcherHelper.class.getResource(defaultRoot + "EndingScreen.fxml"));
+        AnchorPane anchorPane = loader.load();
+
+        Scene scene = new Scene(anchorPane);
+        String sceneTitle = "";
+        sceneController.changeScene(scene, sceneTitle);
+
+        SoundHelper.playClickSound();
+    }
+
 }
