@@ -37,7 +37,7 @@
       <Line endX="118.0" layoutX="478.0" layoutY="288.0" startX="-99.0" />
       <Line endX="40.66668701171875" endY="129.99996948242188" layoutX="482.0" layoutY="232.0" startX="40.66668701171875" startY="-86.99998474121094" />
       <Line endX="-27.33331298828125" endY="176.99996948242188" layoutX="478.0" layoutY="185.0" startX="-27.33331298828125" startY="-39.99998474121094" />
-      <ImageView fitHeight="80.0" fitWidth="71.0" layoutX="382.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="80.0" fitWidth="71.0" layoutX="526.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/badges/バッチ1-b1.png" />
          </image>
@@ -46,7 +46,7 @@
          <image>
             <Image url="@images/badges/バッチ2-b1.png" />
          </image></ImageView>
-      <ImageView fitHeight="68.0" fitWidth="71.0" layoutX="526.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="68.0" fitWidth="71.0" layoutX="382.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/badges/バッチ3-b1.png" />
          </image></ImageView>
@@ -56,20 +56,23 @@
          </image></ImageView>
       <ImageView fitHeight="62.0" fitWidth="65.0" layoutX="455.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/badges/バッチ1-b1.png" />
+            <Image url="@images/badges/EyeBadge_Silhouette.png" />
          </image></ImageView>
-      <ImageView fitHeight="62.0" fitWidth="65.0" layoutX="529.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="58.0" fitWidth="65.0" layoutX="535.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/badges/バッチ2-b1.png" />
+            <Image url="@images/badges/MeatBadge_Silhouette.png" />
          </image></ImageView>
       <ImageView fitHeight="62.0" fitWidth="65.0" layoutX="385.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/badges/バッチ3-b1.png" />
+            <Image url="@images/badges/GhostBadge_Silhouette.png" />
          </image></ImageView>
-      <ImageView fitHeight="68.0" fitWidth="65.0" layoutX="455.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="68.0" fitWidth="65.0" layoutX="455.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/badges/バッチ4-b1.png" />
+            <Image url="@images/badges/GearWheelBadge_Silhouette.png" />
          </image></ImageView>
-      <ImageView fitHeight="68.0" fitWidth="65.0" layoutX="529.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="68.0" fitWidth="65.0" layoutX="529.0" layoutY="294.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/badges/CrystalBadge_Silhouette.png" />
+         </image></ImageView>
    </children>
 </AnchorPane>

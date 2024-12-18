@@ -108,7 +108,8 @@ public class QuestionService {
                 "AND question_id NOT IN (\n" +
                 "\tselect question_id from user_answer where user_id = ? and is_correct = true\n" +
                 ")\n" +
-                "ORDER BY RANDOM()";
+                "ORDER BY difficulty, RANDOM() " +
+                "LIMIT 1";
         Question question = null;
 
         try (Connection connection = DatabaseConnection.getInstance().getConnection();

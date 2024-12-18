@@ -349,6 +349,8 @@ public class QuestionScreenController {
             // Start the pause before switching scene
             pauseTransition.play();
         }
+
+        questionNumber++;
     }
 
     private void displayCorrectAnswer() {
@@ -429,7 +431,7 @@ public class QuestionScreenController {
                         healthBar.setProgress(currentHealth.doubleValue() / maxHealth.doubleValue());
                         updateHealthBarColor();
                         updateHealthBarLabel();
-                        System.out.println("Progress: " + currentHealth.doubleValue()); // Optional debug line
+//                        System.out.println("Progress: " + currentHealth.doubleValue()); // Optional debug line
                     } else {
                         // Ensure the currentHealth doesn't go below 0
                         currentHealth = BigDecimal.ZERO;
