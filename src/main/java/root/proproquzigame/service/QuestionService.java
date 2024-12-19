@@ -158,7 +158,7 @@ public class QuestionService {
         /*String query = "SELECT question_text FROM question WHERE question_id = ?";
         String questionText = "";*/
 
-        String query = "SELECT question_id, question_text, question_image, difficulty, choice1, choice2, choice3, choice4, correct_answer," +
+        String query = "SELECT question_text, question_image, difficulty, choice1, choice2, choice3, choice4, correct_answer," +
                 "explanation_text, explanation_image " +
                 "FROM question WHERE question_id = ?";
         Question question = null;
@@ -192,7 +192,7 @@ public class QuestionService {
                 if (explanationImageBytes != null)
                     explanationImage = byteArrayToImage(explanationImageBytes);
 
-                question = new Question(questionText, questionImage, difficulty, choice1, choice2, choice3, choice4,
+                question = new Question(questionId, questionText, questionImage, difficulty, choice1, choice2, choice3, choice4,
                         correctAnswer, explanationText, explanationImage);
             }
             

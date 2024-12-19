@@ -8,8 +8,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import root.proproquzigame.helper.SceneSwitcherHelper;
 import root.proproquzigame.model.AuthenticatedUser;
+import root.proproquzigame.model.Question;
 import root.proproquzigame.model.UserStatistics;
 import root.proproquzigame.service.BossHealthService;
+import root.proproquzigame.service.QuestionService;
 import root.proproquzigame.service.UserStatisticsService;
 
 import java.io.IOException;
@@ -19,6 +21,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EndingScreenController {
     @FXML
@@ -107,7 +111,7 @@ public class EndingScreenController {
                 int questionId = resultSet.getInt("question_id");
 
                 Button questionButton = new Button();
-                String questionLabel = "問題 " + questionNumber++;
+                String questionLabel = "問題 " + questionNumber;
 
                 if (isCorrect) {
                     questionLabel += "　◎";
@@ -117,8 +121,23 @@ public class EndingScreenController {
                     questionLabel += "　✖";
                     questionButton.setStyle("-fx-font-size: 24px; -fx-text-fill : #f42424;");
 
+                    final int capturedQuestionNumber = questionNumber;
+
                     questionButton.setOnAction(event -> {
-                        System.out.println(questionId);
+//                        System.out.println(capturedQuestionNumber);
+                        Question question = QuestionService.getQuestionById(questionId);
+                        List<Question> questionList = new ArrayList<>();
+                        questionList.add(question);
+
+                        // Pass the data to QuestionScreen
+                        QuestionScreenController.setQuestionList(questionList);
+                        QuestionScreenController.setQuestionNumber(capturedQuestionNumber);
+
+                        try {
+                            SceneSwitcherHelper.switchToQuestionScreen();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     });
                 }
 
@@ -133,6 +152,7 @@ public class EndingScreenController {
                 anchorPane.getChildren().add(questionButton);
 
                 yPosition += Y_INCREMENT;
+                questionNumber++;
 
             }
 

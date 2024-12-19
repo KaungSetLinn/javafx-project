@@ -103,6 +103,10 @@ public class QuestionScreenController {
 
     private static boolean allQuestionsFinished = false;
 
+    public static void setQuestionList(List<Question> questionList) {
+        QuestionScreenController.questionList = questionList;
+    }
+
     public static void updateQuestionList() {
         questionList.removeFirst();
     }
@@ -368,7 +372,7 @@ public class QuestionScreenController {
         int questionId = question.getQuestionId();
         // If the user chose the correct answer
         if (selectedChoiceIndex == correctAnswerIndex) {
-//            UserAnswerService.saveUserAnswer(userId, questionId, true);
+            UserAnswerService.saveUserAnswer(userId, questionId, true);
 
             if (currentHealth.compareTo(BigDecimal.ZERO) > 0) {
                 SoundHelper.playCorrectAnswerSound();
@@ -378,7 +382,7 @@ public class QuestionScreenController {
             }
         }
         else {
-//            UserAnswerService.saveUserAnswer(userId, questionId, false);
+            UserAnswerService.saveUserAnswer(userId, questionId, false);
 
             setButtonsDisabled(false);
             SoundHelper.playWrongAnswerSound();
