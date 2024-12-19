@@ -17,7 +17,7 @@ public class UserSubCategorySummaryService {
         String query = "SELECT\n" +
                 "    q.sub_category_id,\n" +
                 "    sc.sub_category_name,\n" +
-                "    COUNT(q.question_id) AS total_questions,\n" +
+                "    COUNT(DISTINCT q.question_id) AS total_questions,\n" +
                 "    COUNT(CASE WHEN ua.is_correct = TRUE AND ua.user_id = ? THEN 1 END) AS correct_count\n" +
                 "FROM\n" +
                 "    question q\n" +

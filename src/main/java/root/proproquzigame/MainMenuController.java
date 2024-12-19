@@ -6,13 +6,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import root.proproquzigame.helper.AlertHelper;
 import root.proproquzigame.helper.SceneSwitcherHelper;
 import root.proproquzigame.helper.SoundHelper;
+import root.proproquzigame.model.AuthenticatedUser;
 import root.proproquzigame.model.MainCategory;
 import root.proproquzigame.service.MainCategoryService;
+import root.proproquzigame.service.UserStatisticsService;
 
 import java.io.IOException;
 
@@ -22,6 +27,9 @@ public class MainMenuController {
 
     @FXML
     private Button userIconButton;
+
+    @FXML
+    private Hyperlink rankLink;
 
     @FXML
     private ImageView userIconImageView;
@@ -44,6 +52,12 @@ public class MainMenuController {
                 throw new RuntimeException(e);
             }
         });
+
+        AuthenticatedUser authenticatedUser = AuthenticatedUser.getAuthenticatedUser();
+        int userId = authenticatedUser.getUserId();
+
+        int rank = UserStatisticsService.getUserRank(userId);
+        rankLink.setText(rank + " 位");
 
         MainCategory[] categories = MainCategoryService.getMainCategories();
 
@@ -87,6 +101,8 @@ public class MainMenuController {
                 // Update the y-coordinate for the next button
                 yCoordinate += Y_DISTANCE;
             }
+
+//            AlertHelper.showAchievement();
         });
     }
 

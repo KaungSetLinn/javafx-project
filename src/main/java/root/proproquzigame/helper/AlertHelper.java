@@ -49,7 +49,7 @@ public class AlertHelper {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("バッチの入手");
         alert.setHeaderText(null);
-        alert.setContentText("おめでとうございます！バッチを入手しました！");
+        alert.setContentText("おめでとうございます！新しいバッチを入手しました！");
 
         alert.setGraphic(imageView);
 

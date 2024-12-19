@@ -146,19 +146,21 @@ group by sc.sub_category_id;
 
 
 // overall total score of each user
-create view user_total_score as
-select ua.user_id, sum(
-	case
-	when q.difficulty = 'easy' then 10
-	when q.difficulty = 'medium' then 20
-	when q.difficulty = 'hard' then 30
-	end
-) as total_score
-from user_answer ua
-join question q on ua.question_id = q.question_id and ua.is_correct = true
-group by ua.user_id
-order by ua.user_id
-
+CREATE VIEW user_total_score AS
+SELECT u.user_id,
+       SUM(
+           CASE
+               WHEN q.difficulty = 'easy' THEN 10
+               WHEN q.difficulty = 'medium' THEN 20
+               WHEN q.difficulty = 'hard' THEN 30
+               ELSE 0
+           END
+       ) AS total_score
+FROM users u
+LEFT JOIN user_answer ua ON u.user_id = ua.user_id
+LEFT JOIN question q ON ua.question_id = q.question_id AND ua.is_correct = true
+GROUP BY u.user_id
+ORDER BY u.user_id
 
 // total score of each user for respective categories (e.g. Algorithm, Flowchart)
 create view user_scores_by_category as
@@ -207,3 +209,17 @@ count(ua.question_id) as total_questions,
 count(case when ua.is_correct = true and ua.user_id = 3 THEN 1 END) as correct_count
 from users u
 join user_answer ua on u.user_id = ua.user_id
+
+// view for boss detail
+create view boss_detail as
+select sc.sub_category_id, sc.sub_category_name, count(*) as total_questions,
+    sum (
+        case
+            when q.difficulty = 'easy' then 10
+            when q.difficulty = 'medium' then 20
+            when q.difficulty = 'hard' then 30
+        end
+    ) as total_health
+from sub_category sc
+join question q on sc.sub_category_id = q.sub_category_id
+group by sc.sub_category_id;

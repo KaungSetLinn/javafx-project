@@ -25,6 +25,7 @@ import root.proproquzigame.model.AuthenticatedUser;
 import root.proproquzigame.model.Question;
 import root.proproquzigame.service.BossHealthService;
 import root.proproquzigame.service.QuestionService;
+import root.proproquzigame.service.UserAnswerService;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -84,6 +85,8 @@ public class QuestionScreenController {
     @FXML
     private Label healthBarLabel;
 
+    private static int userId;
+
     private static List<Question> questionList;
     private Question question;
 
@@ -110,6 +113,10 @@ public class QuestionScreenController {
 
     public static boolean isAllQuestionsFinished() {
         return allQuestionsFinished;
+    }
+
+    public static void resetAllQuestionsFinished() {
+        allQuestionsFinished = false;
     }
 
     public static void setQuestionNumber(int questionNumber) {
@@ -148,12 +155,14 @@ public class QuestionScreenController {
     private void initialize() {
 
         AuthenticatedUser authenticatedUser = AuthenticatedUser.getAuthenticatedUser();
-        int userId = authenticatedUser.getUserId();
+        userId = authenticatedUser.getUserId();
 
         // there are no questions fetched from the database
-        if (questionList == null) {
+        if (questionList == null || questionList.size() == 0) {
             questionList = QuestionService.getQuestionsBySubCategoryId(subCategoryId, userId);
         }
+
+//        System.out.println(questionList.size());
 
         question = questionList.getFirst();
         System.out.println("Question Id : " + question.getQuestionId());
@@ -356,8 +365,11 @@ public class QuestionScreenController {
             newWindowStage.close();
         }
 
+        int questionId = question.getQuestionId();
         // If the user chose the correct answer
         if (selectedChoiceIndex == correctAnswerIndex) {
+//            UserAnswerService.saveUserAnswer(userId, questionId, true);
+
             if (currentHealth.compareTo(BigDecimal.ZERO) > 0) {
                 SoundHelper.playCorrectAnswerSound();
 
@@ -366,6 +378,8 @@ public class QuestionScreenController {
             }
         }
         else {
+//            UserAnswerService.saveUserAnswer(userId, questionId, false);
+
             setButtonsDisabled(false);
             SoundHelper.playWrongAnswerSound();
             displayWrongAnswer(selectedChoiceIndex);

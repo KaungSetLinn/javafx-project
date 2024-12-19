@@ -10,18 +10,9 @@ import java.sql.SQLException;
 
 public class BossHealthService {
     public static BigDecimal getBossMaxHealthBySubCategory(int subCategoryId) {
-        String query = "select\n" +
-                "sum (\n" +
-                "\tcase\n" +
-                "\t\twhen q.difficulty = 'easy' then 10\n" +
-                "\t\twhen q.difficulty = 'medium' then 20\n" +
-                "\t\twhen q.difficulty = 'hard' then 30\n" +
-                "\tend\n" +
-                ") as total_health\n" +
-                "from sub_category sc\n" +
-                "join question q on sc.sub_category_id = q.sub_category_id\n" +
-                "where sc.sub_category_id = ?\n" +
-                "group by sc.sub_category_id;";
+        String query = "select total_health\n" +
+                "from boss_detail\n" +
+                "where sub_category_id = ?";
 
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -42,20 +33,9 @@ public class BossHealthService {
     }
 
     public static BigDecimal getDamageDealtByUser(int userId, int subCategoryId) {
-        String query = "select \n" +
-                "sum(\n" +
-                "\tcase\n" +
-                "\twhen q.difficulty = 'easy' then 10\n" +
-                "\twhen q.difficulty = 'medium' then 20\n" +
-                "\twhen q.difficulty = 'hard' then 30\n" +
-                "\tend\n" +
-                ") as damage_dealt\n" +
-                "from user_answer ua\n" +
-                "join question q on ua.question_id = q.question_id and ua.is_correct = true\n" +
-                "join sub_category sc on sc.sub_category_id = q.sub_category_id\n" +
-                "join main_category mc on mc.main_category_id = sc.main_category_id\n" +
-                "where user_id = ? and sc.sub_category_id = ?\n" +
-                "group by ua.user_id, mc.main_category_id, sc.sub_category_id";
+        String query = "select total_score as damage_dealt\n" +
+                "from user_scores_by_category\n" +
+                "where user_id = ? and sub_category_id = ?";
 
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {

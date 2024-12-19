@@ -80,7 +80,7 @@ public class UserStatisticsController {
         setUsernameLabel(username);
         setOverallProgress(userId);
 
-        List<UserStatistics> userStatisticsList = UserStatisticsService.getStatisticsByMainCategories(userId);
+        List<UserStatistics> userStatisticsList = UserStatisticsService.getUserStatisticsByMainCategories(userId);
 
         for (UserStatistics userStatistics : userStatisticsList) {
             String mainCategoryName = userStatistics.getMainCategoryName();

@@ -39,6 +39,7 @@ public class ExplanationController {
 
             if (allQuestionsFinished) {
                 try {
+                    QuestionScreenController.resetAllQuestionsFinished();
                     SceneSwitcherHelper.switchToEndingScene();
                 } catch (IOException e) {
                     throw new RuntimeException(e);

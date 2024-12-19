@@ -15,6 +15,10 @@ import java.io.IOException;
 public class ListExplanationController {
     private static int step = 1;
 
+    private void resetStep() {
+        step = 1;
+    }
+
     @FXML
     private ImageView ListExplanationImageView;
 
@@ -35,6 +39,7 @@ public class ListExplanationController {
         }
         else {
             try {
+                resetStep();
                 SceneSwitcherHelper.switchToQuestionScreen();
             } catch (IOException e) {
                 throw new RuntimeException(e);
