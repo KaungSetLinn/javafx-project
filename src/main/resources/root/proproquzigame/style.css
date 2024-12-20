@@ -26,4 +26,8 @@
     -fx-faint-focus-color: transparent; /* Remove faint focus outline */
 }
 
+.choice-button, .choice-label {
+    -fx-font-size: 18px;
+}
+
 

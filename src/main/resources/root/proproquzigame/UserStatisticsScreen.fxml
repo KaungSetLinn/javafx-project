@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
@@ -19,22 +20,23 @@
          <image>
             <Image url="@images/user-icon.png" />
          </image></ImageView>
-      <Label fx:id="usernameLabel" layoutX="146.0" layoutY="78.0" prefHeight="35.0" prefWidth="143.0" text="名前">
+      <Label fx:id="usernameLabel" layoutX="145.0" layoutY="78.0" prefHeight="35.0" prefWidth="91.0" text="名前">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
+      <ImageView fx:id="crownImageView" fitHeight="51.0" fitWidth="59.0" layoutX="338.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true" />
       <ProgressBar fx:id="overallProgressBar" layoutX="145.0" layoutY="122.0" prefHeight="26.0" prefWidth="267.0" progress="0.32" />
       <WebView fx:id="radarChartView" layoutX="432.0" layoutY="174.0" prefHeight="376.0" prefWidth="367.0" />
-      <Label layoutX="307.0" layoutY="78.0" prefHeight="35.0" prefWidth="71.0" text="【1位】">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
       <Label fx:id="overallPercentage" layoutX="261.0" layoutY="125.0" text="Label">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
+      <Hyperlink id="rank-link" fx:id="rankLink" alignment="CENTER" layoutX="272.0" layoutY="70.0" prefHeight="51.0" prefWidth="88.0" stylesheets="@style.css" text="1 位" underline="true">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Hyperlink>
    </children>
 </AnchorPane>

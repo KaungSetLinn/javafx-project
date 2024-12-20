@@ -52,28 +52,20 @@ public class QuestionScreenController {
     @FXML
     private ImageView questionImageView;
 
-    @FXML
     private Label choice1Label;
 
-    @FXML
     private Label choice2Label;
 
-    @FXML
     private Label choice3Label;
 
-    @FXML
     private Label choice4Label;
 
-    @FXML
     private Button choice1Button;
 
-    @FXML
     private Button choice2Button;
 
-    @FXML
     private Button choice3Button;
 
-    @FXML
     private Button choice4Button;
 
     @FXML
@@ -157,6 +149,8 @@ public class QuestionScreenController {
 
     @FXML
     private void initialize() {
+        // load css file setting style for choice buttons and choice labels
+        questionPane.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
         AuthenticatedUser authenticatedUser = AuthenticatedUser.getAuthenticatedUser();
         userId = authenticatedUser.getUserId();
@@ -224,12 +218,6 @@ public class QuestionScreenController {
 
             correctAnswerIndex = getCorrectAnswerIndex(question, shuffledChoices);
 //            System.out.println(correctAnswerIndex);
-
-            // Set up event listeners for the choice buttons
-            setChoiceClickListener(choice1Button, 0);
-            setChoiceClickListener(choice2Button, 1);
-            setChoiceClickListener(choice3Button, 2);
-            setChoiceClickListener(choice4Button, 3);
         });
     }
 
@@ -302,11 +290,109 @@ public class QuestionScreenController {
     }
 
     private void displayChoices(List<String> shuffledChoices) {
-        choice1Label.setText(shuffledChoices.get(0));
-        choice2Label.setText(shuffledChoices.get(1));
-        choice3Label.setText(shuffledChoices.get(2));
-        choice4Label.setText(shuffledChoices.get(3));
+        Platform.runLater(() -> {
+            double spaceBetweenChoices = 50; // You can adjust this space as needed
+
+            final double Y_POSITION;
+
+            // If there is no image (i.e., image height is zero or some other condition for no image)
+            if (question.getQuestionImage() == null) {
+                // If no image, display the choices after the question text
+                Y_POSITION = questionTextLabel.getLayoutY() + questionTextLabel.getHeight() + 20; // 20 is the space between text and choices
+            } else {
+                // If there is an image, display the choices after the image
+                double imageYPosition = questionImageView.getLayoutY();
+                Y_POSITION = imageYPosition + questionImageView.getFitHeight() + 10;
+            }
+
+            final double CHOICE_BUTTON_X_POSITION = 94;
+            final double CHOICE_LABEL_X_POSITION = 150;
+
+            final double CHOICE_LABEL_PREF_WIDTH = 324;
+            final double CHOICE_LABEL_PREF_HEIGHT = 38;
+
+            // Initialize choice buttons here, before the setOnAction is used
+            choice1Button = new Button("ア");
+            choice2Button = new Button("イ");
+            choice3Button = new Button("ウ");
+            choice4Button = new Button("エ");
+
+            // Initialize choice labels
+            choice1Label = new Label();
+            choice2Label = new Label();
+            choice3Label = new Label();
+            choice4Label = new Label();
+
+            // Set the text of each button and label
+            choice1Label.setText(shuffledChoices.get(0));
+            choice2Label.setText(shuffledChoices.get(1));
+            choice3Label.setText(shuffledChoices.get(2));
+            choice4Label.setText(shuffledChoices.get(3));
+
+            // Apply CSS classes to the buttons and labels
+            choice1Button.getStyleClass().add("choice-button");
+            choice2Button.getStyleClass().add("choice-button");
+            choice3Button.getStyleClass().add("choice-button");
+            choice4Button.getStyleClass().add("choice-button");
+
+            choice1Label.getStyleClass().add("choice-label");
+            choice2Label.getStyleClass().add("choice-label");
+            choice3Label.getStyleClass().add("choice-label");
+            choice4Label.getStyleClass().add("choice-label");
+
+            // Display choice buttons with X position
+            choice1Button.setLayoutX(CHOICE_BUTTON_X_POSITION);
+            choice2Button.setLayoutX(CHOICE_BUTTON_X_POSITION);
+            choice3Button.setLayoutX(CHOICE_BUTTON_X_POSITION);
+            choice4Button.setLayoutX(CHOICE_BUTTON_X_POSITION);
+
+            // Display choice buttons with calculated Y positions
+            choice1Button.setLayoutY(Y_POSITION);
+            choice2Button.setLayoutY(Y_POSITION + spaceBetweenChoices); // Add space between choices
+            choice3Button.setLayoutY(Y_POSITION + spaceBetweenChoices * 2);
+            choice4Button.setLayoutY(Y_POSITION + spaceBetweenChoices * 3);
+
+            // Display choice labels with X position
+            choice1Label.setLayoutX(CHOICE_LABEL_X_POSITION);
+            choice2Label.setLayoutX(CHOICE_LABEL_X_POSITION);
+            choice3Label.setLayoutX(CHOICE_LABEL_X_POSITION);
+            choice4Label.setLayoutX(CHOICE_LABEL_X_POSITION);
+
+            // Display choice labels with calculated Y positions
+            choice1Label.setLayoutY(Y_POSITION);
+            choice2Label.setLayoutY(Y_POSITION + spaceBetweenChoices); // Add space between choices
+            choice3Label.setLayoutY(Y_POSITION + spaceBetweenChoices * 2);
+            choice4Label.setLayoutY(Y_POSITION + spaceBetweenChoices * 3);
+
+            // add pref width and height to choice labels
+            choice1Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
+            choice2Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
+            choice3Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
+            choice4Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
+
+            choice1Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
+            choice2Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
+            choice3Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
+            choice4Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
+
+            // Add buttons and labels to the screen
+            questionPane.getChildren().add(choice1Button);
+            questionPane.getChildren().add(choice2Button);
+            questionPane.getChildren().add(choice3Button);
+            questionPane.getChildren().add(choice4Button);
+            questionPane.getChildren().add(choice1Label);
+            questionPane.getChildren().add(choice2Label);
+            questionPane.getChildren().add(choice3Label);
+            questionPane.getChildren().add(choice4Label);
+
+            // Set the event handlers for the buttons after they are initialized
+            setChoiceClickListener(choice1Button, 0);
+            setChoiceClickListener(choice2Button, 1);
+            setChoiceClickListener(choice3Button, 2);
+            setChoiceClickListener(choice4Button, 3);
+        });
     }
+
 
     // This method will return the index of the correct answer after shuffling the choices.
     private int getCorrectAnswerIndex(Question question, List<String> shuffledChoices) {
@@ -372,7 +458,7 @@ public class QuestionScreenController {
         int questionId = question.getQuestionId();
         // If the user chose the correct answer
         if (selectedChoiceIndex == correctAnswerIndex) {
-            UserAnswerService.saveUserAnswer(userId, questionId, true);
+//            UserAnswerService.saveUserAnswer(userId, questionId, true);
 
             if (currentHealth.compareTo(BigDecimal.ZERO) > 0) {
                 SoundHelper.playCorrectAnswerSound();
@@ -382,7 +468,7 @@ public class QuestionScreenController {
             }
         }
         else {
-            UserAnswerService.saveUserAnswer(userId, questionId, false);
+//            UserAnswerService.saveUserAnswer(userId, questionId, false);
 
             setButtonsDisabled(false);
             SoundHelper.playWrongAnswerSound();

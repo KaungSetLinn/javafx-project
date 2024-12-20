@@ -3,13 +3,16 @@ package root.proproquzigame;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import root.proproquzigame.helper.BadgeHelper;
 import root.proproquzigame.helper.SceneSwitcherHelper;
 import root.proproquzigame.model.AuthenticatedUser;
 import root.proproquzigame.model.UserStatistics;
@@ -36,6 +39,12 @@ public class UserStatisticsController {
 
     @FXML
     private Label usernameLabel;
+
+    @FXML
+    private Hyperlink rankLink;
+
+    @FXML
+    private ImageView crownImageView;
 
     @FXML
     private Label overallPercentage;
@@ -79,6 +88,11 @@ public class UserStatisticsController {
 
         setUsernameLabel(username);
         setOverallProgress(userId);
+
+        int rank = UserStatisticsService.getUserRank(userId);
+        rankLink.setText(rank + " 位");
+
+        BadgeHelper.displayCrownBadge(crownImageView, rank);
 
         List<UserStatistics> userStatisticsList = UserStatisticsService.getUserStatisticsByMainCategories(userId);
 

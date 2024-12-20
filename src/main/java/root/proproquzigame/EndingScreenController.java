@@ -95,7 +95,7 @@ public class EndingScreenController {
         String query = "select ua.question_id, ua.is_correct\n" +
                 "from user_answer ua join question q\n" +
                 "on ua.question_id = q.question_id\n" +
-                "where ua.user_id = ? and q.sub_category_id = ?";
+                "where ua.user_id = ? and q.sub_category_id = ? order by id";
 
         int questionNumber = 1;
 
