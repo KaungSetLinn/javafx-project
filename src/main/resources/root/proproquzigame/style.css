@@ -1,13 +1,13 @@
 #rank-link {
-    -fx-text-fill: #0000EE; /* Normal link color (blue) */
+    -fx-text-fill: #000000; /* Normal link color (blue) */
 }
 
 #rank-link:visited {
-    -fx-text-fill: #0000EE; /* Visited link color (blue) */
+    -fx-text-fill: #000000; /* Visited link color (blue) */
 }
 
 #rank-link:focused {
-    -fx-text-fill: #0000EE; /* Focused link color (blue) */
+    -fx-text-fill: #000000; /* Focused link color (blue) */
     -fx-focus-color: transparent; /* Remove focus outline */
     -fx-faint-focus-color: transparent; /* Remove faint focus outline */
 }
@@ -26,8 +26,11 @@
     -fx-faint-focus-color: transparent; /* Remove faint focus outline */
 }
 
-.choice-button, .choice-label {
-    -fx-font-size: 18px;
+.choice-button, .choice-label, .question-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
 }
 
-
+.centered-column {
+    -fx-alignment: center;
+}

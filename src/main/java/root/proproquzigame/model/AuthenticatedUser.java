@@ -36,4 +36,10 @@ public class AuthenticatedUser {
         }
         return authenticatedUser;
     }
+
+    public static void logout() {
+        synchronized (AuthenticatedUser.class) {
+            authenticatedUser = null;
+        }
+    }
 }

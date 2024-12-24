@@ -163,11 +163,11 @@ public class QuestionScreenController {
 //        System.out.println(questionList.size());
 
         question = questionList.getFirst();
-        System.out.println("Question Id : " + question.getQuestionId());
+//        System.out.println("Question Id : " + question.getQuestionId());
 
         setDamageValue(question.getDifficulty());
         setDamageLabel();
-        System.out.println("Damage value : " + damageValue);
+//        System.out.println("Damage value : " + damageValue);
 
         displayQuestion();
         updateQuestionList();
@@ -228,7 +228,7 @@ public class QuestionScreenController {
     private void displayQuestionText(String questionText) {
         questionTextLabel = new Label(questionText);
         questionTextLabel.setWrapText(true);
-        questionTextLabel.setStyle("-fx-font-size: 18px;");
+        questionTextLabel.getStyleClass().add("question-label");
 
         questionPane.getChildren().add(questionTextLabel);
         questionTextLabel.setLayoutX(95);
@@ -365,15 +365,20 @@ public class QuestionScreenController {
             choice4Label.setLayoutY(Y_POSITION + spaceBetweenChoices * 3);
 
             // add pref width and height to choice labels
-            choice1Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
+            /*choice1Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
             choice2Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
             choice3Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
-            choice4Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
+            choice4Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);*/
 
             choice1Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
             choice2Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
             choice3Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
             choice4Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
+
+            choice1Label.setWrapText(true);
+            choice2Label.setWrapText(true);
+            choice3Label.setWrapText(true);
+            choice4Label.setWrapText(true);
 
             // Add buttons and labels to the screen
             questionPane.getChildren().add(choice1Button);
@@ -458,7 +463,7 @@ public class QuestionScreenController {
         int questionId = question.getQuestionId();
         // If the user chose the correct answer
         if (selectedChoiceIndex == correctAnswerIndex) {
-//            UserAnswerService.saveUserAnswer(userId, questionId, true);
+            UserAnswerService.saveUserAnswer(userId, questionId, true);
 
             if (currentHealth.compareTo(BigDecimal.ZERO) > 0) {
                 SoundHelper.playCorrectAnswerSound();
@@ -468,7 +473,7 @@ public class QuestionScreenController {
             }
         }
         else {
-//            UserAnswerService.saveUserAnswer(userId, questionId, false);
+            UserAnswerService.saveUserAnswer(userId, questionId, false);
 
             setButtonsDisabled(false);
             SoundHelper.playWrongAnswerSound();

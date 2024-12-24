@@ -18,12 +18,21 @@ public class SceneSwitcherHelper {
     public static void switchToSignUpScene() throws IOException {
         // TODO: implement code for switching to sub menu
         // Load the SubMenu FXML
-        FXMLLoader loader = new FXMLLoader(SceneSwitcherHelper.class.getResource(  defaultRoot+ "SignUp.fxml"));
+        FXMLLoader loader = new FXMLLoader(SceneSwitcherHelper.class.getResource(defaultRoot + "SignUp.fxml"));
         AnchorPane signUpPane = loader.load();
 
         Scene signUpScene = new Scene(signUpPane);
         String sceneTitle = "新規登録";
         sceneController.changeScene(signUpScene, sceneTitle);
+    }
+
+    public static void switchToLoginScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(SceneSwitcherHelper.class.getResource(defaultRoot + "Login.fxml"));
+        AnchorPane loginPane = loader.load();
+
+        Scene subMenuScene = new Scene(loginPane);
+        String sceneTitle = "ログイン画面";
+        sceneController.changeScene(subMenuScene, sceneTitle);
     }
 
     public static void switchToStartMenuScene() throws IOException {
@@ -110,6 +119,17 @@ public class SceneSwitcherHelper {
 
     public static void switchToEndingScene() throws IOException {
         FXMLLoader loader = new FXMLLoader(SceneSwitcherHelper.class.getResource(defaultRoot + "EndingScreen.fxml"));
+        AnchorPane anchorPane = loader.load();
+
+        Scene scene = new Scene(anchorPane);
+        String sceneTitle = "";
+        sceneController.changeScene(scene, sceneTitle);
+
+        SoundHelper.playClickSound();
+    }
+
+    public static void switchToLeaderboardScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(SceneSwitcherHelper.class.getResource(defaultRoot + "Leaderboard.fxml"));
         AnchorPane anchorPane = loader.load();
 
         Scene scene = new Scene(anchorPane);

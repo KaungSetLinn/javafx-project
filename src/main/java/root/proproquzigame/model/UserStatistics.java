@@ -5,6 +5,13 @@ public class UserStatistics {
     private String mainCategoryName;
     private int totalQuestions;
     private int correctCount;
+    private int userRank;
+
+    public UserStatistics(int totalQuestions, int correctCount, int userRank) {
+        this.totalQuestions = totalQuestions;
+        this.correctCount = correctCount;
+        this.userRank = userRank;
+    }
 
     // Constructor for both cases with null checks or defaults
     public UserStatistics(String categoryName, String subCategoryName, int totalQuestions, int correctCount) {
@@ -31,6 +38,10 @@ public class UserStatistics {
         this.correctCount = correctCount;
     }
 
+    public void setUserRank(int userRank) {
+        this.userRank = userRank;
+    }
+
     public String getMainCategoryName() {
         return mainCategoryName;
     }
@@ -45,5 +56,9 @@ public class UserStatistics {
 
     public int getCorrectCount() {
         return correctCount;
+    }
+
+    public int getUserRank() {
+        return userRank;
     }
 }

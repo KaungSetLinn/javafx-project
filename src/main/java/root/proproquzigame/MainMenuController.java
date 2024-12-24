@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import root.proproquzigame.helper.AlertHelper;
+import root.proproquzigame.helper.BadgeHelper;
 import root.proproquzigame.helper.SceneSwitcherHelper;
 import root.proproquzigame.helper.SoundHelper;
 import root.proproquzigame.model.AuthenticatedUser;
@@ -32,7 +33,13 @@ public class MainMenuController {
     private Hyperlink rankLink;
 
     @FXML
+    private ImageView crownImageView;
+
+    @FXML
     private ImageView userIconImageView;
+
+    @FXML
+    private Button logoutButton;
 
     private int xCoordinate = 12;
     private int yCoordinate = 15;
@@ -44,6 +51,9 @@ public class MainMenuController {
 
     @FXML
     private void initialize() {
+        AuthenticatedUser authenticatedUser = AuthenticatedUser.getAuthenticatedUser();
+        int userId = authenticatedUser.getUserId();
+
         userIconButton.setGraphic(userIconImageView);
         userIconButton.setOnAction(event -> {
             try {
@@ -53,11 +63,29 @@ public class MainMenuController {
             }
         });
 
-        AuthenticatedUser authenticatedUser = AuthenticatedUser.getAuthenticatedUser();
-        int userId = authenticatedUser.getUserId();
+        rankLink.setOnAction(event -> {
+            try {
+                SceneSwitcherHelper.switchToLeaderboardScene();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        logoutButton.setOnAction(event -> {
+            SoundHelper.playClickSound();
+            AuthenticatedUser.logout();
+
+            try {
+                SceneSwitcherHelper.switchToLoginScene();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         int rank = UserStatisticsService.getUserRank(userId);
         rankLink.setText(rank + " 位");
+
+        BadgeHelper.displayCrownBadge(crownImageView, rank);
 
         MainCategory[] categories = MainCategoryService.getMainCategories();
 
@@ -75,7 +103,7 @@ public class MainMenuController {
                 button.setLayoutY(yCoordinate);
 
                 // Set the font size for the button
-                button.setStyle("-fx-font-size: 18px;");
+                button.setStyle("-fx-font-weight: bold; -fx-font-size: 20px;");
 
                 // Button click event
                 button.setOnMouseClicked(new EventHandler<MouseEvent>() {

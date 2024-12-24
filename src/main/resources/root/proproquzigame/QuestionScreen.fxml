@@ -14,19 +14,24 @@
   <content>
     <AnchorPane fx:id="questionPane" minHeight="0.0" minWidth="0.0" prefHeight="750.0" prefWidth="824.0">
          <children>
+            <ImageView fitHeight="750.0" fitWidth="850.0" pickOnBounds="true">
+               <image>
+                  <Image url="@images/QuestionScreenBackground.png" />
+               </image>
+            </ImageView>
             <Label fx:id="questionNumberLabel" layoutX="94.0" layoutY="26.0" prefHeight="32.0" prefWidth="111.0" text="もんだい①" underline="true">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="difficultyLabel" layoutX="213.0" layoutY="26.0" prefHeight="32.0" prefWidth="162.0" text="「難易度：」">
+            <Label fx:id="difficultyLabel" layoutX="213.0" layoutY="26.0" prefHeight="35.0" prefWidth="214.0" text="「難易度：」">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="damageLabel" layoutX="412.0" layoutY="31.0" prefHeight="27.0" prefWidth="106.0" text="♦10ダメージ">
+            <Label fx:id="damageLabel" layoutX="425.0" layoutY="26.0" prefHeight="35.0" prefWidth="131.0" text="♦10ダメージ">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Label>
             <Line endX="-98.0" endY="379.9999694824219" layoutX="95.0" layoutY="12.0" startX="-98.0" startY="-77.00000762939453" />
@@ -44,12 +49,12 @@
             <ProgressBar fx:id="healthBar" layoutX="552.0" layoutY="444.0" prefHeight="32.0" prefWidth="215.0" progress="1.0" style="-fx-accent: green;" />
             <Label layoutX="516.0" layoutY="442.0" prefHeight="32.0" prefWidth="36.0" text="HP">
                <font>
-                  <Font size="25.0" />
+                  <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <Label fx:id="healthBarLabel" layoutX="640.0" layoutY="447.0" text="Label" textFill="WHITE">
+            <Label fx:id="healthBarLabel" layoutX="638.0" layoutY="446.0" text="Label" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="16.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
          </children></AnchorPane>

@@ -68,7 +68,7 @@ public class SubMenuController {
             AuthenticatedUser authenticatedUser = AuthenticatedUser.getAuthenticatedUser();
             int userId = authenticatedUser.getUserId();
 
-            List<UserSubCategorySummary> userSubCategorySummaryList = UserSubCategorySummaryService.getUserSubCategorySummary(userId, mainCategoryId);
+            List<UserSubCategorySummary> userSubCategorySummaryList = UserSubCategorySummaryService.getUserSubCategoryDetail(userId, mainCategoryId);
 
             for (UserSubCategorySummary summary : userSubCategorySummaryList) {
                 int subCategoryId = summary.getSubCategoryId();
@@ -118,7 +118,7 @@ public class SubMenuController {
         button.setLayoutY(yCoordinate);
 
         // Set the font size for the button
-        button.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
+        button.setStyle("-fx-font-weight: bold; -fx-font-size: 20px;");
 
         button.setOnAction(event -> {
             handleSubCategoryButtonClick(subCategoryId, correctCount + 1);

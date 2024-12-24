@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserSubCategorySummaryService {
-    public static List<UserSubCategorySummary> getUserSubCategorySummary(int userId, int mainCategoryId) {
+    public static List<UserSubCategorySummary> getUserSubCategoryDetail(int userId, int mainCategoryId) {
         List<UserSubCategorySummary> userSubCategorySummaryList = new ArrayList<>();
 
-        String query = "SELECT\n" +
+        /*String query = "SELECT\n" +
                 "    q.sub_category_id,\n" +
                 "    sc.sub_category_name,\n" +
                 "    COUNT(DISTINCT q.question_id) AS total_questions,\n" +
@@ -30,7 +30,11 @@ public class UserSubCategorySummaryService {
                 "GROUP BY\n" +
                 "    q.sub_category_id, sc.sub_category_name\n" +
                 "ORDER BY\n" +
-                "    q.sub_category_id;\n";
+                "    q.sub_category_id;\n";*/
+
+        String query = "SELECT sub_category_id, sub_category_name, total_questions, correct_count\n" +
+                "FROM user_statistics_by_sub_category\n" +
+                "WHERE user_id = ? and main_category_id = ?";
 
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {

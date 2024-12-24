@@ -223,3 +223,117 @@ select sc.sub_category_id, sc.sub_category_name, count(*) as total_questions,
 from sub_category sc
 join question q on sc.sub_category_id = q.sub_category_id
 group by sc.sub_category_id;
+
+//View for user_overall_statistics
+CREATE VIEW user_overall_statistics AS
+SELECT
+    (SELECT COUNT(DISTINCT q.question_id)
+     FROM question q) AS total_questions,
+    u.user_id,
+    u.username,
+	u.age,
+    COUNT(CASE WHEN ua.is_correct = TRUE THEN 1 END) AS correct_count,
+    ROW_NUMBER() OVER (
+        ORDER BY
+            COUNT(CASE WHEN ua.is_correct = TRUE THEN 1 END) DESC,
+            u.username ASC
+    ) AS user_rank
+FROM
+    users u
+LEFT JOIN
+    user_answer ua ON u.user_id = ua.user_id
+LEFT JOIN
+    question q ON q.question_id = ua.question_id
+GROUP BY
+    u.user_id, u.username;
+
+
+create table trophy (
+	trophy_id serial primary key,
+	trophy_name varchar(50) not null
+)
+
+create table user_trophy (
+	user_id int not null,
+	trophy_id int not null,
+	is_notified boolean default false,
+	foreign key (user_id) references users(user_id),
+	foreign key (trophy_id) references trophy(trophy_id)
+)
+
+// View for user_statistics_by_main_category
+CREATE VIEW user_statistics_by_main_category AS
+SELECT
+	mc.main_category_id,
+    mc.main_category_name,
+    u.user_id,
+    total_questions.total_questions,
+    COUNT(CASE WHEN ua.is_correct = TRUE THEN 1 END) AS correct_count
+FROM
+    users u
+-- Left join to ensure every user is listed
+CROSS JOIN
+    main_category mc
+LEFT JOIN
+    sub_category sc ON sc.main_category_id = mc.main_category_id
+LEFT JOIN
+    question q ON q.sub_category_id = sc.sub_category_id
+LEFT JOIN
+    user_answer ua ON ua.user_id = u.user_id AND ua.question_id = q.question_id
+-- Subquery to get the total distinct questions per main category
+JOIN (
+    SELECT
+        mc.main_category_id,
+        COUNT(DISTINCT q.question_id) AS total_questions
+    FROM
+        question q
+    LEFT JOIN
+        sub_category sc ON sc.sub_category_id = q.sub_category_id
+    LEFT JOIN
+        main_category mc ON mc.main_category_id = sc.main_category_id
+    GROUP BY
+        mc.main_category_id
+) total_questions ON total_questions.main_category_id = mc.main_category_id
+GROUP BY
+    mc.main_category_id, mc.main_category_name, u.user_id, total_questions.total_questions
+order by u.user_id
+
+
+// View for user_statistics_by_sub_category
+CREATE VIEW user_statistics_by_sub_category AS
+SELECT
+    mc.main_category_id,
+	mc.main_category_name,
+    sc.sub_category_id,
+    sc.sub_category_name,
+    u.user_id,
+    total_questions.total_questions,
+    COUNT(CASE WHEN ua.is_correct = TRUE THEN 1 END) AS correct_count
+FROM
+    users u
+-- Cross join to ensure every user is listed
+CROSS JOIN
+    sub_category sc
+LEFT JOIN main_category mc ON mc.main_category_id = sc.main_category_id
+LEFT JOIN question q ON q.sub_category_id = sc.sub_category_id
+LEFT JOIN user_answer ua ON ua.user_id = u.user_id AND ua.question_id = q.question_id
+-- Subquery to get the total distinct questions per sub-category
+JOIN (
+    SELECT
+        sc.sub_category_id,
+        COUNT(DISTINCT q.question_id) AS total_questions
+    FROM
+        question q
+    LEFT JOIN sub_category sc ON sc.sub_category_id = q.sub_category_id
+    GROUP BY
+        sc.sub_category_id
+) total_questions ON total_questions.sub_category_id = sc.sub_category_id
+GROUP BY
+    mc.main_category_id,
+	mc.main_category_name,
+    sc.sub_category_id,
+    sc.sub_category_name,
+    u.user_id,
+    total_questions.total_questions
+ORDER BY
+    u.user_id, mc.main_category_id, sc.sub_category_id;

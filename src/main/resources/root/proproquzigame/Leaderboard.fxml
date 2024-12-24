@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="424.0" prefWidth="591.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.LeaderboardController">
+   <children>
+      <ImageView fitHeight="431.0" fitWidth="591.0" layoutY="-2.0" pickOnBounds="true">
+         <image>
+            <Image url="@images/aozora.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="backButton" layoutX="54.0" layoutY="32.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="70.0" text="⋘  戻る">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="206.0" layoutY="26.0" prefHeight="47.0" prefWidth="202.0" text="ランキングボード" underline="true">
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+      </Label>
+      <TableView fx:id="leaderboardTable" layoutX="54.0" layoutY="86.0" prefHeight="314.0" prefWidth="507.0">
+        <columns>
+          <TableColumn fx:id="rankColumn" prefWidth="70.0" style="-fx-font-size: 20;" text="順位" />
+          <TableColumn fx:id="usernameColumn" prefWidth="239.20008850097656" style="-fx-font-size: 20;" text="名前" />
+            <TableColumn fx:id="ageColumn" minWidth="0.0" prefWidth="76.0" style="-fx-font-size: 20;" text="年齢" />
+            <TableColumn fx:id="correctAnswerRateColumn" prefWidth="118.4000244140625" style="-fx-font-size: 20;" text="正答率" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

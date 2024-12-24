@@ -38,6 +38,9 @@ public class UserStatisticsController {
     private Button backButton;
 
     @FXML
+    private HBox hBox;
+
+    @FXML
     private Label usernameLabel;
 
     @FXML
@@ -82,24 +85,41 @@ public class UserStatisticsController {
             }
         });
 
+        rankLink.setOnAction(event -> {
+            try {
+                SceneSwitcherHelper.switchToLeaderboardScene();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         AuthenticatedUser authenticatedUser = AuthenticatedUser.getAuthenticatedUser();
         String username = authenticatedUser.getUsername();
         int userId = authenticatedUser.getUserId();
 
         setUsernameLabel(username);
-        setOverallProgress(userId);
 
-        int rank = UserStatisticsService.getUserRank(userId);
-        rankLink.setText(rank + " 位");
+        hBox.setSpacing(3);
+        // Allow the HBox to resize based on its content
+        HBox.setHgrow(usernameLabel, Priority.ALWAYS);
 
-        BadgeHelper.displayCrownBadge(crownImageView, rank);
+        UserStatistics userStatistics = UserStatisticsService.getOverallStatisticsByUserId(userId);
+        int totalQuestions = userStatistics.getTotalQuestions();
+        int correctCount = userStatistics.getCorrectCount();
+
+        setOverallProgress(totalQuestions, correctCount);
+
+        int userRank = userStatistics.getUserRank();
+        rankLink.setText(userRank + " 位");
+
+        BadgeHelper.displayCrownBadge(crownImageView, userRank);
 
         List<UserStatistics> userStatisticsList = UserStatisticsService.getUserStatisticsByMainCategories(userId);
 
-        for (UserStatistics userStatistics : userStatisticsList) {
-            String mainCategoryName = userStatistics.getMainCategoryName();
-            int correctCount = userStatistics.getCorrectCount();
-            int totalQuestions = userStatistics.getTotalQuestions();
+        for (UserStatistics categoryStatistics : userStatisticsList) {
+            String mainCategoryName = categoryStatistics.getMainCategoryName();
+            correctCount = categoryStatistics.getCorrectCount();
+            totalQuestions = categoryStatistics.getTotalQuestions();
 
             displayStatisticsLabel(mainCategoryName, correctCount, totalQuestions);
             displayStatisticsProgressBar(correctCount, totalQuestions);
@@ -196,7 +216,7 @@ public class UserStatisticsController {
         mainCategoryStatsLabel.setPrefWidth(LABEL_WIDTH);
         mainCategoryStatsLabel.setPrefHeight(LABEL_HEIGHT);
 
-        mainCategoryStatsLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        mainCategoryStatsLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         mainCategoryStatsLabel.setLayoutX(mainCategoryLabelXPosition);
         mainCategoryStatsLabel.setLayoutY(yPosition);
 
@@ -229,14 +249,10 @@ public class UserStatisticsController {
         anchorPane.getChildren().add(progressBar);
     }
 
-    private void setOverallProgress(int userId) {
+    private void setOverallProgress(int totalQuestions, int correctCount) {
 
-        UserStatistics userStatistics = UserStatisticsService.getOverallStatisticsByUserId(userId);
-        int totalQuestions = userStatistics.getTotalQuestions();
-        int correctCount = userStatistics.getCorrectCount();
-
-        System.out.println("Total : " + userStatistics.getTotalQuestions());
-        System.out.println("Correct : " + userStatistics.getCorrectCount());
+        System.out.println("Total : " + totalQuestions);
+        System.out.println("Correct : " + correctCount);
 
         // Calculate the progress as a BigDecimal for better precision
         BigDecimal progress = new BigDecimal(correctCount).divide(new BigDecimal(totalQuestions), 4, RoundingMode.HALF_UP); // 4 decimal places of precision

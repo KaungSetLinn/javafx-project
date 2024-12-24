@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,6 +15,9 @@
       <ImageView fx:id="buttonImageView" fitHeight="97.0" fitWidth="221.0" layoutX="217.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/ボタン.png" />
-         </image></ImageView>
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ImageView>
    </children>
 </AnchorPane>

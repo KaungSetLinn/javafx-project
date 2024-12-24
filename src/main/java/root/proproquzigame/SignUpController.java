@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import root.proproquzigame.helper.AlertHelper;
+import root.proproquzigame.helper.SceneSwitcherHelper;
 import root.proproquzigame.helper.SoundHelper;
 import root.proproquzigame.model.User;
 import root.proproquzigame.service.UserService;
@@ -50,8 +51,6 @@ public class SignUpController {
     @FXML
     private Hyperlink loginLink;
 
-    private SceneController sceneController;
-
     private String username;
 
     private int age;
@@ -62,9 +61,16 @@ public class SignUpController {
 
     @FXML
     private void initialize() {
+        loginLink.setOnAction(event -> {
+            try {
+                SceneSwitcherHelper.switchToLoginScene();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         // Focus usernameTextField on page load
         usernameTextfield.selectAll();
-        sceneController = SceneController.getInstance();
 
         // Add input listener to ageTextfield to allow only numbers greater than 0 and less than 100
         usernameTextfield.textProperty().addListener(new ChangeListener<String>() {
@@ -240,21 +246,11 @@ public class SignUpController {
             if (UserService.saveUser(newUser)) {
                 AlertHelper.showSuccessMessage("登録完了メッセージ", "新規登録は完了しました。");
                 try {
-                    switchToLoginScene();
+                    SceneSwitcherHelper.switchToLoginScene();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
         }
-    }
-
-    @FXML
-    public void switchToLoginScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
-        AnchorPane loginPane = loader.load();
-
-        Scene subMenuScene = new Scene(loginPane);
-        String sceneTitle = "ログイン画面";
-        sceneController.changeScene(subMenuScene, sceneTitle);
     }
 }
