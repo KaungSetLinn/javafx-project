@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -11,7 +12,7 @@
 
 <AnchorPane prefHeight="424.0" prefWidth="591.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.LeaderboardController">
    <children>
-      <ImageView fitHeight="431.0" fitWidth="591.0" layoutY="-2.0" pickOnBounds="true">
+      <ImageView fitHeight="475.0" fitWidth="591.0" layoutY="-2.0" pickOnBounds="true">
          <image>
             <Image url="@images/aozora.png" />
          </image>
@@ -26,7 +27,7 @@
             <Font name="System Bold" size="32.0" />
          </font>
       </Label>
-      <TableView fx:id="leaderboardTable" layoutX="54.0" layoutY="86.0" prefHeight="314.0" prefWidth="507.0">
+      <TableView fx:id="leaderboardTable" layoutX="53.0" layoutY="114.0" prefHeight="232.0" prefWidth="507.0">
         <columns>
           <TableColumn fx:id="rankColumn" prefWidth="70.0" style="-fx-font-size: 20;" text="順位" />
           <TableColumn fx:id="usernameColumn" prefWidth="239.20008850097656" style="-fx-font-size: 20;" text="名前" />
@@ -34,5 +35,6 @@
             <TableColumn fx:id="correctAnswerRateColumn" prefWidth="118.4000244140625" style="-fx-font-size: 20;" text="正答率" />
         </columns>
       </TableView>
+      <Pagination fx:id="pagination" layoutX="53.0" layoutY="375.0" prefHeight="70.0" prefWidth="507.0" style="-fx-font-size: 20; -fx-font-weight: bold;" />
    </children>
 </AnchorPane>
