@@ -22,4 +22,10 @@ public class BadgeHelper {
 
         }
     }
+
+    public static void loadTrophy(ImageView imageView, String imagePath) {
+        Image trophyImage = new Image(BadgeHelper.class.getResource(imagePath).toExternalForm());
+
+        imageView.setImage(trophyImage);
+    }
 }

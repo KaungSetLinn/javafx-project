@@ -148,7 +148,7 @@ public class LeaderboardController {
     }
 
     private void setupPagination() {
-        final int ITEMS_PER_PAGE = 10;
+        final int ITEMS_PER_PAGE = 5;
         int totalItems = leaderboardData.size();
         int totalPages = (int) Math.ceil((double) totalItems / ITEMS_PER_PAGE);
 

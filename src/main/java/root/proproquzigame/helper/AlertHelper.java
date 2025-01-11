@@ -38,8 +38,8 @@ public class AlertHelper {
         showMessage(Alert.AlertType.ERROR, title, message);
     }
 
-    public static void showAchievement() {
-        Image image = new Image(AlertHelper.class.getResource("/root/proproquzigame/images/badges/バッチ3.png").toString()); // Adjust path as needed
+    public static void showTrophyNotification(String trophyImagePath) {
+        Image image = new Image(AlertHelper.class.getResource(trophyImagePath).toString()); // Adjust path as needed
 
         // Create an ImageView to hold the image
         ImageView imageView = new ImageView(image);

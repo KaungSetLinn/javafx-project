@@ -201,4 +201,31 @@ public class QuestionService {
             throw new RuntimeException(e);
         }
     }
+
+    public static boolean isAllQuestionsCompleted(int userId, int subCategoryId) {
+        String query = "select \n" +
+                "\tcase \n" +
+                "\t\twhen total_questions = correct_count then true else false\n" +
+                "\tend as all_correct\n" +
+                "from user_statistics_by_sub_category\n" +
+                "where user_id = ? and sub_category_id = ?";
+
+        boolean isCompleted = false;
+
+        try (Connection connection = DatabaseConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, subCategoryId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                isCompleted = resultSet.getBoolean("all_correct");
+            }
+
+            return isCompleted;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

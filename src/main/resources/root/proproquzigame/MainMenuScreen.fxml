@@ -49,20 +49,20 @@
       <Line endX="-27.33331298828125" endY="176.99996948242188" layoutX="478.0" layoutY="185.0" startX="-27.33331298828125" startY="-39.99998474121094" />
       <ImageView fitHeight="80.0" fitWidth="71.0" layoutX="526.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/badges/バッチ1-b1.png" />
+            <Image url="@images/badges/WaterBadge_Silhouette.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="57.0" fitWidth="65.0" layoutX="455.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/badges/バッチ2-b1.png" />
+            <Image url="@images/badges/LeafBadge_Silhouette.png" />
          </image></ImageView>
-      <ImageView fitHeight="68.0" fitWidth="71.0" layoutX="382.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="badge1ImageView" fitHeight="68.0" fitWidth="71.0" layoutX="382.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/badges/バッチ3-b1.png" />
+            <Image url="@images/badges/FireBadge_Silhouette.png" />
          </image></ImageView>
       <ImageView fitHeight="62.0" fitWidth="65.0" layoutX="385.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/badges/バッチ4-b1.png" />
+            <Image url="@images/badges/LightningBadge_Silhouette.png" />
          </image></ImageView>
       <ImageView fitHeight="62.0" fitWidth="65.0" layoutX="455.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
          <image>

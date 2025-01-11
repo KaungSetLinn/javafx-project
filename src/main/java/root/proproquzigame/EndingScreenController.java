@@ -12,6 +12,7 @@ import root.proproquzigame.model.Question;
 import root.proproquzigame.model.UserStatistics;
 import root.proproquzigame.service.BossHealthService;
 import root.proproquzigame.service.QuestionService;
+import root.proproquzigame.service.TrophyService;
 import root.proproquzigame.service.UserStatisticsService;
 
 import java.io.IOException;
@@ -89,6 +90,14 @@ public class EndingScreenController {
         healthBar.setProgress(currentHealth.doubleValue() / bossMaxHealth.doubleValue());
         updateHealthBarColor();
         updateHealthBarLabel(currentHealth.intValue());
+
+        boolean isAllQuestionsCompleted = QuestionService.isAllQuestionsCompleted(userId, subCategoryId);
+
+        if (isAllQuestionsCompleted) {
+            int trophyId = TrophyService.getRelevantTrophy(subCategoryId);
+
+            TrophyService.saveUserTrophy(userId, trophyId);
+        }
     }
 
     private void displayQuestionStatus(int userId, int subCategoryId) {

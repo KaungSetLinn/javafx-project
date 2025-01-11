@@ -17,10 +17,13 @@ import root.proproquzigame.helper.SceneSwitcherHelper;
 import root.proproquzigame.helper.SoundHelper;
 import root.proproquzigame.model.AuthenticatedUser;
 import root.proproquzigame.model.MainCategory;
+import root.proproquzigame.model.Trophy;
 import root.proproquzigame.service.MainCategoryService;
+import root.proproquzigame.service.TrophyService;
 import root.proproquzigame.service.UserStatisticsService;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MainMenuController {
     @FXML
@@ -40,6 +43,9 @@ public class MainMenuController {
 
     @FXML
     private Button logoutButton;
+
+    @FXML
+    private ImageView badge1ImageView;
 
     private int xCoordinate = 12;
     private int yCoordinate = 15;
@@ -130,9 +136,25 @@ public class MainMenuController {
                 yCoordinate += Y_DISTANCE;
             }
 
-//            AlertHelper.showAchievement();
+            List<Trophy> trophyList = TrophyService.getUserTrophyData(userId);
+
+            if (trophyList.size() > 0) {
+                for (Trophy trophy : trophyList) {
+                    int trophyId = trophy.getTrophyId();
+                    String trophyImagePath = trophy.getTrophyImagePath();
+                    if (!trophy.isNotified()) {
+                        AlertHelper.showTrophyNotification(trophyImagePath);
+                        TrophyService.updateTrophyNotification(userId, trophyId);
+                    }
+
+                    switch (trophyId) {
+                        case 1 -> {
+                            BadgeHelper.loadTrophy(badge1ImageView, trophyImagePath);
+                        }
+                    }
+                }
+            }
         });
     }
-
 
 }

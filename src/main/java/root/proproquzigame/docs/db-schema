@@ -250,7 +250,8 @@ GROUP BY
 
 create table trophy (
 	trophy_id serial primary key,
-	trophy_name varchar(50) not null
+	trophy_name varchar(50) not null,
+	trophy_image_path text not null
 )
 
 create table user_trophy (
@@ -260,6 +261,11 @@ create table user_trophy (
 	foreign key (user_id) references users(user_id),
 	foreign key (trophy_id) references trophy(trophy_id)
 )
+
+create view user_trophy_detail as
+select ut.user_id, t.trophy_id, t.trophy_image_path, ut.is_notified
+from user_trophy ut join trophy t
+on ut.trophy_id = t.trophy_id
 
 // View for user_statistics_by_main_category
 CREATE VIEW user_statistics_by_main_category AS
