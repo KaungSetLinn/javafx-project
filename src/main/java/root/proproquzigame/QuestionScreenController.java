@@ -6,16 +6,14 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -291,25 +289,34 @@ public class QuestionScreenController {
 
     private void displayChoices(List<String> shuffledChoices) {
         Platform.runLater(() -> {
-            double spaceBetweenChoices = 50; // You can adjust this space as needed
+            // Max length of a text
+            int textLengthThreshold = 20;
+            double spaceBetweenChoices = 20; // You can adjust this space as needed
 
-            final double Y_POSITION;
+            for (String choice : shuffledChoices) {
+                if (choice.length() > textLengthThreshold) {
+                    spaceBetweenChoices = 40;
+                    break;
+                }
+            }
+
+            final double CHOICE_BUTTON_Y_POSITION;
+            final double CHOICE_LABEL_Y_POSITION;
 
             // If there is no image (i.e., image height is zero or some other condition for no image)
             if (question.getQuestionImage() == null) {
                 // If no image, display the choices after the question text
-                Y_POSITION = questionTextLabel.getLayoutY() + questionTextLabel.getHeight() + 20; // 20 is the space between text and choices
+                CHOICE_BUTTON_Y_POSITION = questionTextLabel.getLayoutY() + questionTextLabel.getHeight() + 20; // 20 is the space between text and choices
+                CHOICE_LABEL_Y_POSITION = questionTextLabel.getLayoutY() + questionTextLabel.getHeight() + 22;
             } else {
                 // If there is an image, display the choices after the image
                 double imageYPosition = questionImageView.getLayoutY();
-                Y_POSITION = imageYPosition + questionImageView.getFitHeight() + 10;
+                CHOICE_BUTTON_Y_POSITION = imageYPosition + questionImageView.getFitHeight() + 10;
+                CHOICE_LABEL_Y_POSITION = imageYPosition + questionImageView.getFitHeight() + 12;
             }
 
             final double CHOICE_BUTTON_X_POSITION = 94;
             final double CHOICE_LABEL_X_POSITION = 150;
-
-            final double CHOICE_LABEL_PREF_WIDTH = 324;
-            final double CHOICE_LABEL_PREF_HEIGHT = 38;
 
             // Initialize choice buttons here, before the setOnAction is used
             choice1Button = new Button("ア");
@@ -340,40 +347,35 @@ public class QuestionScreenController {
             choice3Label.getStyleClass().add("choice-label");
             choice4Label.getStyleClass().add("choice-label");
 
-            // Display choice buttons with X position
+            // Set dynamic sizes for labels based on the length of the text
+            adjustLabelSize(choice1Label, textLengthThreshold);
+            adjustLabelSize(choice2Label, textLengthThreshold);
+            adjustLabelSize(choice3Label, textLengthThreshold);
+            adjustLabelSize(choice4Label, textLengthThreshold);
+
+            // Set position of choice 1
             choice1Button.setLayoutX(CHOICE_BUTTON_X_POSITION);
-            choice2Button.setLayoutX(CHOICE_BUTTON_X_POSITION);
-            choice3Button.setLayoutX(CHOICE_BUTTON_X_POSITION);
-            choice4Button.setLayoutX(CHOICE_BUTTON_X_POSITION);
-
-            // Display choice buttons with calculated Y positions
-            choice1Button.setLayoutY(Y_POSITION);
-            choice2Button.setLayoutY(Y_POSITION + spaceBetweenChoices); // Add space between choices
-            choice3Button.setLayoutY(Y_POSITION + spaceBetweenChoices * 2);
-            choice4Button.setLayoutY(Y_POSITION + spaceBetweenChoices * 3);
-
-            // Display choice labels with X position
+            choice1Button.setLayoutY(CHOICE_BUTTON_Y_POSITION);
             choice1Label.setLayoutX(CHOICE_LABEL_X_POSITION);
+            choice1Label.setLayoutY(CHOICE_LABEL_Y_POSITION);
+
+            // Set position of choice 2
+            choice2Button.setLayoutX(CHOICE_BUTTON_X_POSITION);
+            choice2Button.setLayoutY(CHOICE_BUTTON_Y_POSITION + 38 + spaceBetweenChoices);
             choice2Label.setLayoutX(CHOICE_LABEL_X_POSITION);
+            choice2Label.setLayoutY(CHOICE_LABEL_Y_POSITION + 38 + spaceBetweenChoices);
+
+            // Set position of choice 3
+            choice3Button.setLayoutX(CHOICE_BUTTON_X_POSITION);
+            choice3Button.setLayoutY(CHOICE_BUTTON_Y_POSITION + 2 * (38 + spaceBetweenChoices));
             choice3Label.setLayoutX(CHOICE_LABEL_X_POSITION);
+            choice3Label.setLayoutY(CHOICE_LABEL_Y_POSITION + 2 * (38 + spaceBetweenChoices));
+
+            // Set position of choice 4
+            choice4Button.setLayoutX(CHOICE_BUTTON_X_POSITION);
+            choice4Button.setLayoutY(CHOICE_BUTTON_Y_POSITION + 3 * (38 + spaceBetweenChoices));
             choice4Label.setLayoutX(CHOICE_LABEL_X_POSITION);
-
-            // Display choice labels with calculated Y positions
-            choice1Label.setLayoutY(Y_POSITION);
-            choice2Label.setLayoutY(Y_POSITION + spaceBetweenChoices); // Add space between choices
-            choice3Label.setLayoutY(Y_POSITION + spaceBetweenChoices * 2);
-            choice4Label.setLayoutY(Y_POSITION + spaceBetweenChoices * 3);
-
-            // add pref width and height to choice labels
-            /*choice1Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
-            choice2Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
-            choice3Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);
-            choice4Label.setPrefWidth(CHOICE_LABEL_PREF_WIDTH);*/
-
-            choice1Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
-            choice2Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
-            choice3Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
-            choice4Label.setPrefHeight(CHOICE_LABEL_PREF_HEIGHT);
+            choice4Label.setLayoutY(CHOICE_LABEL_Y_POSITION + 3 * (38 + spaceBetweenChoices));
 
             choice1Label.setWrapText(true);
             choice2Label.setWrapText(true);
@@ -396,6 +398,20 @@ public class QuestionScreenController {
             setChoiceClickListener(choice3Button, 2);
             setChoiceClickListener(choice4Button, 3);
         });
+    }
+
+    private void adjustLabelSize(Label label, int lengthThreshold) {
+
+        // Check the length of the text and adjust the label size accordingly
+        if (label.getText().length() > lengthThreshold) {
+            // If the text is too long, set the preferred width and height to the larger size
+            label.setPrefWidth(393);
+            label.setPrefHeight(66);
+            label.setAlignment(Pos.TOP_LEFT);
+        } else {
+            // If the text is within the normal length, set the label to the default size
+            label.setPrefHeight(38); // Default height
+        }
     }
 
 

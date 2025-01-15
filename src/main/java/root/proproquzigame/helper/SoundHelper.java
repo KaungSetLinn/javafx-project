@@ -20,7 +20,7 @@ public class SoundHelper {
     }
 
     public static void playCorrectAnswerSound() {
-        playSound("/root/proproquzigame/sounds/クイズ正解2.mp3");
+        playSound("/root/proproquzigame/sounds/中パンチ.mp3");
     }
 
     public static void playKeyboardSound() {

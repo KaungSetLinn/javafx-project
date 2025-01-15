@@ -13,7 +13,7 @@ public class MainApplication extends Application {
         SceneController.initialize(stage);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
-//        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Leaderboard.fxml"));
+//        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("QuestionForm.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("ホーム画面");
         stage.setScene(scene);

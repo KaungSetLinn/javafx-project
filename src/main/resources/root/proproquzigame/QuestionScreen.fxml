@@ -10,11 +10,11 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="842.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.QuestionScreenController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="863.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.QuestionScreenController">
   <content>
-    <AnchorPane fx:id="questionPane" minHeight="0.0" minWidth="0.0" prefHeight="750.0" prefWidth="824.0">
+    <AnchorPane fx:id="questionPane" minHeight="0.0" minWidth="0.0" prefHeight="765.0" prefWidth="848.0">
          <children>
-            <ImageView fitHeight="750.0" fitWidth="850.0" pickOnBounds="true">
+            <ImageView fitHeight="765.0" fitWidth="877.0" pickOnBounds="true">
                <image>
                   <Image url="@images/QuestionScreenBackground.png" />
                </image>
@@ -35,24 +35,24 @@
                </font>
             </Label>
             <Line endX="-98.0" endY="379.9999694824219" layoutX="95.0" layoutY="12.0" startX="-98.0" startY="-77.00000762939453" />
-            <Ellipse fill="#969696" layoutX="642.0" layoutY="387.0" radiusX="112.0" radiusY="35.0" stroke="BLACK" strokeType="INSIDE" />
-            <ImageView fitHeight="262.0" fitWidth="237.0" layoutX="523.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
+            <Ellipse fill="#969696" layoutX="682.0" layoutY="383.0" radiusX="112.0" radiusY="35.0" stroke="BLACK" strokeType="INSIDE" />
+            <ImageView fitHeight="262.0" fitWidth="237.0" layoutX="563.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/boss/boss1.png" />
                </image>
             </ImageView>
-            <Label alignment="CENTER" layoutX="579.0" layoutY="109.0" prefHeight="32.0" prefWidth="125.0" text="🔥ボッス🔥">
+            <Label alignment="CENTER" layoutX="619.0" layoutY="105.0" prefHeight="32.0" prefWidth="125.0" text="🔥ボッス🔥">
                <font>
                   <Font name="System Bold" size="26.0" />
                </font>
             </Label>
-            <ProgressBar fx:id="healthBar" layoutX="552.0" layoutY="444.0" prefHeight="32.0" prefWidth="215.0" progress="1.0" style="-fx-accent: green;" />
-            <Label layoutX="516.0" layoutY="442.0" prefHeight="32.0" prefWidth="36.0" text="HP">
+            <ProgressBar fx:id="healthBar" layoutX="592.0" layoutY="440.0" prefHeight="32.0" prefWidth="215.0" progress="1.0" style="-fx-accent: green;" />
+            <Label layoutX="556.0" layoutY="438.0" prefHeight="32.0" prefWidth="36.0" text="HP">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <Label fx:id="healthBarLabel" layoutX="638.0" layoutY="446.0" text="Label" textFill="WHITE">
+            <Label fx:id="healthBarLabel" layoutX="678.0" layoutY="442.0" text="Label" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
