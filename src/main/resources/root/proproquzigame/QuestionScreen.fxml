@@ -16,7 +16,7 @@
          <children>
             <ImageView fitHeight="765.0" fitWidth="877.0" pickOnBounds="true">
                <image>
-                  <Image url="@images/QuestionScreenBackground.png" />
+                  <Image url="@images/aozora.png" />
                </image>
             </ImageView>
             <Label fx:id="questionNumberLabel" layoutX="94.0" layoutY="26.0" prefHeight="32.0" prefWidth="111.0" text="もんだい①" underline="true">
@@ -38,7 +38,7 @@
             <Ellipse fill="#969696" layoutX="682.0" layoutY="383.0" radiusX="112.0" radiusY="35.0" stroke="BLACK" strokeType="INSIDE" />
             <ImageView fitHeight="262.0" fitWidth="237.0" layoutX="563.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/boss/boss1.png" />
+                  <Image url="@images/boss/dragon_boss.png" />
                </image>
             </ImageView>
             <Label alignment="CENTER" layoutX="619.0" layoutY="105.0" prefHeight="32.0" prefWidth="125.0" text="🔥ボッス🔥">

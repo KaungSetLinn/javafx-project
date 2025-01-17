@@ -96,7 +96,8 @@ public class EndingScreenController {
         if (isAllQuestionsCompleted) {
             int trophyId = TrophyService.getRelevantTrophy(subCategoryId);
 
-            TrophyService.saveUserTrophy(userId, trophyId);
+            if (trophyId == 1)
+                TrophyService.saveUserTrophy(userId, trophyId);
         }
     }
 

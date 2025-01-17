@@ -12,6 +12,11 @@
 
 <AnchorPane prefHeight="497.0" prefWidth="698.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.EndingScreenController">
    <children>
+      <ImageView fitHeight="497.0" fitWidth="698.0" pickOnBounds="true">
+         <image>
+            <Image url="@images/aozora.png" />
+         </image>
+      </ImageView>
       <ScrollPane layoutX="38.0" layoutY="57.0" prefHeight="350.0" prefWidth="273.0">
         <content>
           <AnchorPane fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="257.0" />
@@ -65,7 +70,7 @@
       <Ellipse fill="#b6b9bc" layoutX="521.0" layoutY="359.0" radiusX="106.0" radiusY="34.0" stroke="BLACK" strokeType="INSIDE" />
       <ImageView fitHeight="150.0" fitWidth="176.0" layoutX="433.0" layoutY="215.0" pickOnBounds="true">
          <image>
-            <Image url="@images/boss/boss1.png" />
+            <Image url="@images/boss/dragon_boss.png" />
          </image>
       </ImageView>
       <ProgressBar fx:id="healthBar" layoutX="429.0" layoutY="407.0" prefHeight="28.0" prefWidth="200.0" progress="0.4" />
