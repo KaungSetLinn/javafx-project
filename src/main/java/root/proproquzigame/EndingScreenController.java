@@ -91,10 +91,12 @@ public class EndingScreenController {
         updateHealthBarColor();
         updateHealthBarLabel(currentHealth.intValue());
 
-        boolean isAllQuestionsCompleted = QuestionService.isAllQuestionsCompleted(userId, subCategoryId);
+        int mainCategoryId = MainMenuController.getMainCategoryId();
+
+        boolean isAllQuestionsCompleted = QuestionService.isAllQuestionsCompleted(userId, mainCategoryId);
 
         if (isAllQuestionsCompleted) {
-            int trophyId = TrophyService.getRelevantTrophy(subCategoryId);
+            int trophyId = TrophyService.getRelevantTrophy(mainCategoryId);
 
             if (trophyId == 1)
                 TrophyService.saveUserTrophy(userId, trophyId);

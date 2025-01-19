@@ -62,9 +62,9 @@
             <Font name="System Bold Italic" size="22.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="553.0" layoutY="174.0" prefHeight="28.0" prefWidth="41.0" text="\%">
+      <Label alignment="CENTER" layoutX="553.0" layoutY="174.0" prefHeight="28.0" prefWidth="41.0" text="％">
          <font>
-            <Font name="System Bold Italic" size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Ellipse fill="#b6b9bc" layoutX="521.0" layoutY="359.0" radiusX="106.0" radiusY="34.0" stroke="BLACK" strokeType="INSIDE" />
@@ -84,7 +84,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Label fx:id="healthBarLabel" layoutX="508.0" layoutY="407.0" text="Label">
+      <Label fx:id="healthBarLabel" layoutX="519.0" layoutY="407.0" text="80">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

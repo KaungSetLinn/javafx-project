@@ -202,20 +202,20 @@ public class QuestionService {
         }
     }
 
-    public static boolean isAllQuestionsCompleted(int userId, int subCategoryId) {
+    public static boolean isAllQuestionsCompleted(int userId, int mainCategoryId) {
         String query = "select \n" +
                 "\tcase \n" +
                 "\t\twhen total_questions = correct_count then true else false\n" +
                 "\tend as all_correct\n" +
-                "from user_statistics_by_sub_category\n" +
-                "where user_id = ? and sub_category_id = ?";
+                "from user_statistics_by_main_category\n" +
+                "where user_id = ? and main_category_id = ?";
 
         boolean isCompleted = false;
 
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, subCategoryId);
+            preparedStatement.setInt(2, mainCategoryId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

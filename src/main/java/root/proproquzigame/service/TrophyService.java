@@ -26,12 +26,12 @@ public class TrophyService {
         }
     }
 
-    // returns the relevant trophy (trophyId) based on the subcategory
-    public static int getRelevantTrophy(int subCategoryId) {
+    // returns the relevant trophy (trophyId) based on the main category
+    public static int getRelevantTrophy(int mainCategoryId) {
         int trophyId = 0;
-        switch (subCategoryId) {
-            // ’アルゴリズム’の’基礎’
-            case 3 -> trophyId = 1;
+        switch (mainCategoryId) {
+            // ’アルゴリズム
+            case 1 -> trophyId = 1;
         }
 
         return trophyId;

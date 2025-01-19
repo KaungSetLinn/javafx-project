@@ -3,11 +3,8 @@ package root.proproquzigame;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -54,6 +51,16 @@ public class MainMenuController {
     private final int BUTTON_HEIGHT = 50;
 
     private final int Y_DISTANCE = 70;
+
+    private static int mainCategoryId;
+
+    public static int getMainCategoryId() {
+        return mainCategoryId;
+    }
+
+    public static void setMainCategoryId(int mainCategoryId) {
+        MainMenuController.mainCategoryId = mainCategoryId;
+    }
 
     @FXML
     private void initialize() {
@@ -116,13 +123,13 @@ public class MainMenuController {
                     @Override
                     public void handle(MouseEvent event) {
                         // Get the category ID and handle scene switch
-                        int categoryId = category.getMainCategoryId();
-                        String categoryName = category.getMainCategoryName();
+                        MainMenuController.setMainCategoryId(category.getMainCategoryId());
+                        String mainCategoryName = category.getMainCategoryName();
 //                        System.out.println("You clicked Id : " + categoryId);
 
                         // Create the next scene and controller
                         try {
-                            SceneSwitcherHelper.switchToSubMenuScene(categoryId, categoryName);
+                            SceneSwitcherHelper.switchToSubMenuScene(mainCategoryId, mainCategoryName);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

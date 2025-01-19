@@ -52,7 +52,7 @@
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <Label fx:id="healthBarLabel" layoutX="678.0" layoutY="442.0" text="Label" textFill="WHITE">
+            <Label fx:id="healthBarLabel" layoutX="690.0" layoutY="442.0" text="80" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
