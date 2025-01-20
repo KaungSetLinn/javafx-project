@@ -264,15 +264,16 @@ public class QuestionScreenController {
     }
 
     private void displayDifficulty(Difficulty difficultyLevel) {
-        String difficultyLabel = "「難易度：";
+        String difficultyLabel = "";
 
         switch (difficultyLevel) {
-            case easy -> difficultyLabel += "★」";
-            case medium -> difficultyLabel += "★★」";
-            case hard -> difficultyLabel += "★★★」";
+            case easy -> difficultyLabel += "★";
+            case medium -> difficultyLabel += "★★";
+            case hard -> difficultyLabel += "★★★";
         }
 
         this.difficultyLabel.setText(difficultyLabel);
+        this.difficultyLabel.setStyle("-fx-text-fill: yellow; -fx-font-size: 26px;");
     }
 
     private List<String> shuffleChoices(String choice1, String choice2, String choice3, String choice4) {

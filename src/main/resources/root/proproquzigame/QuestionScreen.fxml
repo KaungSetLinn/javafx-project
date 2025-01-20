@@ -6,6 +6,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Ellipse?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -24,11 +25,20 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="difficultyLabel" layoutX="213.0" layoutY="26.0" prefHeight="35.0" prefWidth="214.0" text="「難易度：」" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Label>
+            <HBox layoutX="223.0" layoutY="26.0" prefHeight="35.0" prefWidth="198.0">
+               <children>
+                  <Label prefHeight="35.0" prefWidth="114.0" text="難易度：" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="difficultyLabel" layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="110.0" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             <Label fx:id="damageLabel" layoutX="425.0" layoutY="26.0" prefHeight="35.0" prefWidth="131.0" text="♦10ダメージ" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
