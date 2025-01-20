@@ -26,9 +26,16 @@
     -fx-faint-focus-color: transparent; /* Remove faint focus outline */
 }
 
-.choice-button, .choice-label, .question-label {
-    -fx-font-size: 22px;
+.choice-button {
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+.choice-label, .question-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
 }
 
 .centered-column {

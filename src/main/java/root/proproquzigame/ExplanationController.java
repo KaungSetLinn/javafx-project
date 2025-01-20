@@ -30,7 +30,7 @@ public class ExplanationController {
 
     @FXML
     private void initialize() {
-        explanationLabel.setStyle("-fx-font-weight: bold;");
+        explanationLabel.setStyle("-fx-text-fill: yellow; -fx-font-weight: bold; -fx-font-size: 24px; -fx-line-spacing: 10px;");
 
         nextButton.setOnAction(event -> {
             // Stop the typing sound and animation when switching scenes

@@ -12,9 +12,9 @@
 
 <AnchorPane prefHeight="497.0" prefWidth="698.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.EndingScreenController">
    <children>
-      <ImageView fitHeight="497.0" fitWidth="698.0" pickOnBounds="true">
+      <ImageView fitHeight="497.0" fitWidth="768.0" layoutX="-66.0" pickOnBounds="true">
          <image>
-            <Image url="@images/aozora.png" />
+            <Image url="@images/universe_space04_new.png" />
          </image>
       </ImageView>
       <ScrollPane layoutX="38.0" layoutY="57.0" prefHeight="350.0" prefWidth="273.0">
@@ -22,47 +22,47 @@
           <AnchorPane fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="257.0" />
         </content>
       </ScrollPane>
-      <Label fx:id="correctCountLabel" alignment="CENTER" layoutX="393.0" layoutY="68.0" prefHeight="31.0" prefWidth="41.0" text="5">
+      <Label fx:id="correctCountLabel" alignment="CENTER" layoutX="393.0" layoutY="68.0" prefHeight="31.0" prefWidth="41.0" text="5" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="26.0" />
          </font>
       </Label>
-      <Label layoutX="429.0" layoutY="69.0" prefHeight="35.0" prefWidth="126.0" text="問正解！！">
+      <Label layoutX="429.0" layoutY="69.0" prefHeight="35.0" prefWidth="126.0" text="問正解！！" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="363.0" layoutY="132.0" prefHeight="27.0" prefWidth="109.0" text="与えたダメージ">
+      <Label layoutX="363.0" layoutY="132.0" prefHeight="27.0" prefWidth="109.0" text="与えたダメージ" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="481.0" layoutY="130.0" prefHeight="31.0" prefWidth="25.0" text="♦">
+      <Label layoutX="481.0" layoutY="130.0" prefHeight="31.0" prefWidth="25.0" text="♦" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="21.0" />
          </font>
       </Label>
-      <Label fx:id="totalDamageLabel" alignment="CENTER" layoutX="504.0" layoutY="130.0" prefHeight="32.0" prefWidth="33.0" text="60">
+      <Label fx:id="totalDamageLabel" alignment="CENTER" layoutX="504.0" layoutY="130.0" prefHeight="32.0" prefWidth="33.0" text="60" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="22.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="553.0" layoutY="132.0" prefHeight="28.0" prefWidth="77.0" text="ダメージ">
+      <Label alignment="CENTER" layoutX="553.0" layoutY="132.0" prefHeight="28.0" prefWidth="77.0" text="ダメージ" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="354.0" layoutY="174.0" prefHeight="27.0" prefWidth="77.0" text="正答率">
+      <Label alignment="CENTER" layoutX="354.0" layoutY="174.0" prefHeight="27.0" prefWidth="77.0" text="正答率" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="correctAnswerRateLabel" alignment="CENTER" layoutX="504.0" layoutY="172.0" prefHeight="32.0" prefWidth="33.0" text="62">
+      <Label fx:id="correctAnswerRateLabel" alignment="CENTER" layoutX="504.0" layoutY="172.0" prefHeight="32.0" prefWidth="33.0" text="62" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="22.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="553.0" layoutY="174.0" prefHeight="28.0" prefWidth="41.0" text="％">
+      <Label alignment="CENTER" layoutX="553.0" layoutY="174.0" prefHeight="28.0" prefWidth="41.0" text="％" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -74,7 +74,7 @@
          </image>
       </ImageView>
       <ProgressBar fx:id="healthBar" layoutX="429.0" layoutY="407.0" prefHeight="28.0" prefWidth="200.0" progress="0.4" />
-      <Label alignment="CENTER" layoutX="379.0" layoutY="407.0" prefHeight="27.0" prefWidth="41.0" text="HP">
+      <Label alignment="CENTER" layoutX="379.0" layoutY="407.0" prefHeight="27.0" prefWidth="41.0" text="HP" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>

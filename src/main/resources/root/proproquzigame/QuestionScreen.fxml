@@ -12,24 +12,24 @@
 
 <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="863.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="root.proproquzigame.QuestionScreenController">
   <content>
-    <AnchorPane fx:id="questionPane" minHeight="0.0" minWidth="0.0" prefHeight="765.0" prefWidth="848.0">
+    <AnchorPane fx:id="questionPane" minHeight="0.0" minWidth="0.0" prefHeight="780.0" prefWidth="848.0">
          <children>
-            <ImageView fitHeight="765.0" fitWidth="877.0" pickOnBounds="true">
+            <ImageView fitHeight="795.0" fitWidth="1183.0" layoutX="-313.0" layoutY="-7.0" pickOnBounds="true">
                <image>
-                  <Image url="@images/aozora.png" />
+                  <Image url="@images/universe_space04_new.png" />
                </image>
             </ImageView>
-            <Label fx:id="questionNumberLabel" layoutX="94.0" layoutY="26.0" prefHeight="32.0" prefWidth="111.0" text="もんだい①" underline="true">
+            <Label fx:id="questionNumberLabel" layoutX="94.0" layoutY="26.0" prefHeight="32.0" prefWidth="111.0" text="もんだい①" textFill="WHITE" underline="true">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="difficultyLabel" layoutX="213.0" layoutY="26.0" prefHeight="35.0" prefWidth="214.0" text="「難易度：」">
+            <Label fx:id="difficultyLabel" layoutX="213.0" layoutY="26.0" prefHeight="35.0" prefWidth="214.0" text="「難易度：」" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="damageLabel" layoutX="425.0" layoutY="26.0" prefHeight="35.0" prefWidth="131.0" text="♦10ダメージ">
+            <Label fx:id="damageLabel" layoutX="425.0" layoutY="26.0" prefHeight="35.0" prefWidth="131.0" text="♦10ダメージ" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -41,13 +41,13 @@
                   <Image url="@images/boss/dragon_boss.png" />
                </image>
             </ImageView>
-            <Label alignment="CENTER" layoutX="619.0" layoutY="105.0" prefHeight="32.0" prefWidth="125.0" text="🔥ボッス🔥">
+            <Label alignment="CENTER" layoutX="619.0" layoutY="105.0" prefHeight="32.0" prefWidth="125.0" text="🔥ボッス🔥" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="26.0" />
                </font>
             </Label>
             <ProgressBar fx:id="healthBar" layoutX="592.0" layoutY="440.0" prefHeight="32.0" prefWidth="215.0" progress="1.0" style="-fx-accent: green;" />
-            <Label layoutX="556.0" layoutY="438.0" prefHeight="32.0" prefWidth="36.0" text="HP">
+            <Label layoutX="556.0" layoutY="438.0" prefHeight="32.0" prefWidth="36.0" text="HP" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>

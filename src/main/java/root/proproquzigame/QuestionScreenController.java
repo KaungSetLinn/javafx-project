@@ -295,7 +295,7 @@ public class QuestionScreenController {
 
             for (String choice : shuffledChoices) {
                 if (choice.length() > textLengthThreshold) {
-                    spaceBetweenChoices = 40;
+                    spaceBetweenChoices = 50;
                     break;
                 }
             }
@@ -307,12 +307,12 @@ public class QuestionScreenController {
             if (question.getQuestionImage() == null) {
                 // If no image, display the choices after the question text
                 CHOICE_BUTTON_Y_POSITION = questionTextLabel.getLayoutY() + questionTextLabel.getHeight() + 20; // 20 is the space between text and choices
-                CHOICE_LABEL_Y_POSITION = questionTextLabel.getLayoutY() + questionTextLabel.getHeight() + 22;
+                CHOICE_LABEL_Y_POSITION = questionTextLabel.getLayoutY() + questionTextLabel.getHeight() + 24;
             } else {
                 // If there is an image, display the choices after the image
                 double imageYPosition = questionImageView.getLayoutY();
                 CHOICE_BUTTON_Y_POSITION = imageYPosition + questionImageView.getFitHeight() + 10;
-                CHOICE_LABEL_Y_POSITION = imageYPosition + questionImageView.getFitHeight() + 12;
+                CHOICE_LABEL_Y_POSITION = imageYPosition + questionImageView.getFitHeight() + 14;
             }
 
             final double CHOICE_BUTTON_X_POSITION = 94;
@@ -405,8 +405,8 @@ public class QuestionScreenController {
         // Check the length of the text and adjust the label size accordingly
         if (label.getText().length() > lengthThreshold) {
             // If the text is too long, set the preferred width and height to the larger size
-            label.setPrefWidth(393);
-            label.setPrefHeight(66);
+            label.setPrefWidth(390);
+            label.setPrefHeight(72);
             label.setAlignment(Pos.TOP_LEFT);
         } else {
             // If the text is within the normal length, set the label to the default size
